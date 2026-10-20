@@ -22,20 +22,31 @@ const SIZE_CLASSES: Record<ButtonSize, string> = {
 };
 
 type ButtonProps = {
-  href: string;
   children: ReactNode;
   variant?: ButtonVariant;
   size?: ButtonSize;
   className?: string;
-};
+} & (
+  | { href: string; onClick?: never; disabled?: never }
+  | { href?: never; onClick: () => void; disabled?: boolean }
+);
 
-export function Button({ href, children, variant = "primary", size = "lg", className = "" }: ButtonProps) {
+const DISABLED_CLASSES =
+  "disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:translate-y-0 disabled:hover:shadow-none";
+
+export function Button({ href, onClick, disabled, children, variant = "primary", size = "lg", className = "" }: ButtonProps) {
+  const classes = `${BASE_CLASSES} ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]} ${className}`;
+
+  if (href !== undefined) {
+    return (
+      <Link href={href} className={classes}>
+        {children}
+      </Link>
+    );
+  }
   return (
-    <Link
-      href={href}
-      className={`${BASE_CLASSES} ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]} ${className}`}
-    >
+    <button type="button" onClick={onClick} disabled={disabled} className={`${classes} ${DISABLED_CLASSES} cursor-pointer`}>
       {children}
-    </Link>
+    </button>
   );
 }

@@ -1,0 +1,56 @@
+import { useMemo } from "react";
+import { DEFAULT_HOURLY_RATE_MXN } from "@/src/config/pricing";
+import { useConfiguratorStore } from "@/src/lib/configurator/store";
+import { buildModules, type ModuleKind } from "@/src/lib/modules";
+import {
+  calculateTotalHours,
+  estimateInvestmentRange,
+  estimateWeekRange,
+  formatMXN,
+  getComplexity,
+  getSizeMultiplier,
+} from "@/src/lib/pricing";
+
+export interface LiveProposal {
+  modules: { id: string; name: string; kind: ModuleKind; hours: number }[];
+  investment: string;
+  duration: string;
+  complexity: string;
+}
+
+// What the live panel shows for the current answers; null until the visitor picks a goal.
+export function useLiveProposal(): LiveProposal | null {
+  const goals = useConfiguratorStore((state) => state.goals);
+  const users = useConfiguratorStore((state) => state.users);
+  const platform = useConfiguratorStore((state) => state.platform);
+  const integrations = useConfiguratorStore((state) => state.integrations);
+  const size = useConfiguratorStore((state) => state.size);
+
+  return useMemo(() => {
+    // Extras are suggested later, in the final proposal, so none are switched on here.
+    const activeModules = buildModules({
+      goals,
+      users,
+      platform,
+      integrations,
+      disabledModules: {},
+      enabledExtras: {},
+    }).filter((module) => module.active);
+    if (activeModules.length === 0) return null;
+
+    const totalHours = calculateTotalHours(
+      activeModules.map((module) => module.hours),
+      size,
+    );
+    const investment = estimateInvestmentRange(totalHours, DEFAULT_HOURLY_RATE_MXN);
+    const weeks = estimateWeekRange(totalHours);
+    const multiplier = getSizeMultiplier(size);
+
+    return {
+      modules: activeModules.map(({ id, name, kind, hours }) => ({ id, name, kind, hours: Math.round(hours * multiplier) })),
+      investment: `${formatMXN(investment.min)} – ${formatMXN(investment.max)}`,
+      duration: `${weeks.min}–${weeks.max} semanas`,
+      complexity: getComplexity(totalHours),
+    };
+  }, [goals, users, platform, integrations, size]);
+}
