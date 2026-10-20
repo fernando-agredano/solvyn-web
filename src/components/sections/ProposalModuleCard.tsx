@@ -5,6 +5,8 @@ type ProposalModuleCardProps = {
   optional: boolean;
   enabled: boolean;
   onToggle: () => void;
+  // Tighter card used in the final proposal; the landing demo uses the roomier default.
+  compact?: boolean;
 };
 
 export function ProposalModuleCard({
@@ -14,16 +16,19 @@ export function ProposalModuleCard({
   optional,
   enabled,
   onToggle,
+  compact = false,
 }: ProposalModuleCardProps) {
   return (
     <div
-      className={`flex min-h-[168px] flex-col gap-3.5 rounded-[14px] border p-5 transition-[border-color,background-color] duration-300 ${
+      className={`flex flex-col rounded-[14px] border transition-[border-color,background-color] duration-300 ${
+        compact ? "min-h-[150px] gap-3 p-[18px]" : "min-h-[168px] gap-3.5 p-5"
+      } ${
         enabled ? "border-white/[0.28] bg-white/5" : "border-white/[0.09] bg-white/[0.01]"
       }`}
     >
       <div className="flex items-start justify-between gap-3">
-        <div className="flex flex-col gap-1.5">
-          <span className={`semi text-[17px] font-semibold ${enabled ? "text-heading" : "text-label"}`}>{name}</span>
+        <div className={`flex flex-col ${compact ? "gap-1" : "gap-1.5"}`}>
+          <span className={`semi font-semibold ${compact ? "text-base" : "text-[17px]"} ${enabled ? "text-heading" : "text-label"}`}>{name}</span>
           <span className="text-[13px] text-label tabular-nums">{hoursLabel}</span>
         </div>
 

@@ -9,6 +9,7 @@ import { useProposalGeneration } from "@/src/hooks/useProposalGeneration";
 import { useConfiguratorStore } from "@/src/lib/configurator/store";
 import { getReachableStep } from "@/src/lib/configurator/validation";
 import { GeneratingScreen } from "./GeneratingScreen";
+import { ProposalView } from "./ProposalView";
 
 export function ProposalExperience() {
   const router = useRouter();
@@ -28,9 +29,7 @@ export function ProposalExperience() {
       {!isDone || !proposal ? (
         <GeneratingScreen completedSteps={completedSteps} />
       ) : (
-        <main id="contenido" className="mx-auto max-w-[1180px] px-6 pt-14 pb-[120px]">
-          <h1 className="wide m-0 text-3xl font-semibold">{proposal.copy.title}</h1>
-        </main>
+        <ProposalView proposal={proposal} />
       )}
     </ConfiguratorShell>
   );
