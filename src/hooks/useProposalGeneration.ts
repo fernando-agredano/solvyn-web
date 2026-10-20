@@ -19,6 +19,15 @@ const rememberGenerated = () => {
   }
 };
 
+// Editing the answers means a new proposal, so the next visit shows the generating screen again.
+export const clearGeneratedFlag = () => {
+  try {
+    window.sessionStorage.removeItem(GENERATED_FLAG);
+  } catch {
+    // Nothing to clear without storage.
+  }
+};
+
 // Drives the "generating" screen: ticks one message at a time and reports when the proposal is ready.
 // In Phase 4 the real generation replaces the timer; `stepDurationMs` lets callers match its duration.
 export function useProposalGeneration(isEnabled: boolean, stepDurationMs: number = GENERATION_STEP_MS) {

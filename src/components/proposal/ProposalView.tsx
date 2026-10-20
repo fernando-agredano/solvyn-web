@@ -1,8 +1,11 @@
 import type { Proposal } from "@/src/hooks/useProposal";
 import { ProposalArchitecture } from "./ProposalArchitecture";
+import { ProposalCta } from "./ProposalCta";
 import { ProposalHeader } from "./ProposalHeader";
 import { ProposalKpis } from "./ProposalKpis";
 import { ProposalModules } from "./ProposalModules";
+import { ProposalPhases } from "./ProposalPhases";
+import { ProposalTechnologies } from "./ProposalTechnologies";
 import { SolutionPreview } from "./preview/SolutionPreview";
 
 export function ProposalView({ proposal }: { proposal: Proposal }) {
@@ -14,6 +17,11 @@ export function ProposalView({ proposal }: { proposal: Proposal }) {
       <ProposalModules modules={facts.modules} />
       <ProposalArchitecture architecture={facts.architecture} notes={copy.architectureNotes} />
       <SolutionPreview facts={facts} />
+      <div className="grid grid-cols-[minmax(0,3fr)_minmax(0,2fr)] gap-5 max-[980px]:grid-cols-1">
+        <ProposalPhases phases={facts.phases} />
+        <ProposalTechnologies technologyIds={facts.technologies} notes={copy.technologyNotes} />
+      </div>
+      <ProposalCta />
     </main>
   );
 }
