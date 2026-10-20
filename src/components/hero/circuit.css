@@ -1,0 +1,114 @@
+/* Hero circuit. Values copied from the HERO <style> in design/Main.dc.html. */
+
+.trace {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+  animation: draw 1.9s cubic-bezier(0.65, 0, 0.2, 1) backwards;
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.pulse {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 5 95;
+  stroke-dashoffset: 5;
+  opacity: 0;
+  animation-name: travel;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.9));
+}
+
+.pulse.g {
+  stroke: var(--signal);
+  filter: drop-shadow(0 0 5px var(--signal-glow));
+}
+
+@keyframes travel {
+  0% {
+    stroke-dashoffset: 5;
+    opacity: 0;
+  }
+  6% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: -100;
+    opacity: 0;
+  }
+}
+
+.chip-glow {
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 70%);
+  animation: breathe 4.5s ease-in-out 2s infinite;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+.chip-body {
+  border-radius: 16px;
+  background: linear-gradient(160deg, #1a1a1a 0%, #050505 60%);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 0 40px rgba(255, 255, 255, 0.08);
+}
+
+.chip-inner {
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* The cursor beam: a bright copy of the traces, visible only inside a 230px radial mask.
+   CircuitSpotlight writes --spot-x and --spot-y on every animation frame. */
+.circuit-spotlight {
+  --spot-x: -9999px;
+  --spot-y: -9999px;
+  -webkit-mask-image: radial-gradient(
+    circle 230px at var(--spot-x) var(--spot-y),
+    #000 0%,
+    rgba(0, 0, 0, 0.55) 40%,
+    rgba(0, 0, 0, 0) 75%
+  );
+  mask-image: radial-gradient(
+    circle 230px at var(--spot-x) var(--spot-y),
+    #000 0%,
+    rgba(0, 0, 0, 0.55) 40%,
+    rgba(0, 0, 0, 0) 75%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trace {
+    animation: none;
+  }
+
+  .pulse {
+    display: none;
+  }
+
+  .chip-glow {
+    animation: none;
+  }
+}
