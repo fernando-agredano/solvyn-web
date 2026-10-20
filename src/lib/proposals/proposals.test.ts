@@ -126,7 +126,7 @@ describe("createProposal", () => {
         return { id: "proposal-uuid" };
       },
     };
-    deps = { storage, leadStorage: { saveLead: (lead) => saveLead(lead), scheduleMeeting: async () => null },
+    deps = { storage, leadStorage: { saveLead: (lead) => saveLead(lead), scheduleMeeting: async () => null, markAccepted: async () => undefined },
       notifier: notifier as Notifier, generateDraft: generateDraft as unknown as CreateProposalDeps["generateDraft"], newSlug: () => "fixed-slug" };
   });
 

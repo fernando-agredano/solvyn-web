@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import type { LeadStorage } from "@/src/lib/leads/repository";
-import { bookMeeting, toMeetingDate } from "@/src/lib/meetings/book-meeting";
+import { bookMeeting } from "@/src/lib/meetings/book-meeting";
 import { createNotifier } from "./notifications";
 import { buildClientProposalEmail, buildOwnerLeadEmail, buildOwnerMeetingEmail, type LeadEmailData } from "./templates";
 import type { EmailMessage, EmailTransport } from "./transport";
@@ -85,12 +85,8 @@ describe("notifier", () => {
 });
 
 describe("bookMeeting", () => {
-  const request = { slug: "a".repeat(22), date: "2026-10-21", time: "10:00" as const };
+  const request = { slug: "a".repeat(22), startTime: new Date("2026-10-21T16:00:00Z") };
   const scheduled = { name: "Ana", email: "ana@ejemplo.com", whatsapp: null, score: 40, label: "tibio" as const };
-
-  it("converts the Mexico City time to an instant", () => {
-    expect(toMeetingDate("2026-10-21", "10:00").toISOString()).toBe("2026-10-21T16:00:00.000Z");
-  });
 
   it("notifies the owner when the lead had no meeting yet", async () => {
     const meetingBooked = vi.fn(async () => undefined);

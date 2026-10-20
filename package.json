@@ -12,6 +12,7 @@
   "dependencies": {
     "@ai-sdk/google": "^3.0.136",
     "@ai-sdk/openai-compatible": "^2.0.86",
+    "@calcom/embed-react": "^1.5.3",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.109.0",
     "ai": "^6.0.311",

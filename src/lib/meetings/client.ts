@@ -1,18 +1,25 @@
 import type { ConfiguratorAnswers } from "@/src/lib/configurator/answers";
 import { buildProposalRequest, getRequestSignature, readGeneratedSlug } from "@/src/lib/proposals/client";
-import type { MeetingSlot } from "@/src/config/scheduling";
 
-// Tells the server which meeting the visitor chose so the owner is notified. The confirmation screen
-// does not wait for it: a failure here must never block the visitor.
-export async function notifyMeetingBooked(answers: ConfiguratorAnswers, date: string, time: MeetingSlot): Promise<void> {
+// The slug of the proposal generated in this session, if any.
+export function getGeneratedProposalSlug(answers: ConfiguratorAnswers): string | null {
   const body = buildProposalRequest(answers);
-  const slug = body && readGeneratedSlug(getRequestSignature(body));
+  return body ? readGeneratedSlug(getRequestSignature(body)) : null;
+}
+
+// These calls never block the visitor: a failure here must not stop the flow.
+async function postForSlug(path: string, answers: ConfiguratorAnswers, extra: Record<string, string> = {}) {
+  const slug = getGeneratedProposalSlug(answers);
   if (!slug) return;
-  const payload = { slug, date, time };
-  await fetch("/api/meeting", {
+  await fetch(path, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify(payload),
+    body: JSON.stringify({ slug, ...extra }),
     keepalive: true,
   }).catch(() => undefined);
 }
+
+export const notifyProposalAccepted = (answers: ConfiguratorAnswers) => postForSlug("/api/lead/accept", answers);
+
+export const notifyMeetingBooked = (answers: ConfiguratorAnswers, startTime: string) =>
+  postForSlug("/api/meeting", answers, { startTime });

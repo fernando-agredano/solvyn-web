@@ -1,30 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { formatMeetingLabel, getNextBusinessDays } from "@/src/lib/scheduling";
+import { formatMeetingLabel, getMeetingParts } from "@/src/lib/scheduling";
 
-const isoDates = (now: string) => getNextBusinessDays(new Date(now)).map((day) => day.iso);
-
-describe("getNextBusinessDays", () => {
-  it("returns the next five weekdays, starting tomorrow", () => {
-    expect(isoDates("2026-10-19T18:00:00Z")).toEqual(["2026-10-20", "2026-10-21", "2026-10-22", "2026-10-23", "2026-10-26"]);
+describe("getMeetingParts", () => {
+  it("converts an instant to the date and time in Mexico", () => {
+    expect(getMeetingParts(new Date("2026-10-21T16:00:00Z"))).toEqual({ date: "2026-10-21", time: "10:00" });
   });
 
-  it("skips the weekend", () => {
-    expect(isoDates("2026-10-23T18:00:00Z")).toEqual(["2026-10-26", "2026-10-27", "2026-10-28", "2026-10-29", "2026-10-30"]);
-    expect(isoDates("2026-10-24T18:00:00Z")[0]).toBe("2026-10-26");
-  });
-
-  it("uses the date in Mexico, not in UTC", () => {
-    // 03:00 UTC on Oct 20 is still Monday night, Oct 19, in Mexico City.
-    expect(isoDates("2026-10-20T03:00:00Z")[0]).toBe("2026-10-20");
-  });
-
-  it("labels each day with weekday, number and month", () => {
-    expect(getNextBusinessDays(new Date("2026-10-19T18:00:00Z"))[1]).toEqual({
-      iso: "2026-10-21",
-      weekday: "Mié",
-      day: 21,
-      month: "oct",
-    });
+  it("uses the Mexico date, not the UTC one", () => {
+    // 03:30 UTC on Oct 22 is still Oct 21 at 21:30 in Mexico City.
+    expect(getMeetingParts(new Date("2026-10-22T03:30:00Z"))).toEqual({ date: "2026-10-21", time: "21:30" });
   });
 });
 

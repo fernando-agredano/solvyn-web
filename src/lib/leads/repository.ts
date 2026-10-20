@@ -27,12 +27,21 @@ export interface ScheduledLead {
 export interface LeadStorage {
   // True when the lead was created, false when it already existed.
   saveLead(lead: NewLead): Promise<boolean>;
+  // The visitor accepted the proposal: the lead waits for a meeting. Only a brand new lead changes state.
+  markAccepted(proposalSlug: string): Promise<void>;
   // Sets the meeting of the lead of a proposal. Null when there is no lead or it already has a meeting.
   scheduleMeeting(proposalSlug: string, meetingAt: Date): Promise<ScheduledLead | null>;
 }
 
 export function createSupabaseLeadStorage(): LeadStorage {
   const supabase = createServiceClient();
+
+  const findProposalId = async (slug: string): Promise<string | null> => {
+    const { data, error } = await supabase.from("proposals").select("id").eq("slug", slug).maybeSingle();
+    if (error) throw new Error(`proposals read failed: ${error.code ?? "unknown"}`);
+    return (data?.id as string | undefined) ?? null;
+  };
+
   return {
     async saveLead(lead) {
       // Spanish column names match the admin panel; the unique (correo, proposal_id) makes a repeated save a no-op.
@@ -59,16 +68,21 @@ export function createSupabaseLeadStorage(): LeadStorage {
       // An ignored duplicate returns no row.
       return data.length > 0;
     },
+    async markAccepted(proposalSlug) {
+      const proposalId = await findProposalId(proposalSlug);
+      if (!proposalId) return;
+      const { error } = await supabase.from("leads").update({ estado: "reunion" }).eq("proposal_id", proposalId).eq("estado", "nuevo");
+      if (error) throw new Error(`leads update failed: ${error.code ?? "unknown"}`);
+    },
     async scheduleMeeting(proposalSlug, meetingAt) {
-      const { data: proposal, error: proposalError } = await supabase.from("proposals").select("id").eq("slug", proposalSlug).maybeSingle();
-      if (proposalError) throw new Error(`proposals read failed: ${proposalError.code ?? "unknown"}`);
-      if (!proposal) return null;
+      const proposalId = await findProposalId(proposalSlug);
+      if (!proposalId) return null;
 
       // Only a lead without a meeting is updated, so repeated requests do not notify twice.
       const { data, error } = await supabase
         .from("leads")
-        .update({ meeting_at: meetingAt.toISOString() })
-        .eq("proposal_id", proposal.id)
+        .update({ meeting_at: meetingAt.toISOString(), estado: "reunion" })
+        .eq("proposal_id", proposalId)
         .is("meeting_at", null)
         .select("nombre, correo, whatsapp, puntaje, etiqueta");
       if (error) throw new Error(`leads update failed: ${error.code ?? "unknown"}`);
