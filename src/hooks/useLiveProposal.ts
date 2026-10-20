@@ -25,16 +25,17 @@ export function useLiveProposal(): LiveProposal | null {
   const platform = useConfiguratorStore((state) => state.platform);
   const integrations = useConfiguratorStore((state) => state.integrations);
   const size = useConfiguratorStore((state) => state.size);
+  const disabledModules = useConfiguratorStore((state) => state.disabledModules);
+  const enabledExtras = useConfiguratorStore((state) => state.enabledExtras);
 
   return useMemo(() => {
-    // Extras are suggested later, in the final proposal, so none are switched on here.
     const activeModules = buildModules({
       goals,
       users,
       platform,
       integrations,
-      disabledModules: {},
-      enabledExtras: {},
+      disabledModules,
+      enabledExtras,
     }).filter((module) => module.active);
     if (activeModules.length === 0) return null;
 
@@ -52,5 +53,5 @@ export function useLiveProposal(): LiveProposal | null {
       duration: `${weeks.min}–${weeks.max} semanas`,
       complexity: getComplexity(totalHours),
     };
-  }, [goals, users, platform, integrations, size]);
+  }, [goals, users, platform, integrations, size, disabledModules, enabledExtras]);
 }

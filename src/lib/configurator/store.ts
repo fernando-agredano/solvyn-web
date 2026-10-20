@@ -8,6 +8,7 @@ import {
   type ConfiguratorAnswers,
   type PersistedAnswers,
 } from "@/src/lib/configurator/answers";
+import type { ModuleKind } from "@/src/lib/modules";
 import { isStepValid } from "@/src/lib/configurator/validation";
 
 // Bump when the persisted shape changes: stored data from another version is discarded.
@@ -18,6 +19,8 @@ type ListKey = "goals" | "users" | "integrations";
 interface ConfiguratorState extends ConfiguratorAnswers {
   setAnswer: <K extends keyof ConfiguratorAnswers>(key: K, value: ConfiguratorAnswers[K]) => void;
   toggleItem: <K extends ListKey>(key: K, id: ConfiguratorAnswers[K][number]) => void;
+  // Flips an optional proposal module: integrations start on, extras start off.
+  toggleModule: (module: { id: string; kind: ModuleKind }) => void;
   goNext: () => void;
   goBack: () => void;
   reset: () => void;
@@ -36,6 +39,12 @@ export const useConfiguratorStore = create<ConfiguratorState>()(
           const next = [...current, id];
           return { [key]: key === "goals" ? next.slice(-MAX_GOALS) : next };
         }),
+      toggleModule: ({ id, kind }) =>
+        set((state) =>
+          kind === "integration"
+            ? { disabledModules: { ...state.disabledModules, [id]: !state.disabledModules[id] } }
+            : { enabledExtras: { ...state.enabledExtras, [id]: !state.enabledExtras[id] } },
+        ),
       goNext: () =>
         set((state) => {
           const index = CONFIGURATOR_STEPS.indexOf(state.step);

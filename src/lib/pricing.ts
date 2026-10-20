@@ -39,16 +39,25 @@ export function getComplexity(hours: number): Complexity {
   return "alta";
 }
 
+export const COMPLEXITY_LEVELS: Record<Complexity, 1 | 2 | 3> = { baja: 1, media: 2, alta: 3 };
+
 export function estimatePhaseWeeks(hours: number, share: number) {
   return Math.max(1, Math.round((hours / HOURS_PER_WEEK) * share));
 }
 
+// Phases run back to back: each starts where the previous one ends (as a share of the whole project).
 export function estimatePhases(hours: number) {
-  return PROJECT_PHASES.map((phase) => ({
-    label: phase.label,
-    share: phase.share,
-    weeks: estimatePhaseWeeks(hours, phase.share),
-  }));
+  let startShare = 0;
+  return PROJECT_PHASES.map((phase) => {
+    const result = {
+      label: phase.label,
+      share: phase.share,
+      startShare,
+      weeks: estimatePhaseWeeks(hours, phase.share),
+    };
+    startShare += phase.share;
+    return result;
+  });
 }
 
 export function formatMXN(amount: number) {

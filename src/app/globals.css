@@ -202,3 +202,25 @@
 @utility live-dot {
   animation: blink 1.6s ease-in-out infinite;
 }
+
+/* Skeleton block with a light sweep, shown while the proposal is "generating". */
+@keyframes shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@utility shimmer {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+    animation: shimmer 1.4s infinite;
+  }
+}

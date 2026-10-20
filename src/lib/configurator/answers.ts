@@ -9,7 +9,7 @@ import {
   type ConfiguratorStep,
   type Urgency,
 } from "@/src/config/configurator-options";
-import { GOALS, INDUSTRIES, INTEGRATIONS } from "@/src/config/catalog";
+import { EXTRAS, GOALS, INDUSTRIES, INTEGRATIONS } from "@/src/config/catalog";
 import { TEAM_SIZES, type TeamSize } from "@/src/config/pricing";
 import type { Platform, UserType } from "@/src/lib/modules";
 import { getReachableStep } from "@/src/lib/configurator/validation";
@@ -26,6 +26,9 @@ export interface ConfiguratorAnswers {
   integrations: string[];
   urgency: Urgency | null;
   budget: Budget | null;
+  // Proposal switches, keyed by module id (`i_<integration>` / `x_<extra>`): integrations the visitor turned off, extras turned on.
+  disabledModules: Record<string, boolean>;
+  enabledExtras: Record<string, boolean>;
   contactName: string;
   contactEmail: string;
   contactPhone: string;
@@ -44,6 +47,8 @@ export const INITIAL_ANSWERS: ConfiguratorAnswers = {
   integrations: [],
   urgency: null,
   budget: null,
+  disabledModules: {},
+  enabledExtras: {},
   contactName: "",
   contactEmail: "",
   contactPhone: "",
@@ -63,6 +68,8 @@ export const PERSISTED_KEYS = [
   "integrations",
   "urgency",
   "budget",
+  "disabledModules",
+  "enabledExtras",
 ] as const satisfies readonly (keyof ConfiguratorAnswers)[];
 
 type PersistedKey = (typeof PERSISTED_KEYS)[number];
@@ -76,6 +83,15 @@ const pickIds = (value: unknown, validIds: readonly string[]): string[] =>
 
 const pickId = <T extends string>(value: unknown, validIds: readonly T[]): T | null =>
   typeof value === "string" && (validIds as readonly string[]).includes(value) ? (value as T) : null;
+
+const pickFlags = (value: unknown, validIds: readonly string[]): Record<string, boolean> =>
+  typeof value === "object" && value !== null
+    ? Object.fromEntries(
+        Object.entries(value).filter(
+          (entry): entry is [string, boolean] => validIds.includes(entry[0]) && typeof entry[1] === "boolean",
+        ),
+      )
+    : {};
 
 const pickText = (value: unknown) => (typeof value === "string" ? value : "");
 
@@ -94,6 +110,8 @@ export function sanitizePersistedAnswers(stored: unknown): ConfiguratorAnswers {
     integrations: pickIds(raw.integrations, INTEGRATIONS.map((integration) => integration.id)),
     urgency: pickId(raw.urgency, URGENCY_OPTIONS.map((option) => option.id)),
     budget: pickId(raw.budget, BUDGET_OPTIONS.map((option) => option.id)),
+    disabledModules: pickFlags(raw.disabledModules, INTEGRATIONS.map((integration) => `i_${integration.id}`)),
+    enabledExtras: pickFlags(raw.enabledExtras, EXTRAS.map((extra) => `x_${extra.id}`)),
   };
   const requestedStep = pickId(raw.step, CONFIGURATOR_STEPS) ?? INITIAL_ANSWERS.step;
   const reachableStep = getReachableStep(answers);
