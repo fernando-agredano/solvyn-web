@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { ProposalDraft } from "@/src/lib/ai/generate-proposal-draft";
 import { parseServerEnv } from "@/src/lib/env";
 import { createProposal, type CreateProposalDeps } from "./create-proposal";
+import type { Notifier } from "@/src/lib/email/notifications";
 import type { LeadStorage, NewLead } from "@/src/lib/leads/repository";
 import { PRIVACY_VERSION } from "@/src/config/site";
 import { generateSlug, SLUG_PATTERN, type GenerationLogEntry, type ProposalStorage, type StoredProposalPayload } from "./repository";
@@ -98,6 +99,7 @@ describe("createProposal", () => {
   let logged: GenerationLogEntry[];
   let leads: NewLead[];
   let saveLead: LeadStorage["saveLead"];
+  let notifier: { [Method in keyof Notifier]: ReturnType<typeof vi.fn> };
   let counts: { byIp: number; byEmail: number } | Error;
   let generateDraft: ReturnType<typeof vi.fn>;
   let deps: CreateProposalDeps;
@@ -110,7 +112,8 @@ describe("createProposal", () => {
     saved = [];
     logged = [];
     leads = [];
-    saveLead = async (lead) => void leads.push(lead);
+    saveLead = async (lead) => leads.push(lead) > 0;
+    notifier = { leadCreated: vi.fn(async () => undefined), meetingBooked: vi.fn(async () => undefined) };
     counts = { byIp: 0, byEmail: 0 };
     generateDraft = vi.fn(async ({ allowAi }: { allowAi?: boolean }) =>
       allowAi === false ? aiDraft({ provider: "rules", source: "rules" }) : aiDraft(),
@@ -123,7 +126,8 @@ describe("createProposal", () => {
         return { id: "proposal-uuid" };
       },
     };
-    deps = { storage, leadStorage: { saveLead: (lead) => saveLead(lead) }, generateDraft: generateDraft as unknown as CreateProposalDeps["generateDraft"], newSlug: () => "fixed-slug" };
+    deps = { storage, leadStorage: { saveLead: (lead) => saveLead(lead), scheduleMeeting: async () => null },
+      notifier: notifier as Notifier, generateDraft: generateDraft as unknown as CreateProposalDeps["generateDraft"], newSlug: () => "fixed-slug" };
   });
 
   const create = () => createProposal(proposalRequestSchema.parse(validBody), "203.0.113.7", deps);
@@ -155,6 +159,28 @@ describe("createProposal", () => {
     expect(saved[0].payload.facts.activeModuleCount).toBeGreaterThanOrEqual(8);
     expect(leads[0].score).toBe(70);
     expect(leads[0].label).toBe("caliente");
+  });
+
+  it("emails once for a new lead, with the shareable link and no consent data", async () => {
+    await create();
+
+    expect(notifier.leadCreated).toHaveBeenCalledTimes(1);
+    expect(notifier.leadCreated).toHaveBeenCalledWith(
+      expect.objectContaining({ name: "Ana", email: "ana@ejemplo.com", label: "caliente", proposalUrl: expect.stringMatching(/\/propuesta\/fixed-slug$/) }),
+    );
+  });
+
+  it("does not email again for a lead that already existed", async () => {
+    saveLead = async () => false;
+    await create();
+    expect(notifier.leadCreated).not.toHaveBeenCalled();
+  });
+
+  it("does not email when the lead cannot be saved", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => undefined);
+    saveLead = async () => Promise.reject(new Error("leads insert failed: 500"));
+    await create();
+    expect(notifier.leadCreated).not.toHaveBeenCalled();
   });
 
   it("still returns the proposal when the lead cannot be saved", async () => {

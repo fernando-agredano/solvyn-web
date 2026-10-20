@@ -16,8 +16,19 @@ export interface NewLead {
   consentVersion: string;
 }
 
+export interface ScheduledLead {
+  name: string;
+  email: string;
+  whatsapp: string | null;
+  score: number;
+  label: LeadLabel;
+}
+
 export interface LeadStorage {
-  saveLead(lead: NewLead): Promise<void>;
+  // True when the lead was created, false when it already existed.
+  saveLead(lead: NewLead): Promise<boolean>;
+  // Sets the meeting of the lead of a proposal. Null when there is no lead or it already has a meeting.
+  scheduleMeeting(proposalSlug: string, meetingAt: Date): Promise<ScheduledLead | null>;
 }
 
 export function createSupabaseLeadStorage(): LeadStorage {
@@ -25,7 +36,7 @@ export function createSupabaseLeadStorage(): LeadStorage {
   return {
     async saveLead(lead) {
       // Spanish column names match the admin panel; the unique (correo, proposal_id) makes a repeated save a no-op.
-      const { error } = await supabase.from("leads").upsert(
+      const { data, error } = await supabase.from("leads").upsert(
         {
           proposal_id: lead.proposalId,
           nombre: lead.name,
@@ -43,8 +54,27 @@ export function createSupabaseLeadStorage(): LeadStorage {
           consentimiento_version: lead.consentVersion,
         },
         { onConflict: "correo,proposal_id", ignoreDuplicates: true },
-      );
+      ).select("id");
       if (error) throw new Error(`leads insert failed: ${error.code ?? "unknown"}`);
+      // An ignored duplicate returns no row.
+      return data.length > 0;
+    },
+    async scheduleMeeting(proposalSlug, meetingAt) {
+      const { data: proposal, error: proposalError } = await supabase.from("proposals").select("id").eq("slug", proposalSlug).maybeSingle();
+      if (proposalError) throw new Error(`proposals read failed: ${proposalError.code ?? "unknown"}`);
+      if (!proposal) return null;
+
+      // Only a lead without a meeting is updated, so repeated requests do not notify twice.
+      const { data, error } = await supabase
+        .from("leads")
+        .update({ meeting_at: meetingAt.toISOString() })
+        .eq("proposal_id", proposal.id)
+        .is("meeting_at", null)
+        .select("nombre, correo, whatsapp, puntaje, etiqueta");
+      if (error) throw new Error(`leads update failed: ${error.code ?? "unknown"}`);
+      const lead = data[0];
+      if (!lead) return null;
+      return { name: lead.nombre, email: lead.correo, whatsapp: lead.whatsapp, score: lead.puntaje, label: lead.etiqueta };
     },
   };
 }

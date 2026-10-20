@@ -1,5 +1,6 @@
 import { generateProposalDraft, type ProposalDraft } from "@/src/lib/ai/generate-proposal-draft";
-import { PRIVACY_VERSION } from "@/src/config/site";
+import { PRIVACY_VERSION, SITE_URL } from "@/src/config/site";
+import { createDefaultNotifier, type Notifier } from "@/src/lib/email/notifications";
 import { createSupabaseLeadStorage, type LeadStorage } from "@/src/lib/leads/repository";
 import { buildProposalFacts } from "@/src/lib/proposal";
 import { calculateLeadScore, getLeadLabel } from "@/src/lib/scoring";
@@ -7,9 +8,12 @@ import { hashIdentifier, isOverLimit, normalizeEmail } from "./limits";
 import type { ProposalRequest } from "./request";
 import { generateSlug, type ProposalStorage } from "./repository";
 
+const TOP_MODULES_IN_EMAIL = 5;
+
 export interface CreateProposalDeps {
   storage: ProposalStorage;
   leadStorage: LeadStorage;
+  notifier: Notifier;
   generateDraft: typeof generateProposalDraft;
   newSlug: () => string;
 }
@@ -62,19 +66,45 @@ export async function createProposal(
     activeModuleCount: facts.activeModuleCount,
     activeIntegrationCount: facts.modules.filter((module) => module.kind === "integration" && module.active).length,
   });
-  await deps.leadStorage
+  const label = getLeadLabel(score);
+  const isNewLead = await deps.leadStorage
     .saveLead({
       proposalId,
       name: contact.name,
       email: normalizeEmail(contact.email),
       whatsapp: contact.phone || null,
       score,
-      label: getLeadLabel(score),
+      label,
       answers: { budget: answers.budget, urgency: answers.urgency, size: answers.size, users: answers.users },
       consentAt: new Date(),
       consentVersion: PRIVACY_VERSION,
     })
-    .catch((error: unknown) => console.error(`[lead] ${error instanceof Error ? error.message : "save failed"}`));
+    .catch((error: unknown) => {
+      console.error(`[lead] ${error instanceof Error ? error.message : "save failed"}`);
+      return false;
+    });
+
+  if (isNewLead) {
+    await deps.notifier.leadCreated({
+      name: contact.name,
+      email: normalizeEmail(contact.email),
+      whatsapp: contact.phone || null,
+      score,
+      label,
+      goals: facts.goalNames,
+      industry: facts.industryLabel,
+      budget: answers.budget,
+      urgency: answers.urgency,
+      topModules: facts.modules
+        .filter((module) => module.active)
+        .sort((first, second) => second.hours - first.hours)
+        .slice(0, TOP_MODULES_IN_EMAIL)
+        .map((module) => module.name),
+      investment: facts.investment,
+      weeks: facts.weeks,
+      proposalUrl: `${SITE_URL}/propuesta/${slug}`,
+    });
+  }
 
   return { slug, source: draft.source };
 }
@@ -82,6 +112,7 @@ export async function createProposal(
 export const defaultCreateProposalDeps = (storage: ProposalStorage): CreateProposalDeps => ({
   storage,
   leadStorage: createSupabaseLeadStorage(),
+  notifier: createDefaultNotifier(),
   generateDraft: generateProposalDraft,
   newSlug: generateSlug,
 });

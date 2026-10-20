@@ -13,6 +13,7 @@ import {
 } from "@/src/config/scheduling";
 import { useCompletedFlowGuard } from "@/src/hooks/useCompletedFlowGuard";
 import { useConfiguratorStore } from "@/src/lib/configurator/store";
+import { notifyMeetingBooked } from "@/src/lib/meetings/client";
 import { getNextBusinessDays } from "@/src/lib/scheduling";
 
 const CHOICE_BASE = "cursor-pointer border transition duration-200 ease-[ease]";
@@ -30,10 +31,11 @@ function MeetingForm() {
 
   const confirm = () => {
     if (!selectedDate || !selectedTime) return;
-    // TODO(Phase 5): create the booking in Cal.com and save the lead (contact, consent, meeting) in Supabase.
+    // TODO(Phase 5): create the booking in Cal.com. The meeting is saved on the lead and the owner is emailed by /api/meeting.
     // For now the choice only lives in the store so the confirmation screen can show it.
     setAnswer("meetingDate", selectedDate);
     setAnswer("meetingTime", selectedTime);
+    void notifyMeetingBooked(useConfiguratorStore.getState(), selectedDate, selectedTime);
     router.push(CONFIRMATION_ROUTE);
   };
 

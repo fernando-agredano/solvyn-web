@@ -12,6 +12,10 @@ const serverEnvSchema = z.object({
   GEMINI_MODEL: z.string().min(1).optional(),
   OPENROUTER_API_KEY: z.string().min(1).optional(),
   OPENROUTER_MODEL: z.string().min(1).optional(),
+  // Emails are optional too: without all three, nothing is sent and the flow works the same.
+  RESEND_API_KEY: z.string().min(1).optional(),
+  OWNER_EMAIL: z.email().optional(),
+  EMAIL_FROM: z.string().min(1).optional(),
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
@@ -44,4 +48,9 @@ export function getAiConfigWarnings(env: ServerEnv): string[] {
     warnings.push("OpenRouter is disabled: set OPENROUTER_API_KEY and OPENROUTER_MODEL");
   }
   return warnings;
+}
+
+export function getEmailConfigWarnings(env: ServerEnv): string[] {
+  const missing = (["RESEND_API_KEY", "OWNER_EMAIL", "EMAIL_FROM"] as const).filter((name) => !env[name]);
+  return missing.length > 0 ? [`Emails are disabled: set ${missing.join(", ")}`] : [];
 }
