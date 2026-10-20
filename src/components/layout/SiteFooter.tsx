@@ -20,6 +20,9 @@ export function SiteFooter() {
           <Link href="/privacidad" className="inline-flex min-h-11 items-center">
             Aviso de privacidad
           </Link>
+          <Link href="/terminos" className="inline-flex min-h-11 items-center">
+            Términos
+          </Link>
           <span>© 2026 {SITE.name}</span>
         </div>
       </div>

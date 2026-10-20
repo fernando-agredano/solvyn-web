@@ -67,7 +67,7 @@ export function ContactStep() {
         />
         <span>
           Acepto el{" "}
-          <Link href="/" target="_blank" rel="noopener noreferrer" className="text-foreground">
+          <Link href="/privacidad" target="_blank" rel="noopener noreferrer" className="text-foreground">
             aviso de privacidad
           </Link>{" "}
           y que Solvyn Solutions me contacte sobre esta propuesta.

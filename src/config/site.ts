@@ -4,6 +4,8 @@ export const SITE = {
   title: "Solvyn Solutions — Software a medida para tu negocio",
   description:
     "Software a medida para negocios en México. Configura tu solución y recibe una propuesta con módulos, fases e inversión.",
+  legalName: "[TU NOMBRE COMPLETO O RAZÓN SOCIAL]",
+  address: "[TU DOMICILIO]",
   email: "[TU CORREO]",
   whatsapp: "[TU WHATSAPP]",
   price: "[TU PRECIO]",
