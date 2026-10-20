@@ -1,4 +1,5 @@
 import type { Proposal } from "@/src/hooks/useProposal";
+import { ProposalArchitecture } from "./ProposalArchitecture";
 import { ProposalHeader } from "./ProposalHeader";
 import { ProposalKpis } from "./ProposalKpis";
 import { ProposalModules } from "./ProposalModules";
@@ -10,6 +11,7 @@ export function ProposalView({ proposal }: { proposal: Proposal }) {
       <ProposalHeader businessName={facts.businessName} title={copy.title} summary={copy.summary} />
       <ProposalKpis facts={facts} />
       <ProposalModules modules={facts.modules} />
+      <ProposalArchitecture architecture={facts.architecture} notes={copy.architectureNotes} />
     </main>
   );
 }

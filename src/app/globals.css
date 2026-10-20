@@ -224,3 +224,15 @@
     animation: shimmer 1.4s infinite;
   }
 }
+
+/* Dashed line that flows along the arrows of the architecture diagram. */
+@keyframes flow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+@utility flow {
+  stroke-dasharray: 4 6;
+  animation: flow 1.2s linear infinite;
+}
