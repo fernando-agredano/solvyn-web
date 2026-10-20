@@ -34,23 +34,6 @@
   filter: drop-shadow(0 0 5px var(--signal-glow));
 }
 
-@keyframes travel {
-  0% {
-    stroke-dashoffset: 5;
-    opacity: 0;
-  }
-  6% {
-    opacity: 1;
-  }
-  88% {
-    opacity: 1;
-  }
-  100% {
-    stroke-dashoffset: -100;
-    opacity: 0;
-  }
-}
-
 .chip-glow {
   background: radial-gradient(closest-side, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 70%);
   animation: breathe 4.5s ease-in-out 2s infinite;

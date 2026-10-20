@@ -99,6 +99,6 @@ El catálogo de metas, módulos, integraciones y extras está en la función `ca
 - `npm run lint`: revisión de código
 
 ## Estado del proyecto
-Fase actual: 2b.1 (cómo funciona, propuesta en vivo y soluciones)
+Fase actual: 2b.2 (industrias, demos, proceso y por qué)
 
 Esta línea indica el **siguiente paso pendiente** del proyecto. Se actualiza al final de cada prompt de implementación, dentro de su mismo commit. No la cambies por tu cuenta en otras circunstancias.

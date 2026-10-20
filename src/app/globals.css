@@ -56,6 +56,29 @@
   --font-sans: var(--font-archivo);
 }
 
+/* Light traveling along a line. Shared by the hero circuit pulses and the "how it works" line. */
+@keyframes travel {
+  0% {
+    stroke-dashoffset: 5;
+    opacity: 0;
+  }
+  6% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: -100;
+    opacity: 0;
+  }
+}
+
+.step-pulse {
+  stroke-dasharray: 6 94;
+  animation: travel 3.6s linear infinite;
+}
+
 /* Width axis of the variable font. Usage: <h1 className="wide">, <h2 className="semi">. */
 @utility wide {
   font-stretch: 125%;
@@ -93,6 +116,10 @@
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .step-pulse {
+    display: none;
   }
 
   *,

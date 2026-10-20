@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 type ButtonVariant = "primary" | "secondary";
-type ButtonSize = "md" | "lg";
+type ButtonSize = "sm" | "md" | "lg";
 
 const BASE_CLASSES =
   "inline-flex items-center justify-center rounded-[10px] no-underline transition duration-200 ease-[ease]";
@@ -14,8 +14,9 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
     "border border-white/[0.22] font-medium text-foreground hover:border-white/50 hover:bg-white/[0.04]",
 };
 
-// Both sizes keep the 44px minimum touch target.
+// Every size keeps the 44px minimum touch target.
 const SIZE_CLASSES: Record<ButtonSize, string> = {
+  sm: "min-h-12 px-5 text-[15px]",
   md: "min-h-11 px-[18px] text-[15px]",
   lg: "min-h-[52px] px-[26px] text-base",
 };
@@ -25,11 +26,15 @@ type ButtonProps = {
   children: ReactNode;
   variant?: ButtonVariant;
   size?: ButtonSize;
+  className?: string;
 };
 
-export function Button({ href, children, variant = "primary", size = "lg" }: ButtonProps) {
+export function Button({ href, children, variant = "primary", size = "lg", className = "" }: ButtonProps) {
   return (
-    <Link href={href} className={`${BASE_CLASSES} ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]}`}>
+    <Link
+      href={href}
+      className={`${BASE_CLASSES} ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]} ${className}`}
+    >
       {children}
     </Link>
   );
