@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+/* Global design tokens (CLAUDE.md, "Sistema visual"). Plain CSS variables are the source of truth;
+   @theme maps them to Tailwind utilities (bg-surface, text-signal...). */
+:root {
+  --background: #000000;
+  --surface: #0a0a0a;
+  --surface-raised: #141414;
+
+  --foreground: #f5f5f5;
+  --heading: #ffffff;
+  --text-secondary: #a3a3a3;
+  --label: #8a8a8a;
+  --muted: #737373;
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.14);
+  --border-strong: rgba(255, 255, 255, 0.28);
+
+  /* Green is reserved for "active/ok" indicators only. Never for buttons, titles or decoration. */
+  --signal: #46d19a;
+  --signal-glow: rgba(70, 209, 154, 0.55);
+  --error: #fca5a5;
+
+  /* Brand colors: used only inside the client's solution preview. */
+  --preview-blue: #2563eb;
+  --preview-emerald: #059669;
+  --preview-orange: #ea580c;
+  --preview-violet: #7c3aed;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+
+  --color-foreground: var(--foreground);
+  --color-heading: var(--heading);
+  --color-text-secondary: var(--text-secondary);
+  --color-label: var(--label);
+  --color-muted: var(--muted);
+
+  --color-border-subtle: var(--border-subtle);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-signal: var(--signal);
+  --color-signal-glow: var(--signal-glow);
+  --color-error: var(--error);
+
+  --color-preview-blue: var(--preview-blue);
+  --color-preview-emerald: var(--preview-emerald);
+  --color-preview-orange: var(--preview-orange);
+  --color-preview-violet: var(--preview-violet);
+
+  --font-sans: var(--font-archivo);
+}
+
+/* Width axis of the variable font. Usage: <h1 className="wide">, <h2 className="semi">. */
+@utility wide {
+  font-stretch: 125%;
+}
+
+@utility semi {
+  font-stretch: 112%;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--heading);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
