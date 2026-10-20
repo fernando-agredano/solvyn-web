@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Suspense, type ReactNode } from "react";
 import { SITE } from "@/src/config/site";
 import { requireAdmin } from "@/src/lib/admin/auth";
@@ -20,6 +21,23 @@ async function PanelFrame({ children }: { children: ReactNode }) {
             sizes="110px"
             className="block h-[26px] w-auto"
           />
+          <nav
+            aria-label="Secciones del panel"
+            className="flex items-center gap-5 text-[15px]"
+          >
+            <Link
+              href="/admin"
+              className="text-text-secondary no-underline hover:text-heading"
+            >
+              Resumen
+            </Link>
+            <Link
+              href="/admin/leads"
+              className="text-text-secondary no-underline hover:text-heading"
+            >
+              Leads
+            </Link>
+          </nav>
           <div className="flex items-center gap-4">
             <span className="text-sm text-label">{user.email}</span>
             <form action={signOut}>
