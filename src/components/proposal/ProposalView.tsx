@@ -1,3 +1,5 @@
+"use client";
+
 import type { Proposal } from "@/src/hooks/useProposal";
 import { ProposalArchitecture } from "./ProposalArchitecture";
 import { ProposalCta } from "./ProposalCta";
