@@ -159,3 +159,22 @@ describe("privacy", () => {
     expect(sent).toContain("[correo omitido]");
   });
 });
+
+describe("forbidden text", () => {
+  it.each([
+    ["24-hour availability", "Tu tienda disponible las 24 horas.", true],
+    ["a duration in weeks", "Queda lista en 6 semanas.", false],
+    ["an hour estimate", "Unas 40 horas de trabajo.", false],
+    ["a range of days", "Tarda de 10 a 15 días.", false],
+    ["a price", "Cuesta $5,000", false],
+  ])("%s", async (_label, text, isAccepted) => {
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const gemini = new MockLanguageModelV3({
+      doGenerate: async () => reply(validOutput({ architectureNotes: { ...validOutput().architectureNotes, web: text } })),
+    });
+
+    const draft = await run(depsFor([providerOf("gemini", gemini)]));
+
+    expect(draft.source).toBe(isAccepted ? "ai" : "rules");
+  });
+});

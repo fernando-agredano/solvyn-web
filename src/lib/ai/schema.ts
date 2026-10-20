@@ -4,8 +4,9 @@ import type { ProposalFacts } from "@/src/lib/proposal";
 
 const MAX_SUMMARY_WORDS = 90;
 
-// The AI never produces money or time: anything that looks like a price, hour count or deadline makes the draft invalid.
-const FORBIDDEN_PATTERN = /\$|\bMXN\b|\bpesos?\b|\bhoras?\b|\bsemanas?\b|\bmeses\b|\bd[ií]as\b/i;
+// The AI never produces money or time: a price or a duration (6 semanas, 40 horas) makes the draft invalid.
+// "24 horas" is allowed: models use it for availability ("disponible las 24 horas"), not as a delivery promise.
+const FORBIDDEN_PATTERN = /\$|\bMXN\b|\bpesos?\b|\b(?!24\b)\d+\s*(?:a\s*\d+\s*)?(?:horas?|semanas?|meses|d[ií]as)\b/i;
 
 const safeText = (maxLength: number) =>
   z

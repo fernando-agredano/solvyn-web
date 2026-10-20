@@ -1,7 +1,6 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@/src/components/ui/Button";
 import { SCHEDULE_ROUTE } from "@/src/config/scheduling";
-import { clearGeneratedFlag } from "@/src/hooks/useProposalGeneration";
 import { useConfiguratorStore } from "@/src/lib/configurator/store";
 
 export function ProposalCta() {
@@ -9,7 +8,6 @@ export function ProposalCta() {
   const setAnswer = useConfiguratorStore((state) => state.setAnswer);
 
   const editAnswers = () => {
-    clearGeneratedFlag();
     setAnswer("step", "goal");
     router.push("/configurar");
   };

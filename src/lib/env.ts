@@ -19,7 +19,8 @@ export type ServerEnv = z.infer<typeof serverEnvSchema>;
 let cachedEnv: ServerEnv | null = null;
 
 export function parseServerEnv(source: Record<string, string | undefined>): ServerEnv {
-  const result = serverEnvSchema.safeParse(source);
+  // A blank line like `GEMINI_API_KEY=` counts as not set.
+  const result = serverEnvSchema.safeParse(Object.fromEntries(Object.entries(source).filter(([, value]) => value !== "")));
   if (!result.success) {
     const problems = result.error.issues.map((issue) => {
       const name = issue.path.join(".");

@@ -19,7 +19,14 @@ export function ProposalHeader({ businessName, title, summary }: ProposalHeaderP
     return () => clearTimeout(timer);
   }, [notice]);
 
-  // Sharing and PDF need a saved proposal; until then the buttons only show a temporary notice.
+  const copyShareLink = async () => {
+    try {
+      await navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}`);
+      setNotice("Enlace copiado");
+    } catch {
+      setNotice("No pudimos copiar el enlace. Cópialo desde la barra del navegador.");
+    }
+  };
   const showComingSoon = () => setNotice("Esta función estará disponible pronto.");
 
   return (
@@ -33,7 +40,7 @@ export function ProposalHeader({ businessName, title, summary }: ProposalHeaderP
           <p className="m-0 text-[17px] leading-[1.65] text-text-secondary">{summary}</p>
         </div>
         <div className="flex flex-wrap gap-2.5">
-          <Button variant="secondary" size="md" onClick={showComingSoon}>
+          <Button variant="secondary" size="md" onClick={copyShareLink}>
             Compartir enlace
           </Button>
           <Button variant="secondary" size="md" onClick={showComingSoon}>

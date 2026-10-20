@@ -44,11 +44,13 @@ export function createSupabaseStorage(): ProposalStorage {
     const since = new Date(Date.now() - GENERATION_WINDOW_MS).toISOString();
     const { count, error } = await supabase
       .from("generation_log")
-      .select("id", { count: "exact", head: true })
+      .select("id", { count: "exact" })
       .eq(column, hash)
-      .gte("created_at", since);
-    if (error) throw new Error(`generation_log count failed: ${error.code ?? "unknown"}`);
-    return count ?? 0;
+      .gte("created_at", since)
+      .limit(1);
+    // A failed HEAD request would not report its error, so the count is read with a normal request.
+    if (error || count === null) throw new Error(`generation_log count failed: ${error?.code ?? "no count"}`);
+    return count;
   };
 
   return {

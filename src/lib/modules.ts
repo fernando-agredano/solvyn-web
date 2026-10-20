@@ -68,3 +68,14 @@ export function buildModules(answers: ProposalAnswers): ProposalModule[] {
     optional: draft.kind !== "core",
   }));
 }
+
+// Flips an optional module: integrations start on (so the flag marks them off), extras start off (so the flag marks them on).
+// Returns only the flags that changed.
+export function toggleModuleFlags(
+  flags: Pick<ProposalAnswers, "disabledModules" | "enabledExtras">,
+  module: { id: string; kind: ModuleKind },
+): Partial<Pick<ProposalAnswers, "disabledModules" | "enabledExtras">> {
+  return module.kind === "integration"
+    ? { disabledModules: { ...flags.disabledModules, [module.id]: !flags.disabledModules[module.id] } }
+    : { enabledExtras: { ...flags.enabledExtras, [module.id]: !flags.enabledExtras[module.id] } };
+}
