@@ -11,7 +11,8 @@
   --heading: #ffffff;
   --text-secondary: #a3a3a3;
   --label: #8a8a8a;
-  --muted: #737373;
+  /* Raised from the design's #737373, which measures 4.4:1 on black, below the 4.5:1 AA minimum for small text. */
+  --muted: #7a7a7a;
 
   --border-subtle: rgba(255, 255, 255, 0.08);
   --border: rgba(255, 255, 255, 0.14);

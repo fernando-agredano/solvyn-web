@@ -11,12 +11,15 @@ export function SiteFooter() {
           alt={SITE.name}
           width={1100}
           height={262}
+          sizes="101px"
           className="h-6 w-auto opacity-[0.85]"
         />
         <div className="flex flex-wrap gap-7 text-sm text-label">
           <span>{SITE.email}</span>
           <span>{SITE.whatsapp}</span>
-          <Link href="/privacidad">Aviso de privacidad</Link>
+          <Link href="/privacidad" className="inline-flex min-h-11 items-center">
+            Aviso de privacidad
+          </Link>
           <span>© 2026 {SITE.name}</span>
         </div>
       </div>

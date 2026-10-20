@@ -22,7 +22,7 @@ export function WhyUs() {
         <div className="grid grid-cols-3 gap-10 max-[860px]:grid-cols-1">
           {REASONS.map((reason) => (
             <div key={reason.title} className="flex flex-col gap-3 border-t border-white/30 pt-6">
-              <h3 className="semi m-0 text-xl font-semibold">{reason.title}</h3>
+              <h2 className="semi m-0 text-xl font-semibold">{reason.title}</h2>
               <p className="m-0 text-base leading-[1.6] text-text-secondary">{reason.description}</p>
             </div>
           ))}

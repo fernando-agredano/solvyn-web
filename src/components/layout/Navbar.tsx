@@ -17,18 +17,20 @@ export function Navbar() {
       aria-label="Principal"
       className="relative z-2 mx-auto flex max-w-[1240px] items-center justify-between gap-6 px-6 py-[22px]"
     >
-      <Link href="#inicio" aria-label={`${SITE.name}, inicio`} className="flex items-center">
+      <Link href="#inicio" aria-label={`${SITE.name}, inicio`} className="flex min-h-11 items-center">
         <Image
           src="/brand/solvyn-logo.png"
           alt={SITE.name}
           width={1100}
           height={262}
+          priority
+          sizes="126px"
           className="block h-[30px] w-auto"
         />
       </Link>
       <div className="flex items-center gap-8 text-[15px] text-text-secondary max-[860px]:hidden">
         {NAV_LINKS.map((link) => (
-          <Link key={link.href} href={link.href} className="no-underline">
+          <Link key={link.href} href={link.href} className="inline-flex min-h-11 items-center no-underline">
             {link.label}
           </Link>
         ))}

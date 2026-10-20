@@ -18,6 +18,7 @@ export function FinalCta() {
             alt=""
             width={380}
             height={392}
+            sizes="44px"
             className="h-auto w-[44px] opacity-90"
           />
           <h2 className="wide m-0 text-[clamp(2rem,4.2vw,3.4rem)] leading-[1.05] font-semibold tracking-[-0.025em]">

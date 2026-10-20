@@ -27,22 +27,27 @@ export function ProposalModuleCard({
           <span className="text-[13px] text-label tabular-nums">{hoursLabel}</span>
         </div>
 
+        {/* The switch button is 48x44 (touch target); the visible track is 48x28, as in the design. */}
         {optional ? (
           <button
             type="button"
             aria-pressed={enabled}
             aria-label={`${enabled ? "Quitar" : "Agregar"} ${name}`}
             onClick={onToggle}
-            className={`relative my-2 h-7 w-12 flex-none cursor-pointer rounded-full border border-white/25 p-0 transition-colors duration-250 before:absolute before:-inset-2 before:content-[''] ${
-              enabled ? "bg-signal" : "bg-white/[0.06]"
-            }`}
+            className="flex h-11 w-12 flex-none cursor-pointer items-center justify-center border-0 bg-transparent p-0"
           >
             <span
               aria-hidden="true"
-              className={`absolute top-[3px] left-[3px] size-5 rounded-full transition-transform duration-250 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${
-                enabled ? "translate-x-5 bg-black" : "bg-text-secondary"
+              className={`relative block h-7 w-12 rounded-full border border-white/25 transition-colors duration-250 ${
+                enabled ? "bg-signal" : "bg-white/[0.06]"
               }`}
-            />
+            >
+              <span
+                className={`absolute top-[3px] left-[3px] size-5 rounded-full transition-transform duration-250 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${
+                  enabled ? "translate-x-5 bg-black" : "bg-text-secondary"
+                }`}
+              />
+            </span>
           </button>
         ) : (
           <span className="flex-none rounded-full border border-white/[0.16] px-2.5 py-[5px] text-xs text-[#D4D4D4]">

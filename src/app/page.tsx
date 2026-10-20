@@ -14,7 +14,8 @@ import { WhyUs } from "@/src/components/sections/WhyUs";
 export default function HomePage() {
   return (
     <>
-      <main className="flex flex-1 flex-col">
+      {/* tabIndex lets the "Saltar al contenido" link move focus here. */}
+      <main id="contenido" tabIndex={-1} className="flex flex-1 flex-col outline-none">
         <Hero />
         <HowItWorks />
         <LiveProposalSection />

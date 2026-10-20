@@ -11,6 +11,7 @@ export function ChipCore() {
         alt=""
         width={380}
         height={392}
+        sizes="70px"
         className="absolute top-1/2 left-1/2 h-auto w-[46%] -translate-x-1/2 -translate-y-1/2"
       />
     </div>
