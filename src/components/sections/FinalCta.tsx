@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Button } from "@/src/components/ui/Button";
+import { WhatsAppButton } from "@/src/components/ui/WhatsAppButton";
 import { Reveal } from "@/src/components/ui/Reveal";
 import { SITE } from "@/src/config/site";
 import { getSettings } from "@/src/lib/settings/settings";
@@ -31,12 +32,9 @@ export async function FinalCta() {
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Button href="/configurar">Configurar mi solución</Button>
-            <Button
-              href={getWhatsAppUrl(settings.whatsapp, SITE.whatsappMessage)}
-              variant="secondary"
-            >
+            <WhatsAppButton href={getWhatsAppUrl(settings.whatsapp, SITE.whatsappMessage)} variant="secondary">
               Escribir por WhatsApp
-            </Button>
+            </WhatsAppButton>
           </div>
         </div>
       </Reveal>

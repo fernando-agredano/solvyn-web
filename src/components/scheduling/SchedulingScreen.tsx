@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { ConfiguratorShell } from "@/src/components/configurator/ConfiguratorShell";
 import { useSettings } from "@/src/components/settings/SettingsProvider";
-import { Button } from "@/src/components/ui/Button";
+import { WhatsAppButton } from "@/src/components/ui/WhatsAppButton";
 import { CAL_LINK, CONFIRMATION_ROUTE, MEETING_DURATION_MINUTES } from "@/src/config/scheduling";
 import { SITE_URL } from "@/src/config/site";
 import { useCompletedFlowGuard } from "@/src/hooks/useCompletedFlowGuard";
@@ -69,7 +69,7 @@ function MeetingForm() {
             Escríbenos y agendamos la reunión por ahí. También puedes mandarnos un correo.
           </p>
           <div className="flex flex-wrap items-center gap-3">
-            <Button href={whatsAppUrl} onClick={() => track("whatsapp_clicked")}>Hablar por WhatsApp</Button>
+            <WhatsAppButton href={whatsAppUrl}>Hablar por WhatsApp</WhatsAppButton>
             <a href={`mailto:${email}`} className="flex min-h-11 items-center text-[15px] text-foreground underline">
               {email}
             </a>
@@ -85,14 +85,9 @@ function MeetingForm() {
             onReady={handleReady}
             onUnavailable={handleUnavailable}
           />
-          <Button
-            variant="secondary"
-            href={whatsAppUrl}
-            onClick={() => track("whatsapp_clicked")}
-            className="self-start"
-          >
+          <WhatsAppButton variant="secondary" href={whatsAppUrl} className="self-start">
             Prefiero hablar por WhatsApp
-          </Button>
+          </WhatsAppButton>
         </>
       )}
     </>
