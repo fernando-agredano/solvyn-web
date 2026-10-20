@@ -99,6 +99,6 @@ El catálogo de metas, módulos, integraciones y extras está en la función `ca
 - `npm run lint`: revisión de código
 
 ## Estado del proyecto
-Fase actual: 6.1 (plan de seguridad del panel)
+Fase actual: 6.3 (pantallas de leads)
 
 Esta línea indica el **siguiente paso pendiente** del proyecto. Se actualiza al final de cada prompt de implementación, dentro de su mismo commit. No la cambies por tu cuenta en otras circunstancias.

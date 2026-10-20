@@ -16,6 +16,8 @@ const serverEnvSchema = z.object({
   RESEND_API_KEY: z.string().min(1).optional(),
   OWNER_EMAIL: z.email().optional(),
   EMAIL_FROM: z.string().min(1).optional(),
+  // The only address allowed into /admin. Without it nobody can sign in.
+  ADMIN_EMAIL: z.email().optional(),
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
@@ -49,6 +51,9 @@ export function getAiConfigWarnings(env: ServerEnv): string[] {
   }
   return warnings;
 }
+
+export const getAdminConfigWarnings = (env: ServerEnv): string[] =>
+  env.ADMIN_EMAIL ? [] : ["Admin panel is locked: set ADMIN_EMAIL"];
 
 export function getEmailConfigWarnings(env: ServerEnv): string[] {
   const missing = (["RESEND_API_KEY", "OWNER_EMAIL", "EMAIL_FROM"] as const).filter((name) => !env[name]);

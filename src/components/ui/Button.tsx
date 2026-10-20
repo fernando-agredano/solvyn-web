@@ -27,14 +27,24 @@ type ButtonProps = {
   size?: ButtonSize;
   className?: string;
 } & (
-  | { href: string; onClick?: never; disabled?: never }
-  | { href?: never; onClick: () => void; disabled?: boolean }
+  | { href: string; onClick?: never; type?: never; disabled?: never }
+  | { href?: never; onClick: () => void; type?: "button"; disabled?: boolean }
+  | { href?: never; onClick?: never; type: "submit"; disabled?: boolean }
 );
 
 const DISABLED_CLASSES =
   "disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:translate-y-0 disabled:hover:shadow-none";
 
-export function Button({ href, onClick, disabled, children, variant = "primary", size = "lg", className = "" }: ButtonProps) {
+export function Button({
+  href,
+  onClick,
+  type = "button",
+  disabled,
+  children,
+  variant = "primary",
+  size = "lg",
+  className = "",
+}: ButtonProps) {
   const classes = `${BASE_CLASSES} ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]} ${className}`;
 
   if (href !== undefined) {
@@ -45,7 +55,12 @@ export function Button({ href, onClick, disabled, children, variant = "primary",
     );
   }
   return (
-    <button type="button" onClick={onClick} disabled={disabled} className={`${classes} ${DISABLED_CLASSES} cursor-pointer`}>
+    <button
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      className={`${classes} ${DISABLED_CLASSES} cursor-pointer`}
+    >
       {children}
     </button>
   );
