@@ -79,6 +79,24 @@
   animation: travel 3.6s linear infinite;
 }
 
+/* Light running down the process timeline. */
+@keyframes procrun {
+  0% {
+    top: 20px;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: calc(100% - 60px);
+    opacity: 0;
+  }
+}
+
 /* Width axis of the variable font. Usage: <h1 className="wide">, <h2 className="semi">. */
 @utility wide {
   font-stretch: 125%;
