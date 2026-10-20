@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { SITE } from "@/src/config/site";
+import { getSettings } from "@/src/lib/settings/settings";
 
-export function SiteFooter() {
+export async function SiteFooter() {
+  const settings = await getSettings();
   return (
     <footer className="border-t border-border-subtle">
       <div className="mx-auto flex max-w-[1240px] flex-wrap items-center justify-between gap-6 px-6 py-10 max-[860px]:flex-col max-[860px]:items-start">
@@ -15,8 +17,8 @@ export function SiteFooter() {
           className="h-6 w-auto opacity-[0.85]"
         />
         <div className="flex flex-wrap gap-7 text-sm text-label">
-          <span>{SITE.email}</span>
-          <span>{SITE.whatsapp}</span>
+          <span>{settings.email}</span>
+          <span>{settings.whatsapp}</span>
           <Link href="/privacidad" className="inline-flex min-h-11 items-center">
             Aviso de privacidad
           </Link>

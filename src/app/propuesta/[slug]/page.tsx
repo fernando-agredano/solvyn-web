@@ -15,8 +15,8 @@ async function SharedProposal({ params }: { params: Promise<{ slug: string }> })
   const { slug } = await params;
   const proposal = await getProposalBySlug(slug);
   if (!proposal) notFound();
-  const { answers, copy, provider } = proposal;
-  return <SavedProposalView proposal={{ answers, copy, provider }} />;
+  const { answers, copy, provider, hourlyRateMxn } = proposal;
+  return <SavedProposalView proposal={{ answers, copy, provider, hourlyRateMxn }} />;
 }
 
 export default function SharedProposalPage({ params }: { params: Promise<{ slug: string }> }) {

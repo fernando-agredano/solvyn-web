@@ -37,6 +37,12 @@ async function PanelFrame({ children }: { children: ReactNode }) {
             >
               Leads
             </Link>
+            <Link
+              href="/admin/ajustes"
+              className="text-text-secondary no-underline hover:text-heading"
+            >
+              Ajustes
+            </Link>
           </nav>
           <div className="flex items-center gap-4">
             <span className="text-sm text-label">{user.email}</span>

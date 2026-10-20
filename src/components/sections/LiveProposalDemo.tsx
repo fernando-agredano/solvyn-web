@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { DEFAULT_HOURLY_RATE_MXN, PROJECT_PHASES } from "@/src/config/pricing";
+import { useSettings } from "@/src/components/settings/SettingsProvider";
+import { PROJECT_PHASES } from "@/src/config/pricing";
 import { DEMO_MODULES, DEMO_PROJECT_NAME } from "@/src/config/demo-proposal";
 import { track } from "@/src/lib/analytics";
 import {
@@ -19,6 +20,7 @@ function initialOptionalIds() {
 
 export function LiveProposalDemo() {
   const [enabledOptionalIds, setEnabledOptionalIds] = useState(initialOptionalIds);
+  const { hourlyRateMxn } = useSettings();
 
   const toggleModule = (id: string) => {
     track("module_toggled", { moduleId: id });
@@ -38,7 +40,7 @@ export function LiveProposalDemo() {
   const selectedHours = enabledModules.reduce((total, module) => total + module.hours, 0);
   const totalHours = DEMO_MODULES.reduce((total, module) => total + module.hours, 0);
 
-  const investment = estimateInvestmentRange(selectedHours, DEFAULT_HOURLY_RATE_MXN);
+  const investment = estimateInvestmentRange(selectedHours, hourlyRateMxn);
   const weeks = estimateWeekRange(selectedHours);
 
   return (

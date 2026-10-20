@@ -3,6 +3,7 @@ import { PRIVACY_VERSION, SITE_URL } from "@/src/config/site";
 import { createDefaultNotifier, type Notifier } from "@/src/lib/email/notifications";
 import { createSupabaseLeadStorage, type LeadStorage } from "@/src/lib/leads/repository";
 import { buildProposalFacts } from "@/src/lib/proposal";
+import { getSettings } from "@/src/lib/settings/settings";
 import { calculateLeadScore, getLeadLabel } from "@/src/lib/scoring";
 import { hashIdentifier, isOverLimit, normalizeEmail } from "./limits";
 import type { ProposalRequest } from "./request";
@@ -16,6 +17,7 @@ export interface CreateProposalDeps {
   notifier: Notifier;
   generateDraft: typeof generateProposalDraft;
   newSlug: () => string;
+  getHourlyRate: () => Promise<number>;
 }
 
 // Prices, hours and weeks come from the facts (pricing.ts); the draft only contributes text.
@@ -26,7 +28,8 @@ export async function createProposal(
 ): Promise<{ slug: string; source: ProposalDraft["source"] }> {
   const { answers, description, contact } = request;
   // The business name is not collected here, so the saved proposal and the AI input never contain it.
-  const facts = buildProposalFacts({ ...answers, business: "" });
+  const hourlyRateMxn = await deps.getHourlyRate();
+  const facts = buildProposalFacts({ ...answers, business: "" }, hourlyRateMxn);
   if (!facts) throw new Error("The answers do not produce any module");
 
   const hashes = { ipHash: hashIdentifier(clientIp), emailHash: hashIdentifier(normalizeEmail(contact.email)) };
@@ -54,6 +57,7 @@ export async function createProposal(
       meetingQuestions: draft.meetingQuestions,
       risks: draft.risks,
       provider: draft.provider,
+      hourlyRateMxn,
     },
     draft.source,
   );
@@ -115,4 +119,5 @@ export const defaultCreateProposalDeps = (storage: ProposalStorage): CreatePropo
   notifier: createDefaultNotifier(),
   generateDraft: generateProposalDraft,
   newSlug: generateSlug,
+  getHourlyRate: async () => (await getSettings()).hourlyRateMxn,
 });

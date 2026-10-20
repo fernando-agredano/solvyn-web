@@ -2,9 +2,11 @@ import Image from "next/image";
 import { Button } from "@/src/components/ui/Button";
 import { Reveal } from "@/src/components/ui/Reveal";
 import { SITE } from "@/src/config/site";
+import { getSettings } from "@/src/lib/settings/settings";
 import { getWhatsAppUrl } from "@/src/lib/whatsapp";
 
-export function FinalCta() {
+export async function FinalCta() {
+  const settings = await getSettings();
   return (
     <section id="contacto" className="relative overflow-hidden border-t border-border-subtle">
       <div
@@ -30,7 +32,7 @@ export function FinalCta() {
           <div className="flex flex-wrap justify-center gap-3">
             <Button href="/configurar">Configurar mi solución</Button>
             <Button
-              href={getWhatsAppUrl(SITE.whatsapp, SITE.whatsappMessage)}
+              href={getWhatsAppUrl(settings.whatsapp, SITE.whatsappMessage)}
               variant="secondary"
             >
               Escribir por WhatsApp

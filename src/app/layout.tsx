@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Archivo } from "next/font/google";
+import { SettingsProvider } from "@/src/components/settings/SettingsProvider";
 import { SITE, SITE_URL } from "@/src/config/site";
+import { getSettings } from "@/src/lib/settings/settings";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -48,7 +50,8 @@ const organizationJsonLd = {
   description: SITE.description,
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const settings = await getSettings();
   return (
     <html lang="es-MX" className={`${archivo.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
@@ -59,7 +62,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Saltar al contenido
         </a>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
-        {children}
+        <SettingsProvider settings={settings}>{children}</SettingsProvider>
       </body>
     </html>
   );

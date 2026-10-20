@@ -17,7 +17,7 @@ async function PrintableSavedProposal({ params }: { params: Promise<{ slug: stri
   if (!proposal) notFound();
 
   // The saved proposal has no business name, same as the shared page.
-  const facts = buildProposalFacts({ ...proposal.answers, business: "" });
+  const facts = buildProposalFacts({ ...proposal.answers, business: "" }, proposal.hourlyRateMxn);
   if (!facts) notFound();
 
   return (

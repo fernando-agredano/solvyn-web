@@ -1,10 +1,13 @@
 import { PLANS } from "@/src/config/plans";
 import { SITE } from "@/src/config/site";
+import { formatStartDate } from "@/src/lib/settings/model";
+import { getSettings } from "@/src/lib/settings/settings";
 import { Button } from "@/src/components/ui/Button";
 import { Reveal } from "@/src/components/ui/Reveal";
 import { SectionHeading } from "@/src/components/ui/SectionHeading";
 
-export function Pricing() {
+export async function Pricing() {
+  const settings = await getSettings();
   return (
     <section id="precios" className="border-t border-border-subtle">
       <div className="mx-auto max-w-[1240px] px-6 py-[120px]">
@@ -78,6 +81,15 @@ export function Pricing() {
             ))}
           </div>
         </Reveal>
+        {(settings.nextStartDate || settings.availabilityMessage) && (
+          <Reveal>
+            <p className="m-0 mt-10 text-center text-sm text-label">
+              {settings.nextStartDate && `Próximo inicio disponible: ${formatStartDate(settings.nextStartDate)}`}
+              {settings.nextStartDate && settings.availabilityMessage && " · "}
+              {settings.availabilityMessage}
+            </p>
+          </Reveal>
+        )}
       </div>
     </section>
   );

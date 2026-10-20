@@ -4,9 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { ConfiguratorShell } from "@/src/components/configurator/ConfiguratorShell";
+import { useSettings } from "@/src/components/settings/SettingsProvider";
 import { Button } from "@/src/components/ui/Button";
 import { CAL_LINK, CONFIRMATION_ROUTE, MEETING_DURATION_MINUTES } from "@/src/config/scheduling";
-import { SITE, SITE_URL } from "@/src/config/site";
+import { SITE_URL } from "@/src/config/site";
 import { useCompletedFlowGuard } from "@/src/hooks/useCompletedFlowGuard";
 import { track } from "@/src/lib/analytics";
 import { useConfiguratorStore } from "@/src/lib/configurator/store";
@@ -16,15 +17,17 @@ import { buildProposalWhatsAppMessage, getWhatsAppUrl } from "@/src/lib/whatsapp
 import { CalendarEmbed } from "./CalendarEmbed";
 
 function useWhatsAppUrl() {
+  const { whatsapp } = useSettings();
   const name = useConfiguratorStore((state) => state.contactName);
   const business = useConfiguratorStore((state) => state.business);
   const slug = getGeneratedProposalSlug(useConfiguratorStore.getState());
   const proposalUrl = slug ? `${SITE_URL}/propuesta/${slug}` : null;
-  return getWhatsAppUrl(SITE.whatsapp, buildProposalWhatsAppMessage({ name: name.trim(), business, proposalUrl }));
+  return getWhatsAppUrl(whatsapp, buildProposalWhatsAppMessage({ name: name.trim(), business, proposalUrl }));
 }
 
 // Mounted only after the answers are restored on the client: the prefilled name and email and the saved proposal link live in the browser.
 function MeetingForm() {
+  const { email } = useSettings();
   const router = useRouter();
   const setAnswer = useConfiguratorStore((state) => state.setAnswer);
   const contactName = useConfiguratorStore((state) => state.contactName);
@@ -67,8 +70,8 @@ function MeetingForm() {
           </p>
           <div className="flex flex-wrap items-center gap-3">
             <Button href={whatsAppUrl} onClick={() => track("whatsapp_clicked")}>Hablar por WhatsApp</Button>
-            <a href={`mailto:${SITE.email}`} className="flex min-h-11 items-center text-[15px] text-foreground underline">
-              {SITE.email}
+            <a href={`mailto:${email}`} className="flex min-h-11 items-center text-[15px] text-foreground underline">
+              {email}
             </a>
           </div>
         </div>

@@ -6,11 +6,12 @@ export const SITE = {
     "Software a medida para negocios en México. Configura tu solución y recibe una propuesta con módulos, fases e inversión.",
   legalName: "[TU NOMBRE COMPLETO O RAZÓN SOCIAL]",
   address: "[TU DOMICILIO]",
-  email: "[TU CORREO]",
-  whatsapp: "[TU WHATSAPP]",
   price: "[TU PRECIO]",
   whatsappMessage: "Hola, vi Solvyn Solutions y quisiera platicar sobre mi proyecto.",
 } as const;
+
+// Contact data lives in the settings table (/admin/ajustes). These are the fallback when it can't be read.
+export const CONTACT_PLACEHOLDERS = { email: "[TU CORREO]", whatsapp: "[TU WHATSAPP]" } as const;
 
 // Cambiar al dominio de producción antes de publicar.
 export const SITE_URL = "http://localhost:3000";

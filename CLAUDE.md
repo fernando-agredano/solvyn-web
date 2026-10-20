@@ -100,6 +100,6 @@ El catálogo de metas, módulos, integraciones y extras está en la función `ca
 - `npm run lint`: revisión de código
 
 ## Estado del proyecto
-Fase actual: 7.3 (revisión final)
+Fase actual: 7.1 (textos legales)
 
 Esta línea indica el **siguiente paso pendiente** del proyecto. Se actualiza al final de cada prompt de implementación, dentro de su mismo commit. No la cambies por tu cuenta en otras circunstancias.

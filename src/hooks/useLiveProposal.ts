@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { DEFAULT_HOURLY_RATE_MXN } from "@/src/config/pricing";
+import { useSettings } from "@/src/components/settings/SettingsProvider";
 import { useConfiguratorStore } from "@/src/lib/configurator/store";
 import { buildModules, type ModuleKind } from "@/src/lib/modules";
 import {
@@ -20,6 +20,7 @@ export interface LiveProposal {
 
 // What the live panel shows for the current answers; null until the visitor picks a goal.
 export function useLiveProposal(): LiveProposal | null {
+  const { hourlyRateMxn } = useSettings();
   const goals = useConfiguratorStore((state) => state.goals);
   const users = useConfiguratorStore((state) => state.users);
   const platform = useConfiguratorStore((state) => state.platform);
@@ -43,7 +44,7 @@ export function useLiveProposal(): LiveProposal | null {
       activeModules.map((module) => module.hours),
       size,
     );
-    const investment = estimateInvestmentRange(totalHours, DEFAULT_HOURLY_RATE_MXN);
+    const investment = estimateInvestmentRange(totalHours, hourlyRateMxn);
     const weeks = estimateWeekRange(totalHours);
     const multiplier = getSizeMultiplier(size);
 
@@ -53,5 +54,5 @@ export function useLiveProposal(): LiveProposal | null {
       duration: `${weeks.min}–${weeks.max} semanas`,
       complexity: getComplexity(totalHours),
     };
-  }, [goals, users, platform, integrations, size, disabledModules, enabledExtras]);
+  }, [goals, users, platform, integrations, size, disabledModules, enabledExtras, hourlyRateMxn]);
 }

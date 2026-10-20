@@ -2,13 +2,15 @@
 import type { Metadata } from "next";
 import { LegalPage, LegalSection } from "@/src/components/legal/LegalPage";
 import { PRIVACY_VERSION, SITE } from "@/src/config/site";
+import { getSettings } from "@/src/lib/settings/settings";
 
 export const metadata: Metadata = {
   title: "Aviso de privacidad",
   description: `Aviso de privacidad de ${SITE.name}, conforme a la LFPDPPP.`,
 };
 
-export default function PrivacidadPage() {
+export default async function PrivacidadPage() {
+  const settings = await getSettings();
   return (
     <LegalPage
       title="Aviso de privacidad"
@@ -18,7 +20,7 @@ export default function PrivacidadPage() {
         <p>
           {SITE.legalName}, con nombre comercial {SITE.name}, es responsable del
           tratamiento de tus datos personales. Nuestro domicilio es{" "}
-          {SITE.address}. Puedes contactarnos en {SITE.email}.
+          {SITE.address}. Puedes contactarnos en {settings.email}.
         </p>
       </LegalSection>
 
@@ -56,7 +58,7 @@ export default function PrivacidadPage() {
         </p>
         <p>
           Si no deseas que tus datos se usen para finalidades secundarias,
-          escríbenos a {SITE.email} indicándolo. Esto no afectará la propuesta
+          escríbenos a {settings.email} indicándolo. Esto no afectará la propuesta
           ni la atención que recibas.
         </p>
       </LegalSection>
@@ -104,7 +106,7 @@ export default function PrivacidadPage() {
           Tienes derecho a acceder a tus datos, rectificarlos, cancelarlos u
           oponerte a su tratamiento (derechos ARCO), y a revocar el
           consentimiento que nos diste. Para ejercerlos, envía un correo a{" "}
-          {SITE.email} con:
+          {settings.email} con:
         </p>
         <ul className="list-disc pl-5">
           <li>Tu nombre y el correo con el que nos contactaste.</li>

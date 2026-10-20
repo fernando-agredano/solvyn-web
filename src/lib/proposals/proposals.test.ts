@@ -5,6 +5,7 @@ import { createProposal, type CreateProposalDeps } from "./create-proposal";
 import type { Notifier } from "@/src/lib/email/notifications";
 import type { LeadStorage, NewLead } from "@/src/lib/leads/repository";
 import { PRIVACY_VERSION } from "@/src/config/site";
+import { estimateInvestmentRange } from "@/src/lib/pricing";
 import { generateSlug, SLUG_PATTERN, type GenerationLogEntry, type ProposalStorage, type StoredProposalPayload } from "./repository";
 import { MAX_DESCRIPTION_LENGTH, proposalRequestSchema } from "./request";
 
@@ -127,10 +128,17 @@ describe("createProposal", () => {
       },
     };
     deps = { storage, leadStorage: { saveLead: (lead) => saveLead(lead), scheduleMeeting: async () => null, markAccepted: async () => undefined },
-      notifier: notifier as Notifier, generateDraft: generateDraft as unknown as CreateProposalDeps["generateDraft"], newSlug: () => "fixed-slug" };
+      notifier: notifier as Notifier, generateDraft: generateDraft as unknown as CreateProposalDeps["generateDraft"], newSlug: () => "fixed-slug", getHourlyRate: async () => 650 };
   });
 
   const create = () => createProposal(proposalRequestSchema.parse(validBody), "203.0.113.7", deps);
+
+  it("prices the proposal with the rate in force and keeps that rate in the payload", async () => {
+    await create();
+    const { facts, hourlyRateMxn } = saved[0].payload;
+    expect(hourlyRateMxn).toBe(650);
+    expect(facts.investment).toEqual(estimateInvestmentRange(facts.totalHours, 650));
+  });
 
   it("saves an anonymized payload and logs hashes, never raw identifiers", async () => {
     const result = await create();

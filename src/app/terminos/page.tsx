@@ -2,13 +2,15 @@
 import type { Metadata } from "next";
 import { LegalPage, LegalSection } from "@/src/components/legal/LegalPage";
 import { SITE } from "@/src/config/site";
+import { getSettings } from "@/src/lib/settings/settings";
 
 export const metadata: Metadata = {
   title: "Términos y condiciones",
   description: `Términos y condiciones de uso de ${SITE.name} y de sus propuestas preliminares.`,
 };
 
-export default function TerminosPage() {
+export default async function TerminosPage() {
+  const settings = await getSettings();
   return (
     <LegalPage
       title="Términos y condiciones"
@@ -89,7 +91,7 @@ export default function TerminosPage() {
         <p>
           Podemos actualizar estos términos. La versión vigente es la publicada
           en esta página. Para dudas sobre estos términos, escríbenos a{" "}
-          {SITE.email} o por WhatsApp al {SITE.whatsapp}.
+          {settings.email} o por WhatsApp al {settings.whatsapp}.
         </p>
       </LegalSection>
     </LegalPage>

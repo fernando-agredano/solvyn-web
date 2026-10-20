@@ -124,7 +124,11 @@ function buildTechnologies(input: ProposalInput, includesMobile: boolean): TechI
   return technologies;
 }
 
-export function buildProposalFacts(input: ProposalInput): ProposalFacts | null {
+// Proposals saved before the rate was configurable pass no rate: the default one is the rate they were made with.
+export function buildProposalFacts(
+  input: ProposalInput,
+  hourlyRateMxn = DEFAULT_HOURLY_RATE_MXN,
+): ProposalFacts | null {
   const modules = buildModules(input);
   if (modules.length === 0) return null;
 
@@ -162,7 +166,7 @@ export function buildProposalFacts(input: ProposalInput): ProposalFacts | null {
     })),
     activeModuleCount: activeModules.length,
     totalHours,
-    investment: estimateInvestmentRange(totalHours, DEFAULT_HOURLY_RATE_MXN),
+    investment: estimateInvestmentRange(totalHours, hourlyRateMxn),
     weeks: estimateWeekRange(totalHours),
     complexity,
     complexityLevel: COMPLEXITY_LEVELS[complexity],

@@ -10,7 +10,7 @@ import type { StoredProposalPayload } from "@/src/lib/proposals/repository";
 import { resolveProposalCopy } from "@/src/lib/templates";
 import { ProposalView } from "./ProposalView";
 
-type SavedProposal = Pick<StoredProposalPayload, "answers" | "copy" | "provider">;
+type SavedProposal = Pick<StoredProposalPayload, "answers" | "copy" | "provider" | "hourlyRateMxn">;
 
 // Texts come from the saved proposal; modules, hours and prices are recalculated here from pricing.ts,
 // so the optional switches never call the AI again.
@@ -24,8 +24,8 @@ export function SavedProposalView({ proposal }: { proposal: SavedProposal }) {
   const business = useConfiguratorStore((state) => state.business);
 
   const facts = useMemo(
-    () => buildProposalFacts({ ...proposal.answers, ...flags, business }),
-    [proposal.answers, flags, business],
+    () => buildProposalFacts({ ...proposal.answers, ...flags, business }, proposal.hourlyRateMxn),
+    [proposal.answers, proposal.hourlyRateMxn, flags, business],
   );
   if (!facts) return null;
 

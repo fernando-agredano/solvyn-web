@@ -16,6 +16,8 @@ export interface StoredProposalPayload {
   meetingQuestions: string[];
   risks: string[];
   provider: ProposalDraft["provider"];
+  // Missing in proposals saved before the rate was configurable: those were priced at the default rate.
+  hourlyRateMxn?: number;
 }
 
 export interface GenerationLogEntry {
