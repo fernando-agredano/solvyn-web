@@ -25,12 +25,12 @@ export async function POST(request: Request) {
   if (!parsed.success) return error("invalid_request", 400);
 
   try {
-    const { slug } = await createProposal(
+    const { slug, source } = await createProposal(
       parsed.data,
       getClientIp(request.headers),
       defaultCreateProposalDeps(createSupabaseStorage()),
     );
-    return NextResponse.json({ slug });
+    return NextResponse.json({ slug, source });
   } catch (cause) {
     // Never log the request or the environment: only the kind of failure.
     console.error(`[proposal] ${cause instanceof Error ? cause.message : "unexpected failure"}`);

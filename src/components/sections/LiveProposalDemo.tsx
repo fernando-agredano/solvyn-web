@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { DEFAULT_HOURLY_RATE_MXN, PROJECT_PHASES } from "@/src/config/pricing";
 import { DEMO_MODULES, DEMO_PROJECT_NAME } from "@/src/config/demo-proposal";
+import { track } from "@/src/lib/analytics";
 import {
   estimateInvestmentRange,
   estimatePhaseWeeks,
@@ -20,6 +21,7 @@ export function LiveProposalDemo() {
   const [enabledOptionalIds, setEnabledOptionalIds] = useState(initialOptionalIds);
 
   const toggleModule = (id: string) => {
+    track("module_toggled", { moduleId: id });
     setEnabledOptionalIds((current) => {
       const next = new Set(current);
       if (next.has(id)) next.delete(id);

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { track } from "@/src/lib/analytics";
 
 // Opens the browser print dialog once fonts and images are ready, so the logo and text are in the PDF.
 export function PrintControls({ proposalPath }: { proposalPath: string }) {
@@ -21,7 +22,10 @@ export function PrintControls({ proposalPath }: { proposalPath: string }) {
       </Link>
       <button
         type="button"
-        onClick={() => window.print()}
+        onClick={() => {
+          track("pdf_downloaded");
+          window.print();
+        }}
         className="min-h-11 cursor-pointer rounded-[10px] bg-black px-5 font-semibold text-white"
       >
         Imprimir o guardar como PDF

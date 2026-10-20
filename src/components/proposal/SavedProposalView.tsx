@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useConfiguratorRestore } from "@/src/hooks/useConfiguratorRestore";
+import { track } from "@/src/lib/analytics";
 import { useConfiguratorStore } from "@/src/lib/configurator/store";
 import { toggleModuleFlags } from "@/src/lib/modules";
 import { buildProposalFacts } from "@/src/lib/proposal";
@@ -34,7 +35,10 @@ export function SavedProposalView({ proposal }: { proposal: SavedProposal }) {
     <ProposalView
       facts={facts}
       copy={copy}
-      onToggleModule={(module) => setFlags((current) => ({ ...current, ...toggleModuleFlags(current, module) }))}
+      onToggleModule={(module) => {
+        track("module_toggled", { moduleId: module.id });
+        setFlags((current) => ({ ...current, ...toggleModuleFlags(current, module) }));
+      }}
     />
   );
 }

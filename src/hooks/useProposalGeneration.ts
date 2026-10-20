@@ -1,6 +1,7 @@
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { GENERATION_STEPS, GENERATION_STEP_MS } from "@/src/config/proposal";
+import { track } from "@/src/lib/analytics";
 import { useConfiguratorStore } from "@/src/lib/configurator/store";
 import {
   buildProposalRequest,
@@ -38,8 +39,9 @@ export function useProposalGeneration(isEnabled: boolean) {
       const signature = getRequestSignature(body);
       const reusedSlug = readGeneratedSlug(signature);
       if (reusedSlug) return { slug: reusedSlug, isReused: true };
-      const slug = await requestProposalSlug(body);
+      const { slug, source } = await requestProposalSlug(body);
       rememberGeneratedSlug(signature, slug);
+      track("proposal_generated", { source });
       return { slug, isReused: false };
     };
     generate().then(setResult, () => setHasFailed(true));

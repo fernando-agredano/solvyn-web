@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { CONFIGURATOR_STEPS, type ConfiguratorStep } from "@/src/config/configurator-options";
 import { useConfiguratorRestore } from "@/src/hooks/useConfiguratorRestore";
+import { track } from "@/src/lib/analytics";
 import { useConfiguratorStore } from "@/src/lib/configurator/store";
 import { getProgressPercent, isStepValid } from "@/src/lib/configurator/validation";
 import { ConfiguratorShell } from "./ConfiguratorShell";
@@ -34,6 +35,13 @@ export function Configurator() {
   // Focus management waits for the restore so a restored step doesn't steal focus.
   const isRestored = useConfiguratorRestore();
 
+  const hasTrackedStart = useRef(false);
+  useEffect(() => {
+    if (hasTrackedStart.current) return;
+    hasTrackedStart.current = true;
+    track("configurator_started");
+  }, []);
+
   const previousStep = useRef<ConfiguratorStep | null>(null);
   useEffect(() => {
     if (!isRestored) return;
@@ -59,7 +67,11 @@ export function Configurator() {
             canContinue={isCurrentStepValid}
             isLastStep={isLastStep}
             onBack={goBack}
-            onContinue={() => (isLastStep ? router.push(PROPOSAL_ROUTE) : goNext())}
+            onContinue={() => {
+              track("step_completed", { step: CONFIGURATOR_STEPS.indexOf(step) + 1 });
+              if (isLastStep) router.push(PROPOSAL_ROUTE);
+              else goNext();
+            }}
           />
         </div>
         <LiveProposalPanel />

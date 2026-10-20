@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/src/components/ui/Button";
+import { track } from "@/src/lib/analytics";
 
 interface ProposalHeaderProps {
   businessName: string;
@@ -22,6 +23,7 @@ export function ProposalHeader({ businessName, title, summary }: ProposalHeaderP
   const copyShareLink = async () => {
     try {
       await navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}`);
+      track("proposal_shared");
       setNotice("Enlace copiado");
     } catch {
       setNotice("No pudimos copiar el enlace. Cópialo desde la barra del navegador.");

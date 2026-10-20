@@ -27,7 +27,7 @@ type ButtonProps = {
   size?: ButtonSize;
   className?: string;
 } & (
-  | { href: string; onClick?: never; type?: never; disabled?: never }
+  | { href: string; onClick?: () => void; type?: never; disabled?: never }
   | { href?: never; onClick: () => void; type?: "button"; disabled?: boolean }
   | { href?: never; onClick?: never; type: "submit"; disabled?: boolean }
 );
@@ -49,7 +49,7 @@ export function Button({
 
   if (href !== undefined) {
     return (
-      <Link href={href} className={classes}>
+      <Link href={href} onClick={onClick} className={classes}>
         {children}
       </Link>
     );

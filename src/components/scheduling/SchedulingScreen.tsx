@@ -8,6 +8,7 @@ import { Button } from "@/src/components/ui/Button";
 import { CAL_LINK, CONFIRMATION_ROUTE, MEETING_DURATION_MINUTES } from "@/src/config/scheduling";
 import { SITE, SITE_URL } from "@/src/config/site";
 import { useCompletedFlowGuard } from "@/src/hooks/useCompletedFlowGuard";
+import { track } from "@/src/lib/analytics";
 import { useConfiguratorStore } from "@/src/lib/configurator/store";
 import { getGeneratedProposalSlug, notifyMeetingBooked } from "@/src/lib/meetings/client";
 import { getMeetingParts } from "@/src/lib/scheduling";
@@ -37,6 +38,7 @@ function MeetingForm() {
       const { date, time } = getMeetingParts(new Date(startTime));
       setAnswer("meetingDate", date);
       setAnswer("meetingTime", time);
+      track("meeting_booked");
       void notifyMeetingBooked(useConfiguratorStore.getState(), startTime);
       router.push(CONFIRMATION_ROUTE);
     },
@@ -64,7 +66,7 @@ function MeetingForm() {
             Escríbenos y agendamos la reunión por ahí. También puedes mandarnos un correo.
           </p>
           <div className="flex flex-wrap items-center gap-3">
-            <Button href={whatsAppUrl}>Hablar por WhatsApp</Button>
+            <Button href={whatsAppUrl} onClick={() => track("whatsapp_clicked")}>Hablar por WhatsApp</Button>
             <a href={`mailto:${SITE.email}`} className="flex min-h-11 items-center text-[15px] text-foreground underline">
               {SITE.email}
             </a>
@@ -80,7 +82,12 @@ function MeetingForm() {
             onReady={handleReady}
             onUnavailable={handleUnavailable}
           />
-          <Button variant="secondary" href={whatsAppUrl} className="self-start">
+          <Button
+            variant="secondary"
+            href={whatsAppUrl}
+            onClick={() => track("whatsapp_clicked")}
+            className="self-start"
+          >
             Prefiero hablar por WhatsApp
           </Button>
         </>

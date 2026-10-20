@@ -39,7 +39,9 @@ export function buildProposalRequest(answers: ConfiguratorAnswers): ProposalRequ
 // What identifies a proposal for reuse: the same answers must not ask the AI again. The email is not part of it.
 export const getRequestSignature = ({ answers, description }: ProposalRequestBody) => JSON.stringify({ answers, description });
 
-export async function requestProposalSlug(body: ProposalRequestBody): Promise<string> {
+export async function requestProposalSlug(
+  body: ProposalRequestBody,
+): Promise<{ slug: string; source: "ai" | "rules" }> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), PROPOSAL_REQUEST_TIMEOUT_MS);
   try {
@@ -51,8 +53,11 @@ export async function requestProposalSlug(body: ProposalRequestBody): Promise<st
     });
     const data: unknown = await response.json().catch(() => null);
     const slug = typeof data === "object" && data !== null && "slug" in data ? data.slug : null;
-    if (!response.ok || typeof slug !== "string") throw new Error(`Proposal request failed (${response.status})`);
-    return slug;
+    const source = typeof data === "object" && data !== null && "source" in data ? data.source : null;
+    if (!response.ok || typeof slug !== "string" || (source !== "ai" && source !== "rules")) {
+      throw new Error(`Proposal request failed (${response.status})`);
+    }
+    return { slug, source };
   } finally {
     clearTimeout(timer);
   }

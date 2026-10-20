@@ -82,6 +82,7 @@ El catálogo de metas, módulos, integraciones y extras está en la función `ca
 - Cumplir con la LFPDPPP: aviso de privacidad visible, consentimiento registrado (fecha y versión del aviso) antes de guardar datos personales.
 - Las propuestas compartibles usan identificadores largos e imposibles de adivinar y llevan `noindex`.
 - Las tablas con datos de contactos usan Row Level Security; solo el dueño autenticado puede leerlas.
+- Analítica del embudo: `track()` en `src/lib/analytics.ts` solo escribe en consola en desarrollo y no envía nada. Sin cookies ni identificadores, así que no hay banner. La analítica real se conectará al desplegar; al hacerlo, actualizar el aviso de privacidad y `PRIVACY_VERSION`.
 
 ## Cómo trabajar (para ahorrar tokens y evitar errores)
 - Trabaja **una fase a la vez**. La fase actual está al final de este archivo.
@@ -99,6 +100,6 @@ El catálogo de metas, módulos, integraciones y extras está en la función `ca
 - `npm run lint`: revisión de código
 
 ## Estado del proyecto
-Fase actual: 7.2 (analítica del embudo)
+Fase actual: 7.3 (revisión final)
 
 Esta línea indica el **siguiente paso pendiente** del proyecto. Se actualiza al final de cada prompt de implementación, dentro de su mismo commit. No la cambies por tu cuenta en otras circunstancias.
