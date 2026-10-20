@@ -19,6 +19,7 @@ const answers: StoredProposalPayload["answers"] = {
   size: "s1",
   industry: "otro",
   urgency: "q",
+  budget: "b2",
 };
 const facts = buildProposalFacts({ ...answers, business: "" })!;
 

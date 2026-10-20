@@ -28,7 +28,7 @@ export interface GenerationLogEntry {
 export interface ProposalStorage {
   countRecentGenerations(hashes: { ipHash: string; emailHash: string }): Promise<{ byIp: number; byEmail: number }>;
   logGeneration(entry: GenerationLogEntry): Promise<void>;
-  saveProposal(slug: string, payload: StoredProposalPayload, source: ProposalDraft["source"]): Promise<void>;
+  saveProposal(slug: string, payload: StoredProposalPayload, source: ProposalDraft["source"]): Promise<{ id: string }>;
 }
 
 const SLUG_BYTES = 16;
@@ -63,8 +63,9 @@ export function createSupabaseStorage(): ProposalStorage {
       if (error) throw new Error(`generation_log insert failed: ${error.code ?? "unknown"}`);
     },
     async saveProposal(slug, payload, source) {
-      const { error } = await supabase.from("proposals").insert({ slug, payload, source });
+      const { data, error } = await supabase.from("proposals").insert({ slug, payload, source }).select("id").single();
       if (error) throw new Error(`proposals insert failed: ${error.code ?? "unknown"}`);
+      return { id: data.id as string };
     },
   };
 }

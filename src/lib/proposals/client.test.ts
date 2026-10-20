@@ -16,16 +16,18 @@ const answers: ConfiguratorAnswers = {
   contactName: "Ana Pérez",
   contactEmail: " ana@ejemplo.com ",
   contactPhone: "5512345678",
+  budget: "b3",
+  consent: true,
 };
 
 describe("buildProposalRequest", () => {
-  it("produces a body the API accepts, with only the email as personal data", () => {
+  it("produces a body the API accepts, keeping personal data in contact and the business name out", () => {
     const body = buildProposalRequest(answers);
 
     expect(proposalRequestSchema.safeParse(body).success).toBe(true);
-    expect(body?.contact).toEqual({ email: "ana@ejemplo.com" });
-    const sent = JSON.stringify(body);
-    for (const value of ["Pastelería", "Ana Pérez", "5512345678"]) expect(sent).not.toContain(value);
+    expect(body?.contact).toEqual({ name: "Ana Pérez", email: "ana@ejemplo.com", phone: "5512345678", consent: true });
+    expect(JSON.stringify(body?.answers)).not.toMatch(/Ana|5512345678/);
+    expect(JSON.stringify(body)).not.toContain("Pastelería");
   });
 
   it("sends the free description only when the visitor chose the other goal", () => {
@@ -33,8 +35,9 @@ describe("buildProposalRequest", () => {
     expect(buildProposalRequest({ ...answers, goals: ["vender"] })?.description).toBe("");
   });
 
-  it("returns null without a team size", () => {
+  it("returns null without a team size or without consent", () => {
     expect(buildProposalRequest({ ...answers, size: null })).toBeNull();
+    expect(buildProposalRequest({ ...answers, consent: false })).toBeNull();
   });
 
   it("ignores the email in the signature so the same answers reuse the generated proposal", () => {

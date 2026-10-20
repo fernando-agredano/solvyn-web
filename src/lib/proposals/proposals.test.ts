@@ -2,6 +2,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { ProposalDraft } from "@/src/lib/ai/generate-proposal-draft";
 import { parseServerEnv } from "@/src/lib/env";
 import { createProposal, type CreateProposalDeps } from "./create-proposal";
+import type { LeadStorage, NewLead } from "@/src/lib/leads/repository";
+import { PRIVACY_VERSION } from "@/src/config/site";
 import { generateSlug, SLUG_PATTERN, type GenerationLogEntry, type ProposalStorage, type StoredProposalPayload } from "./repository";
 import { MAX_DESCRIPTION_LENGTH, proposalRequestSchema } from "./request";
 
@@ -23,16 +25,23 @@ const validBody = {
     size: "s2",
     industry: "otro",
     urgency: "q",
+    budget: "b3",
   },
   description: "Vendo pasteles",
-  contact: { email: "ana@ejemplo.com", name: "Ana", phone: "5512345678" },
+  contact: { email: "ana@ejemplo.com", name: "Ana", phone: "5512345678", consent: true },
 };
 
 describe("request validation", () => {
-  it("accepts a valid body and drops personal data other than the email", () => {
+  it("accepts a valid body and keeps personal data out of the answers", () => {
     const parsed = proposalRequestSchema.parse(validBody);
-    expect(parsed.contact).toEqual({ email: "ana@ejemplo.com" });
+    expect(parsed.contact).toEqual(validBody.contact);
     expect(JSON.stringify(parsed.answers)).not.toContain("Ana");
+  });
+
+  it("requires consent and a name", () => {
+    expect(proposalRequestSchema.safeParse({ ...validBody, contact: { ...validBody.contact, consent: false } }).success).toBe(false);
+    expect(proposalRequestSchema.safeParse({ ...validBody, contact: { email: "ana@ejemplo.com" } }).success).toBe(false);
+    expect(proposalRequestSchema.safeParse({ ...validBody, contact: { ...validBody.contact, name: " " } }).success).toBe(false);
   });
 
   it("cleans control characters from the description", () => {
@@ -87,6 +96,8 @@ describe("createProposal", () => {
 
   let saved: { slug: string; payload: StoredProposalPayload; source: string }[];
   let logged: GenerationLogEntry[];
+  let leads: NewLead[];
+  let saveLead: LeadStorage["saveLead"];
   let counts: { byIp: number; byEmail: number } | Error;
   let generateDraft: ReturnType<typeof vi.fn>;
   let deps: CreateProposalDeps;
@@ -98,6 +109,8 @@ describe("createProposal", () => {
     vi.stubEnv("SUPABASE_SERVICE_ROLE_KEY", ENV.SUPABASE_SERVICE_ROLE_KEY);
     saved = [];
     logged = [];
+    leads = [];
+    saveLead = async (lead) => void leads.push(lead);
     counts = { byIp: 0, byEmail: 0 };
     generateDraft = vi.fn(async ({ allowAi }: { allowAi?: boolean }) =>
       allowAi === false ? aiDraft({ provider: "rules", source: "rules" }) : aiDraft(),
@@ -105,9 +118,12 @@ describe("createProposal", () => {
     const storage: ProposalStorage = {
       countRecentGenerations: async () => (counts instanceof Error ? Promise.reject(counts) : counts),
       logGeneration: async (entry) => void logged.push(entry),
-      saveProposal: async (slug, payload, source) => void saved.push({ slug, payload, source }),
+      saveProposal: async (slug, payload, source) => {
+        saved.push({ slug, payload, source });
+        return { id: "proposal-uuid" };
+      },
     };
-    deps = { storage, generateDraft: generateDraft as unknown as CreateProposalDeps["generateDraft"], newSlug: () => "fixed-slug" };
+    deps = { storage, leadStorage: { saveLead: (lead) => saveLead(lead) }, generateDraft: generateDraft as unknown as CreateProposalDeps["generateDraft"], newSlug: () => "fixed-slug" };
   });
 
   const create = () => createProposal(proposalRequestSchema.parse(validBody), "203.0.113.7", deps);
@@ -120,6 +136,31 @@ describe("createProposal", () => {
     for (const secret of ["ana@ejemplo.com", "203.0.113.7", "Ana", "5512345678"]) expect(everything).not.toContain(secret);
     expect(logged).toEqual([{ ipHash: expect.stringMatching(/^[0-9a-f]{64}$/), emailHash: expect.stringMatching(/^[0-9a-f]{64}$/), provider: "gemini", ok: true }]);
     expect(saved[0].payload.facts.investment.min).toBeGreaterThan(0);
+  });
+
+  it("saves one lead linked to the proposal, with consent date, notice version and score", async () => {
+    await create();
+
+    expect(leads).toHaveLength(1);
+    expect(leads[0]).toMatchObject({
+      proposalId: "proposal-uuid",
+      name: "Ana",
+      email: "ana@ejemplo.com",
+      whatsapp: "5512345678",
+      consentVersion: PRIVACY_VERSION,
+      answers: { budget: "b3", urgency: "q", size: "s2", users: ["clients"] },
+    });
+    expect(leads[0].consentAt).toBeInstanceOf(Date);
+    // budget 30 + urgency 15 + clients 10 + integration 5 + 8 or more modules 10.
+    expect(saved[0].payload.facts.activeModuleCount).toBeGreaterThanOrEqual(8);
+    expect(leads[0].score).toBe(70);
+    expect(leads[0].label).toBe("caliente");
+  });
+
+  it("still returns the proposal when the lead cannot be saved", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => undefined);
+    saveLead = async () => Promise.reject(new Error("leads insert failed: 500"));
+    await expect(create()).resolves.toMatchObject({ slug: "fixed-slug" });
   });
 
   it("uses the rules draft without calling the AI when the IP limit is reached", async () => {

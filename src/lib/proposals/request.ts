@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { EXTRAS, GOALS, INDUSTRIES, INTEGRATIONS } from "@/src/config/catalog";
-import { MAX_GOALS, PLATFORM_OPTIONS, URGENCY_OPTIONS, USER_OPTIONS } from "@/src/config/configurator-options";
+import { BUDGET_OPTIONS, MAX_GOALS, PLATFORM_OPTIONS, URGENCY_OPTIONS, USER_OPTIONS } from "@/src/config/configurator-options";
 import { TEAM_SIZES } from "@/src/config/pricing";
 
 export const MAX_BODY_BYTES = 8 * 1024;
@@ -29,11 +29,17 @@ export const proposalRequestSchema = z.object({
     size: z.enum(ids(TEAM_SIZES)),
     industry: z.enum(ids(INDUSTRIES)).nullable(),
     urgency: z.enum(ids(URGENCY_OPTIONS)).nullable(),
+    budget: z.enum(ids(BUDGET_OPTIONS)).nullable(),
   }),
   description: z.string().transform(cleanText).pipe(z.string().max(MAX_DESCRIPTION_LENGTH)).default(""),
-  // Personal data lives apart from the answers. Only the email is read, to hash it for the rate limit;
-  // name, phone and any other key are dropped on purpose (they belong to the lead saved in a later phase).
-  contact: z.object({ email: z.email().max(254) }),
+  // Personal data lives apart from the answers: it only goes to the lead and never to the proposal or the AI.
+  // Consent is required before anything personal is saved.
+  contact: z.object({
+    name: z.string().transform(cleanText).pipe(z.string().min(2).max(100)),
+    email: z.email().max(254),
+    phone: z.string().transform(cleanText).pipe(z.string().max(20)).default(""),
+    consent: z.literal(true),
+  }),
 });
 
 export type ProposalRequest = z.infer<typeof proposalRequestSchema>;

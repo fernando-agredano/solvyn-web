@@ -1,11 +1,15 @@
 import { generateProposalDraft, type ProposalDraft } from "@/src/lib/ai/generate-proposal-draft";
+import { PRIVACY_VERSION } from "@/src/config/site";
+import { createSupabaseLeadStorage, type LeadStorage } from "@/src/lib/leads/repository";
 import { buildProposalFacts } from "@/src/lib/proposal";
+import { calculateLeadScore, getLeadLabel } from "@/src/lib/scoring";
 import { hashIdentifier, isOverLimit, normalizeEmail } from "./limits";
 import type { ProposalRequest } from "./request";
 import { generateSlug, type ProposalStorage } from "./repository";
 
 export interface CreateProposalDeps {
   storage: ProposalStorage;
+  leadStorage: LeadStorage;
   generateDraft: typeof generateProposalDraft;
   newSlug: () => string;
 }
@@ -35,7 +39,7 @@ export async function createProposal(
   }
 
   const slug = deps.newSlug();
-  await deps.storage.saveProposal(
+  const { id: proposalId } = await deps.storage.saveProposal(
     slug,
     {
       answers,
@@ -49,11 +53,35 @@ export async function createProposal(
     },
     draft.source,
   );
+
+  // The visitor gets the proposal even if the lead could not be saved; only the kind of failure is logged.
+  const score = calculateLeadScore({
+    budget: answers.budget,
+    urgency: answers.urgency,
+    users: answers.users,
+    activeModuleCount: facts.activeModuleCount,
+    activeIntegrationCount: facts.modules.filter((module) => module.kind === "integration" && module.active).length,
+  });
+  await deps.leadStorage
+    .saveLead({
+      proposalId,
+      name: contact.name,
+      email: normalizeEmail(contact.email),
+      whatsapp: contact.phone || null,
+      score,
+      label: getLeadLabel(score),
+      answers: { budget: answers.budget, urgency: answers.urgency, size: answers.size, users: answers.users },
+      consentAt: new Date(),
+      consentVersion: PRIVACY_VERSION,
+    })
+    .catch((error: unknown) => console.error(`[lead] ${error instanceof Error ? error.message : "save failed"}`));
+
   return { slug, source: draft.source };
 }
 
 export const defaultCreateProposalDeps = (storage: ProposalStorage): CreateProposalDeps => ({
   storage,
+  leadStorage: createSupabaseLeadStorage(),
   generateDraft: generateProposalDraft,
   newSlug: generateSlug,
 });

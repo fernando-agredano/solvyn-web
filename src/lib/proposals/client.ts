@@ -10,9 +10,9 @@ export const PROPOSAL_REQUEST_TIMEOUT_MS = 25_000;
 
 const STORAGE_KEY = "solvyn:generated-proposal";
 
-// Answers must be complete (the guard of the proposal screen ensures it). The business name, name and phone never leave the browser here.
+// Answers and consent must be complete (the guard of the proposal screen ensures it). The business name never leaves the browser; name, phone and consent only feed the lead.
 export function buildProposalRequest(answers: ConfiguratorAnswers): ProposalRequestBody | null {
-  if (!answers.size) return null;
+  if (!answers.size || !answers.consent) return null;
   return {
     answers: {
       goals: answers.goals,
@@ -24,9 +24,15 @@ export function buildProposalRequest(answers: ConfiguratorAnswers): ProposalRequ
       size: answers.size,
       industry: answers.industry,
       urgency: answers.urgency,
+      budget: answers.budget,
     },
     description: answers.goals.includes(OTHER_GOAL_ID) ? answers.otherGoal : "",
-    contact: { email: answers.contactEmail.trim() },
+    contact: {
+      name: answers.contactName.trim(),
+      email: answers.contactEmail.trim(),
+      phone: answers.contactPhone.trim(),
+      consent: answers.consent,
+    },
   };
 }
 

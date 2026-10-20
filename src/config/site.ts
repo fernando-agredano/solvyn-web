@@ -12,3 +12,6 @@ export const SITE = {
 
 // Cambiar al dominio de producción antes de publicar.
 export const SITE_URL = "http://localhost:3000";
+
+// Version of the privacy notice the visitor accepts. Bump it whenever the notice text changes.
+export const PRIVACY_VERSION = "2026-10";
