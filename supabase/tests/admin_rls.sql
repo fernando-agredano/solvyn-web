@@ -157,4 +157,71 @@ begin
 end $$;
 rollback;
 
+-- 6. 004_settings.sql: the public reads only the view, the table is admin-only, and the admin changes only the granted columns.
+begin;
+set local role anon;
+do $$
+begin
+  assert (select count(*) from public.public_settings) = 1, 'anon cannot read the public settings view';
+  assert (select count(*) from information_schema.columns
+            where table_schema = 'public' and table_name = 'public_settings') = 5,
+         'public settings view exposes unexpected columns';
+  begin
+    perform count(*) from public.settings;
+    raise exception 'anon read the settings table';
+  exception when insufficient_privilege then null;
+  end;
+  begin
+    update public.settings set hourly_rate_mxn = 1;
+    raise exception 'anon updated settings';
+  exception when insufficient_privilege then null;
+  end;
+end $$;
+rollback;
+
+begin;
+set local role authenticated;
+select set_config('request.jwt.claims',
+  '{"sub":"00000000-0000-0000-0000-00000000000b","session_id":"00000000-0000-0000-0000-000000000b01"}', true);
+do $$
+declare
+  affected integer;
+begin
+  assert (select count(*) from public.settings) = 0, 'stranger read the settings table';
+  update public.settings set hourly_rate_mxn = 1;
+  get diagnostics affected = row_count;
+  assert affected = 0, 'stranger updated settings';
+end $$;
+rollback;
+
+begin;
+set local role authenticated;
+select set_config('request.jwt.claims',
+  '{"sub":"00000000-0000-0000-0000-00000000000a","session_id":"00000000-0000-0000-0000-000000000a01"}', true);
+do $$
+declare
+  affected integer;
+begin
+  assert (select count(*) from public.settings) = 1, 'admin cannot read the settings row';
+  update public.settings set hourly_rate_mxn = 700, whatsapp = '5512345678', email = 'hola@test.dev', updated_at = now();
+  get diagnostics affected = row_count;
+  assert affected = 1, 'admin cannot update the settings row';
+  begin
+    update public.settings set id = 2;
+    raise exception 'admin changed the settings id';
+  exception when insufficient_privilege then null;
+  end;
+  begin
+    insert into public.settings (id, hourly_rate_mxn, whatsapp, email) values (2, 600, '1', 'x@test.dev');
+    raise exception 'admin inserted a settings row';
+  exception when insufficient_privilege then null;
+  end;
+  begin
+    delete from public.settings;
+    raise exception 'admin deleted the settings row';
+  exception when insufficient_privilege then null;
+  end;
+end $$;
+rollback;
+
 select 'all RLS tests passed' as result;
