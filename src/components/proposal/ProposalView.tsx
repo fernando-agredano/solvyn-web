@@ -3,6 +3,7 @@ import { ProposalArchitecture } from "./ProposalArchitecture";
 import { ProposalHeader } from "./ProposalHeader";
 import { ProposalKpis } from "./ProposalKpis";
 import { ProposalModules } from "./ProposalModules";
+import { SolutionPreview } from "./preview/SolutionPreview";
 
 export function ProposalView({ proposal }: { proposal: Proposal }) {
   const { facts, copy } = proposal;
@@ -12,6 +13,7 @@ export function ProposalView({ proposal }: { proposal: Proposal }) {
       <ProposalKpis facts={facts} />
       <ProposalModules modules={facts.modules} />
       <ProposalArchitecture architecture={facts.architecture} notes={copy.architectureNotes} />
+      <SolutionPreview facts={facts} />
     </main>
   );
 }
