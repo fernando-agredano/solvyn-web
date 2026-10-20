@@ -1,0 +1,2 @@
+Guarda aqui capturas de referencia (hero.png, configurador-paso1.png, propuesta-final.png, etc.).
+Claude Code puede ver imagenes y las usa para comparar el resultado con el diseno.

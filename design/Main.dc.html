@@ -1,0 +1,772 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Solvyn Solutions — Landing</title>
+
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#000;color:#F5F5F5;font-family:'Archivo',ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#F5F5F5}a:hover{color:#FFFFFF}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+:focus-visible{outline:2px solid #FFFFFF;outline-offset:3px;border-radius:6px}
+.wide{font-stretch:125%}
+.semi{font-stretch:112%}
+
+.trace{stroke-dasharray:100;stroke-dashoffset:0;animation:draw 1.9s cubic-bezier(.65,0,.2,1) backwards}
+@keyframes draw{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+.pads{opacity:1}
+.pulse{fill:none;stroke:#FFFFFF;stroke-width:2;stroke-linecap:round;stroke-dasharray:5 95;stroke-dashoffset:5;opacity:0;animation-name:travel;animation-timing-function:linear;animation-iteration-count:infinite;filter:drop-shadow(0 0 4px rgba(255,255,255,.9))}
+.pulse.g{stroke:var(--sig);filter:drop-shadow(0 0 5px var(--sig-glow))}
+@keyframes travel{0%{stroke-dashoffset:5;opacity:0}6%{opacity:1}88%{opacity:1}100%{stroke-dashoffset:-100;opacity:0}}
+.chip{opacity:1}
+.chip-glow{animation:breathe 4.5s ease-in-out 2s infinite}
+@keyframes breathe{0%,100%{opacity:.35}50%{opacity:.75}}
+.hero-copy{opacity:1}
+@keyframes fadein{to{opacity:1}}
+
+.reveal{opacity:1}
+@supports (animation-timeline: view()){
+  .reveal{animation:revealUp linear both;animation-timeline:view();animation-range:entry 5% entry 45%}
+}
+@keyframes revealUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:none}}
+.step-pulse{stroke-dasharray:6 94;animation:travel 3.6s linear infinite}
+
+.btn-primary{transition:transform .2s ease, box-shadow .2s ease}
+.btn-primary:hover{color:#000;transform:translateY(-1px);box-shadow:0 0 0 1px #fff, 0 8px 32px rgba(255,255,255,.22)}
+.btn-ghost{transition:border-color .2s ease, background .2s ease}
+.btn-ghost:hover{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.04)}
+.sol-row{transition:background .25s ease}
+.sol-row:hover{background:rgba(255,255,255,.035)}
+.sol-row:hover .sol-arrow{transform:translateX(4px);opacity:1}
+.sol-arrow{transition:transform .25s ease, opacity .25s ease;opacity:.5}
+.mod{transition:border-color .3s ease, background .3s ease}
+.switch span{transition:transform .25s cubic-bezier(.2,.8,.2,1), background .25s ease}
+.switch{transition:background .25s ease}
+.bar-fill{transition:width .5s cubic-bezier(.2,.8,.2,1)}
+
+.ind{transition:background .25s ease}
+.ind:hover{background:#0D0D0D !important}
+.ind:hover svg{filter:drop-shadow(0 0 6px rgba(255,255,255,.8))}
+.demo > div:first-child{transition:border-color .3s ease, transform .3s ease}
+.demo:hover > div:first-child{border-color:rgba(255,255,255,.35);transform:translateY(-3px)}
+.proc-pulse{animation:procrun 4.5s cubic-bezier(.5,0,.5,1) infinite}
+@keyframes procrun{0%{top:20px;opacity:0}10%{opacity:1}90%{opacity:1}100%{top:calc(100% - 60px);opacity:0}}
+.faq-a{animation:fadein .35s ease}
+@media (max-width: 1000px){
+  .ind-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+  .demo-grid,.price-grid{grid-template-columns:minmax(0,1fr) !important}
+  .proc-wrap,.faq-wrap{grid-template-columns:minmax(0,1fr) !important;gap:40px !important}
+}
+@media (max-width: 860px){
+  .nav-links{display:none !important}
+  .steps{grid-template-columns:minmax(0,1fr) !important}
+  .step-line{display:none !important}
+  .prop-grid{grid-template-columns:minmax(0,1fr) !important}
+  .mods{grid-template-columns:minmax(0,1fr) !important}
+  .sol-list{grid-template-columns:minmax(0,1fr) !important}
+  .why{grid-template-columns:minmax(0,1fr) !important}
+  .foot{flex-direction:column !important;align-items:flex-start !important}
+}
+@media (prefers-reduced-motion: reduce){
+  .trace,.pads,.chip,.hero-copy{animation:none !important;stroke-dashoffset:0;opacity:1;transform:none}
+  .pulse,.step-pulse,.proc-pulse{display:none}
+  .reveal{animation:none !important}
+  .chip-glow{animation:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</helmet>
+
+<div style="--sig: {{sig}}; --sig-glow: {{sigGlow}}; background: #000000; color: #F5F5F5; min-height: 100vh; overflow-x: hidden">
+
+  <!-- HERO -->
+  <section onMouseMove="{{onMove}}" onMouseLeave="{{onLeave}}" style="position: relative; overflow: hidden; padding-bottom: 120px">
+
+    <div data-layer="" aria-hidden="true" style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: max(100%, 1100px); aspect-ratio: 1440 / 900; pointer-events: none">
+      <svg viewBox="0 0 1440 900" width="100%" height="100%" style="position: absolute; inset: 0; display: block" aria-hidden="true">
+        <g fill="none" stroke-width="1.2" style="stroke: {{traceStroke}}">
+<path class="trace" d="M648 246 L618 246 L479 107 L0 107" pathLength="100" style="animation-delay: 0.00s"></path>
+<path class="trace" d="M648 264 L602 264 L503 165 L0 165" pathLength="100" style="animation-delay: 0.06s"></path>
+<path class="trace" d="M648 282 L586 282 L526 222 L0 222" pathLength="100" style="animation-delay: 0.12s"></path>
+<path class="trace" d="M648 300 L569 300 L437 300" pathLength="100" style="animation-delay: 0.18s"></path>
+<path class="trace" d="M648 318 L586 318 L577 327 L0 327" pathLength="100" style="animation-delay: 0.24s"></path>
+<path class="trace" d="M648 336 L602 336 L584 354 L440 354" pathLength="100" style="animation-delay: 0.30s"></path>
+<path class="trace" d="M648 354 L618 354 L591 381 L0 381" pathLength="100" style="animation-delay: 0.36s"></path>
+<path class="trace" d="M792 246 L822 246 L961 107 L1095 107" pathLength="100" style="animation-delay: 0.42s"></path>
+<path class="trace" d="M792 264 L838 264 L937 165 L1111 165" pathLength="100" style="animation-delay: 0.48s"></path>
+<path class="trace" d="M792 282 L854 282 L914 222 L1440 222" pathLength="100" style="animation-delay: 0.54s"></path>
+<path class="trace" d="M792 300 L871 300 L1440 300" pathLength="100" style="animation-delay: 0.60s"></path>
+<path class="trace" d="M792 318 L854 318 L863 327 L1440 327" pathLength="100" style="animation-delay: 0.66s"></path>
+<path class="trace" d="M792 336 L838 336 L856 354 L1440 354" pathLength="100" style="animation-delay: 0.72s"></path>
+<path class="trace" d="M792 354 L822 354 L849 381 L1440 381" pathLength="100" style="animation-delay: 0.78s"></path>
+<path class="trace" d="M666 228 L666 208 L474 16 L474 0" pathLength="100" style="animation-delay: 0.00s"></path>
+<path class="trace" d="M684 228 L684 197 L546 59 L546 0" pathLength="100" style="animation-delay: 0.06s"></path>
+<path class="trace" d="M702 228 L702 186 L618 102 L618 55" pathLength="100" style="animation-delay: 0.12s"></path>
+<path class="trace" d="M720 228 L720 176 L720 0" pathLength="100" style="animation-delay: 0.18s"></path>
+<path class="trace" d="M738 228 L738 186 L822 102 L822 0" pathLength="100" style="animation-delay: 0.24s"></path>
+<path class="trace" d="M756 228 L756 197 L894 59 L894 0" pathLength="100" style="animation-delay: 0.30s"></path>
+<path class="trace" d="M774 228 L774 208 L966 16 L966 30" pathLength="100" style="animation-delay: 0.36s"></path>
+<path class="trace" d="M666 372 L666 390 L320 390 L280 430 L280 900" pathLength="100" style="animation-delay: 0.42s"></path>
+<path class="trace" d="M684 372 L684 404 L342 404 L302 444 L302 900" pathLength="100" style="animation-delay: 0.48s"></path>
+<path class="trace" d="M702 372 L702 418 L364 418 L324 458 L324 900" pathLength="100" style="animation-delay: 0.54s"></path>
+<path class="trace" d="M720 372 L720 398" pathLength="100" style="animation-delay: 0.60s"></path>
+<path class="trace" d="M738 372 L738 418 L1076 418 L1116 458 L1116 900" pathLength="100" style="animation-delay: 0.66s"></path>
+<path class="trace" d="M756 372 L756 404 L1098 404 L1138 444 L1138 900" pathLength="100" style="animation-delay: 0.72s"></path>
+<path class="trace" d="M774 372 L774 390 L1120 390 L1160 430 L1160 900" pathLength="100" style="animation-delay: 0.78s"></path>
+<path class="trace" d="M0 610 L130 610 L180 660 L250 660" pathLength="100" style="animation-delay: 0.00s"></path>
+<path class="trace" d="M0 624 L130 624 L180 674 L250 674" pathLength="100" style="animation-delay: 0.06s"></path>
+<path class="trace" d="M0 638 L130 638 L180 688 L250 688" pathLength="100" style="animation-delay: 0.12s"></path>
+<path class="trace" d="M0 652 L130 652 L180 702 L250 702" pathLength="100" style="animation-delay: 0.18s"></path>
+<path class="trace" d="M1440 640 L1330 640 L1290 600 L1230 600" pathLength="100" style="animation-delay: 0.24s"></path>
+<path class="trace" d="M1440 654 L1330 654 L1290 614 L1230 614" pathLength="100" style="animation-delay: 0.30s"></path>
+<path class="trace" d="M1440 668 L1330 668 L1290 628 L1230 628" pathLength="100" style="animation-delay: 0.36s"></path>
+<path class="trace" d="M1440 682 L1330 682 L1290 642 L1230 642" pathLength="100" style="animation-delay: 0.42s"></path>
+<path class="trace" d="M150 900 L150 830 L110 790 L110 730" pathLength="100" style="animation-delay: 0.48s"></path>
+<path class="trace" d="M164 900 L164 830 L124 790 L124 730" pathLength="100" style="animation-delay: 0.54s"></path>
+<path class="trace" d="M178 900 L178 830 L138 790 L138 730" pathLength="100" style="animation-delay: 0.60s"></path>
+<path class="trace" d="M1250 900 L1250 810 L1290 770 L1290 720" pathLength="100" style="animation-delay: 0.66s"></path>
+<path class="trace" d="M1264 900 L1264 810 L1304 770 L1304 720" pathLength="100" style="animation-delay: 0.72s"></path>
+<path class="trace" d="M1278 900 L1278 810 L1318 770 L1318 720" pathLength="100" style="animation-delay: 0.78s"></path>
+        </g>
+        <g class="pads" fill="#000000" stroke-width="1.2" style="stroke: {{padStroke}}">
+<circle cx="437" cy="300" r="3.5"></circle>
+<circle cx="440" cy="354" r="3.5"></circle>
+<circle cx="1095" cy="107" r="3.5"></circle>
+<circle cx="1111" cy="165" r="3.5"></circle>
+<circle cx="618" cy="55" r="3.5"></circle>
+<circle cx="966" cy="30" r="3.5"></circle>
+<circle cx="720" cy="398" r="3.5"></circle>
+<circle cx="250" cy="660" r="3.5"></circle>
+<circle cx="250" cy="674" r="3.5"></circle>
+<circle cx="250" cy="688" r="3.5"></circle>
+<circle cx="250" cy="702" r="3.5"></circle>
+<circle cx="1230" cy="600" r="3.5"></circle>
+<circle cx="1230" cy="614" r="3.5"></circle>
+<circle cx="1230" cy="628" r="3.5"></circle>
+<circle cx="1230" cy="642" r="3.5"></circle>
+<circle cx="110" cy="730" r="3.5"></circle>
+<circle cx="124" cy="730" r="3.5"></circle>
+<circle cx="138" cy="730" r="3.5"></circle>
+<circle cx="1290" cy="720" r="3.5"></circle>
+<circle cx="1304" cy="720" r="3.5"></circle>
+<circle cx="1318" cy="720" r="3.5"></circle>
+        </g>
+        <g style="display: {{pulseDisplay}}">
+<path class="pulse" d="M648 246 L618 246 L479 107 L0 107" pathLength="100" style="animation-duration: 3.20s; animation-delay: 1.80s"></path>
+<path class="pulse g" d="M648 300 L569 300 L437 300" pathLength="100" style="animation-duration: 3.57s; animation-delay: 2.33s"></path>
+<path class="pulse" d="M648 354 L618 354 L591 381 L0 381" pathLength="100" style="animation-duration: 3.94s; animation-delay: 2.86s"></path>
+<path class="pulse" d="M792 264 L838 264 L937 165 L1111 165" pathLength="100" style="animation-duration: 4.31s; animation-delay: 3.39s"></path>
+<path class="pulse g" d="M792 300 L871 300 L1440 300" pathLength="100" style="animation-duration: 4.68s; animation-delay: 3.92s"></path>
+<path class="pulse" d="M792 336 L838 336 L856 354 L1440 354" pathLength="100" style="animation-duration: 5.05s; animation-delay: 4.45s"></path>
+<path class="pulse" d="M684 228 L684 197 L546 59 L546 0" pathLength="100" style="animation-duration: 5.42s; animation-delay: 4.98s"></path>
+<path class="pulse g" d="M720 228 L720 176 L720 0" pathLength="100" style="animation-duration: 5.79s; animation-delay: 2.01s"></path>
+<path class="pulse" d="M756 228 L756 197 L894 59 L894 0" pathLength="100" style="animation-duration: 3.36s; animation-delay: 2.54s"></path>
+<path class="pulse" d="M684 372 L684 404 L342 404 L302 444 L302 900" pathLength="100" style="animation-duration: 3.73s; animation-delay: 3.07s"></path>
+<path class="pulse g" d="M720 372 L720 398" pathLength="100" style="animation-duration: 4.10s; animation-delay: 3.60s"></path>
+<path class="pulse" d="M774 372 L774 390 L1120 390 L1160 430 L1160 900" pathLength="100" style="animation-duration: 4.47s; animation-delay: 4.13s"></path>
+<path class="pulse" d="M0 638 L130 638 L180 688 L250 688" pathLength="100" style="animation-duration: 4.84s; animation-delay: 4.66s"></path>
+<path class="pulse g" d="M1440 654 L1330 654 L1290 614 L1230 614" pathLength="100" style="animation-duration: 5.21s; animation-delay: 5.19s"></path>
+<path class="pulse" d="M150 900 L150 830 L110 790 L110 730" pathLength="100" style="animation-duration: 5.58s; animation-delay: 2.22s"></path>
+<path class="pulse" d="M1264 900 L1264 810 L1304 770 L1304 720" pathLength="100" style="animation-duration: 5.95s; animation-delay: 2.75s"></path>
+        </g>
+      </svg>
+      <div style="position: absolute; inset: 0; -webkit-mask-image: {{spotMask}}; mask-image: {{spotMask}}">
+        <svg viewBox="0 0 1440 900" width="100%" height="100%" style="position: absolute; inset: 0; display: block" aria-hidden="true">
+          <g fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.4">
+<path d="M648 246 L618 246 L479 107 L0 107"></path>
+<path d="M648 264 L602 264 L503 165 L0 165"></path>
+<path d="M648 282 L586 282 L526 222 L0 222"></path>
+<path d="M648 300 L569 300 L437 300"></path>
+<path d="M648 318 L586 318 L577 327 L0 327"></path>
+<path d="M648 336 L602 336 L584 354 L440 354"></path>
+<path d="M648 354 L618 354 L591 381 L0 381"></path>
+<path d="M792 246 L822 246 L961 107 L1095 107"></path>
+<path d="M792 264 L838 264 L937 165 L1111 165"></path>
+<path d="M792 282 L854 282 L914 222 L1440 222"></path>
+<path d="M792 300 L871 300 L1440 300"></path>
+<path d="M792 318 L854 318 L863 327 L1440 327"></path>
+<path d="M792 336 L838 336 L856 354 L1440 354"></path>
+<path d="M792 354 L822 354 L849 381 L1440 381"></path>
+<path d="M666 228 L666 208 L474 16 L474 0"></path>
+<path d="M684 228 L684 197 L546 59 L546 0"></path>
+<path d="M702 228 L702 186 L618 102 L618 55"></path>
+<path d="M720 228 L720 176 L720 0"></path>
+<path d="M738 228 L738 186 L822 102 L822 0"></path>
+<path d="M756 228 L756 197 L894 59 L894 0"></path>
+<path d="M774 228 L774 208 L966 16 L966 30"></path>
+<path d="M666 372 L666 390 L320 390 L280 430 L280 900"></path>
+<path d="M684 372 L684 404 L342 404 L302 444 L302 900"></path>
+<path d="M702 372 L702 418 L364 418 L324 458 L324 900"></path>
+<path d="M720 372 L720 398"></path>
+<path d="M738 372 L738 418 L1076 418 L1116 458 L1116 900"></path>
+<path d="M756 372 L756 404 L1098 404 L1138 444 L1138 900"></path>
+<path d="M774 372 L774 390 L1120 390 L1160 430 L1160 900"></path>
+<path d="M0 610 L130 610 L180 660 L250 660"></path>
+<path d="M0 624 L130 624 L180 674 L250 674"></path>
+<path d="M0 638 L130 638 L180 688 L250 688"></path>
+<path d="M0 652 L130 652 L180 702 L250 702"></path>
+<path d="M1440 640 L1330 640 L1290 600 L1230 600"></path>
+<path d="M1440 654 L1330 654 L1290 614 L1230 614"></path>
+<path d="M1440 668 L1330 668 L1290 628 L1230 628"></path>
+<path d="M1440 682 L1330 682 L1290 642 L1230 642"></path>
+<path d="M150 900 L150 830 L110 790 L110 730"></path>
+<path d="M164 900 L164 830 L124 790 L124 730"></path>
+<path d="M178 900 L178 830 L138 790 L138 730"></path>
+<path d="M1250 900 L1250 810 L1290 770 L1290 720"></path>
+<path d="M1264 900 L1264 810 L1304 770 L1304 720"></path>
+<path d="M1278 900 L1278 810 L1318 770 L1318 720"></path>
+          </g>
+        </svg>
+      </div>
+
+      <div class="chip" style="position: absolute; left: 45%; top: 25.333%; width: 10%; aspect-ratio: 1 / 1">
+        <div class="chip-glow" style="position: absolute; inset: -40%; background: radial-gradient(closest-side, rgba(255,255,255,0.22), rgba(255,255,255,0) 70%)"></div>
+        <div style="position: absolute; inset: 0; border-radius: 16px; background: linear-gradient(160deg, #1A1A1A 0%, #050505 60%); border: 1px solid rgba(255,255,255,0.32); box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 0 40px rgba(255,255,255,0.08)"></div>
+        <div style="position: absolute; inset: 9%; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08)"></div>
+        <img src="/_blob/e99d7c55e8dcf339fb93f1717932072b" alt="" style="position: absolute; left: 50%; top: 50%; width: 46%; transform: translate(-50%, -50%)">
+      </div>
+
+      <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 30%; background: linear-gradient(to bottom, rgba(0,0,0,0), #000000)"></div>
+    </div>
+
+    <nav aria-label="Principal" style="position: relative; z-index: 2; max-width: 1240px; margin: 0 auto; padding: 22px 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px">
+      <a href="#inicio" aria-label="Solvyn Solutions, inicio" style="display: flex; align-items: center">
+        <img src="/_blob/855bbb00e1cc9bc724df395f4279d17b" alt="Solvyn Solutions" style="height: 30px; width: auto; display: block">
+      </a>
+      <div class="nav-links" style="display: flex; align-items: center; gap: 32px; font-size: 15px; color: #A3A3A3">
+        <a href="#como" style="color: #A3A3A3; text-decoration: none">Cómo funciona</a>
+        <a href="#propuesta" style="color: #A3A3A3; text-decoration: none">Propuestas</a>
+        <a href="#soluciones" style="color: #A3A3A3; text-decoration: none">Soluciones</a>
+        <a href="#precios" style="color: #A3A3A3; text-decoration: none">Precios</a>
+        <a href="#contacto" style="color: #A3A3A3; text-decoration: none">Contacto</a>
+      </div>
+      <a href="Configurador.dc.html" class="btn-primary" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 10px; background: #FFFFFF; color: #000000; font-weight: 600; font-size: 15px; text-decoration: none">Configurar</a>
+    </nav>
+
+    <div id="inicio" class="hero-copy" style="position: relative; z-index: 2; padding-top: max(calc(29.17% - 74px), 247px); padding-left: 24px; padding-right: 24px">
+      <div style="max-width: 820px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 28px">
+        <h1 class="wide" style="margin: 0; font-size: clamp(2.3rem, 5.2vw, 4.4rem); line-height: 1.02; font-weight: 600; letter-spacing: -0.025em; color: #FFFFFF">Describe tu idea. Mira cómo se construye.</h1>
+        <p style="margin: 0; max-width: 600px; font-size: clamp(1.05rem, 1.4vw, 1.2rem); line-height: 1.6; color: #A3A3A3">Configura tu solución en unos minutos y recibe al momento una propuesta con arquitectura, módulos, tiempos y una vista previa de cómo se verá. Sin compromiso.</p>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; padding-top: 8px">
+          <a href="Configurador.dc.html" class="btn-primary" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 10px; background: #FFFFFF; color: #000000; font-weight: 600; font-size: 16px; text-decoration: none">Configurar mi solución</a>
+          <a href="#como" class="btn-ghost" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.22); color: #F5F5F5; font-weight: 500; font-size: 16px; text-decoration: none">Ver cómo funciona</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CÓMO FUNCIONA -->
+  <section id="como" style="max-width: 1240px; margin: 0 auto; padding: 120px 24px">
+    <div class="reveal" style="max-width: 640px; display: flex; flex-direction: column; gap: 16px; margin-bottom: 72px">
+      <h2 class="semi" style="margin: 0; font-size: clamp(2rem, 3.6vw, 3rem); line-height: 1.08; font-weight: 600; letter-spacing: -0.02em">De la idea a una propuesta clara en tres pasos</h2>
+      <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #A3A3A3">No necesitas saber de tecnología. Cuéntame qué quieres lograr y el configurador traduce tu idea en un plan concreto.</p>
+    </div>
+
+    <div style="position: relative">
+      <svg class="step-line" viewBox="0 0 1000 10" preserveAspectRatio="none" aria-hidden="true" style="position: absolute; left: 4%; right: 4%; top: 27px; width: 92%; height: 10px">
+        <path d="M0 5 L1000 5" stroke="rgba(255,255,255,0.14)" stroke-width="1" fill="none" vector-effect="non-scaling-stroke"></path>
+        <path class="step-pulse" d="M0 5 L1000 5" pathLength="100" stroke="#FFFFFF" stroke-width="2" fill="none" vector-effect="non-scaling-stroke" style="filter: drop-shadow(0 0 4px #ffffff)"></path>
+      </svg>
+      <ol class="steps" style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; position: relative">
+        <li class="reveal" style="display: flex; flex-direction: column; gap: 18px">
+          <div class="wide" style="width: 56px; height: 56px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: #000000; border: 1px solid rgba(255,255,255,0.3); font-weight: 600; font-size: 20px">1</div>
+          <h3 class="semi" style="margin: 0; font-size: 22px; font-weight: 600">Elige qué quieres lograr</h3>
+          <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #A3A3A3">Vender en línea, automatizar tareas, organizar tu operación o lanzar una app. Si no está en la lista, descríbelo con tus palabras.</p>
+        </li>
+        <li class="reveal" style="display: flex; flex-direction: column; gap: 18px">
+          <div class="wide" style="width: 56px; height: 56px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: #000000; border: 1px solid rgba(255,255,255,0.3); font-weight: 600; font-size: 20px">2</div>
+          <h3 class="semi" style="margin: 0; font-size: 22px; font-weight: 600">Responde unas preguntas</h3>
+          <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #A3A3A3">Tu industria, quién usará el sistema y qué necesita conectar. Mientras respondes, tu propuesta se arma en pantalla.</p>
+        </li>
+        <li class="reveal" style="display: flex; flex-direction: column; gap: 18px">
+          <div class="wide" style="width: 56px; height: 56px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: #FFFFFF; color: #000000; border: 1px solid #FFFFFF; font-weight: 600; font-size: 20px; box-shadow: 0 0 28px rgba(255,255,255,0.25)">3</div>
+          <h3 class="semi" style="margin: 0; font-size: 22px; font-weight: 600">Recibe tu propuesta</h3>
+          <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #A3A3A3">Arquitectura, módulos, fases, inversión estimada y una vista previa visual. Si te convence, agenda una reunión desde ahí mismo.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- PROPUESTA EN VIVO -->
+  <section id="propuesta" style="border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08); background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(255,255,255,0.05), rgba(255,255,255,0) 70%)">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 120px 24px">
+      <div class="reveal" style="max-width: 680px; display: flex; flex-direction: column; gap: 16px; margin-bottom: 56px">
+        <h2 class="semi" style="margin: 0; font-size: clamp(2rem, 3.6vw, 3rem); line-height: 1.08; font-weight: 600; letter-spacing: -0.02em">Así se ve una propuesta</h2>
+        <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #A3A3A3">Ejemplo: sistema de citas para una clínica. Activa o desactiva módulos y observa cómo cambian la inversión y los tiempos.</p>
+      </div>
+
+      <div class="prop-grid reveal" style="display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 24px; align-items: start">
+
+        <div style="border-radius: 18px; border: 1px solid rgba(255,255,255,0.14); background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015)); padding: 28px; display: flex; flex-direction: column; gap: 28px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.1)">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+            <div style="display: flex; flex-direction: column; gap: 4px">
+              <span style="font-size: 14px; color: #8A8A8A">Propuesta preliminar</span>
+              <span class="semi" style="font-size: 19px; font-weight: 600">Clínica Vitalia</span>
+            </div>
+            <span style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.16); font-size: 13px; color: #D4D4D4">
+              <span style="width: 7px; height: 7px; border-radius: 50%; background: var(--sig); box-shadow: 0 0 10px var(--sig-glow)"></span>En vivo
+            </span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <span style="font-size: 14px; color: #8A8A8A">Inversión estimada</span>
+            <span class="wide" style="font-size: clamp(1.6rem, 2.6vw, 2.1rem); font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums">{{priceRange}}</span>
+            <span style="font-size: 13px; color: #8A8A8A">MXN, calculado con tarifa de ejemplo</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+            <div style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); padding: 16px; display: flex; flex-direction: column; gap: 6px">
+              <span style="font-size: 13px; color: #8A8A8A">Tiempo</span>
+              <span class="semi" style="font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums">{{weeks}}</span>
+            </div>
+            <div style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); padding: 16px; display: flex; flex-direction: column; gap: 6px">
+              <span style="font-size: 13px; color: #8A8A8A">Módulos</span>
+              <span class="semi" style="font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums">{{modCount}}</span>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 10px">
+            <div style="display: flex; justify-content: space-between; font-size: 13px; color: #8A8A8A">
+              <span>Alcance del proyecto</span><span style="font-variant-numeric: tabular-nums">{{hoursLabel}}</span>
+            </div>
+            <div style="height: 6px; border-radius: 999px; background: rgba(255,255,255,0.08); overflow: hidden">
+              <div class="bar-fill" style="height: 100%; border-radius: 999px; background: #FFFFFF; box-shadow: 0 0 12px rgba(255,255,255,0.6); width: {{scopePct}}"></div>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px">
+            <span style="font-size: 14px; color: #8A8A8A">Fases</span>
+            <div style="display: flex; gap: 4px; height: 8px">
+              <div style="flex: 1; border-radius: 4px; background: rgba(255,255,255,0.35)"></div>
+              <div style="flex: 2; border-radius: 4px; background: rgba(255,255,255,0.55)"></div>
+              <div style="flex: 5; border-radius: 4px; background: #FFFFFF"></div>
+              <div style="flex: 1.5; border-radius: 4px; background: rgba(255,255,255,0.35)"></div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px; font-size: 13px; color: #A3A3A3">
+              <span>Descubrimiento ({{ph1}})</span>
+              <span>Diseño ({{ph2}})</span>
+              <span>Desarrollo ({{ph3}})</span>
+              <span>Pruebas y entrega ({{ph4}})</span>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 10px">
+            <a href="Configurador.dc.html" class="btn-primary" style="display: flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 10px; background: #FFFFFF; color: #000000; font-weight: 600; font-size: 15px; text-decoration: none">Crear mi propia propuesta</a>
+            <a href="#contacto" class="btn-ghost" style="display: flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); color: #F5F5F5; font-weight: 500; font-size: 15px; text-decoration: none">Descargar PDF</a>
+          </div>
+        </div>
+
+        <div class="mods" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px">
+          <sc-for list="{{modules}}" as="m" hint-placeholder-count="8">
+            <div class="mod" style="border-radius: 14px; border: 1px solid {{m.border}}; background: {{m.bg}}; padding: 20px; display: flex; flex-direction: column; gap: 14px; min-height: 168px">
+              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px">
+                <div style="display: flex; flex-direction: column; gap: 6px">
+                  <span class="semi" style="font-size: 17px; font-weight: 600; color: {{m.titleColor}}">{{m.name}}</span>
+                  <span style="font-size: 13px; color: #8A8A8A; font-variant-numeric: tabular-nums">{{m.hoursLabel}}</span>
+                </div>
+                <sc-if value="{{m.optional}}" hint-placeholder-val="{{ true }}">
+                  <button type="button" class="switch" aria-pressed="{{m.pressed}}" aria-label="{{m.aria}}" onClick="{{m.toggle}}" style="flex: none; position: relative; width: 48px; height: 28px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.25); background: {{m.trackBg}}; cursor: pointer; padding: 0; margin: 8px 0">
+                    <span style="position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: {{m.knobBg}}; transform: translateX({{m.knobX}})"></span>
+                  </button>
+                </sc-if>
+                <sc-if value="{{m.fixed}}" hint-placeholder-val="{{ false }}">
+                  <span style="flex: none; font-size: 12px; padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.16); color: #D4D4D4">Incluido</span>
+                </sc-if>
+              </div>
+              <p style="margin: 0; font-size: 14px; line-height: 1.55; color: {{m.descColor}}">{{m.desc}}</p>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUCIONES -->
+  <section id="soluciones" style="max-width: 1240px; margin: 0 auto; padding: 120px 24px">
+    <div class="reveal" style="max-width: 640px; display: flex; flex-direction: column; gap: 16px; margin-bottom: 56px">
+      <h2 class="semi" style="margin: 0; font-size: clamp(2rem, 3.6vw, 3rem); line-height: 1.08; font-weight: 600; letter-spacing: -0.02em">Lo que tu negocio necesite</h2>
+      <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #A3A3A3">Cada solución se diseña a la medida. Elige un punto de partida y el configurador hace el resto.</p>
+    </div>
+    <div class="sol-list reveal" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 40px; border-top: 1px solid rgba(255,255,255,0.1)">
+      <a href="Configurador.dc.html" class="sol-row" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 26px 8px; border-bottom: 1px solid rgba(255,255,255,0.1); text-decoration: none; color: #F5F5F5">
+        <span style="display: flex; flex-direction: column; gap: 6px"><span class="semi" style="font-size: 20px; font-weight: 600">Sistemas a la medida</span><span style="font-size: 15px; color: #A3A3A3">Inventarios, citas, pedidos y la operación diaria en un solo lugar.</span></span>
+        <svg class="sol-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+      </a>
+      <a href="Configurador.dc.html" class="sol-row" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 26px 8px; border-bottom: 1px solid rgba(255,255,255,0.1); text-decoration: none; color: #F5F5F5">
+        <span style="display: flex; flex-direction: column; gap: 6px"><span class="semi" style="font-size: 20px; font-weight: 600">Apps móviles</span><span style="font-size: 15px; color: #A3A3A3">Para tus clientes o tu equipo, en iOS y Android.</span></span>
+        <svg class="sol-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+      </a>
+      <a href="Configurador.dc.html" class="sol-row" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 26px 8px; border-bottom: 1px solid rgba(255,255,255,0.1); text-decoration: none; color: #F5F5F5">
+        <span style="display: flex; flex-direction: column; gap: 6px"><span class="semi" style="font-size: 20px; font-weight: 600">Tiendas en línea</span><span style="font-size: 15px; color: #A3A3A3">Catálogo, pagos y envíos, conectados con tu inventario.</span></span>
+        <svg class="sol-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+      </a>
+      <a href="Configurador.dc.html" class="sol-row" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 26px 8px; border-bottom: 1px solid rgba(255,255,255,0.1); text-decoration: none; color: #F5F5F5">
+        <span style="display: flex; flex-direction: column; gap: 6px"><span class="semi" style="font-size: 20px; font-weight: 600">Automatizaciones</span><span style="font-size: 15px; color: #A3A3A3">Tareas repetitivas que se hacen solas: reportes, avisos, facturas.</span></span>
+        <svg class="sol-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+      </a>
+      <a href="Configurador.dc.html" class="sol-row" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 26px 8px; border-bottom: 1px solid rgba(255,255,255,0.1); text-decoration: none; color: #F5F5F5">
+        <span style="display: flex; flex-direction: column; gap: 6px"><span class="semi" style="font-size: 20px; font-weight: 600">Tableros de datos</span><span style="font-size: 15px; color: #A3A3A3">Tus ventas y operación en tiempo real, para decidir mejor.</span></span>
+        <svg class="sol-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+      </a>
+      <a href="Configurador.dc.html" class="sol-row" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 26px 8px; border-bottom: 1px solid rgba(255,255,255,0.1); text-decoration: none; color: #F5F5F5">
+        <span style="display: flex; flex-direction: column; gap: 6px"><span class="semi" style="font-size: 20px; font-weight: 600">Soluciones con IA</span><span style="font-size: 15px; color: #A3A3A3">Asistentes, clasificación de documentos y atención automatizada.</span></span>
+        <svg class="sol-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- INDUSTRIAS -->
+  <section id="industrias" style="border-top: 1px solid rgba(255,255,255,0.08)">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 120px 24px">
+      <div class="reveal" style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 56px">
+        <div style="max-width: 620px; display: flex; flex-direction: column; gap: 16px">
+          <h2 class="semi" style="margin: 0; font-size: clamp(2rem, 3.6vw, 3rem); line-height: 1.08; font-weight: 600; letter-spacing: -0.02em">Para cualquier giro</h2>
+          <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #A3A3A3">Elige tu industria y el configurador empieza con las preguntas que importan para tu negocio.</p>
+        </div>
+      </div>
+      <div class="ind-grid reveal" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; overflow: hidden">
+        <a href="Configurador.dc.html" class="ind" style="background: #000000; padding: 28px 24px; min-height: 150px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; text-decoration: none; color: #F5F5F5">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h16l-1.5 10h-13z"></path><path d="M8 9V6a4 4 0 0 1 8 0v3"></path></svg>
+          <span style="display: flex; flex-direction: column; gap: 4px"><span class="semi" style="font-size: 18px; font-weight: 600">Comercio</span><span style="font-size: 14px; color: #8A8A8A">Ventas, inventario y tienda en línea</span></span>
+        </a>
+        <a href="Configurador.dc.html" class="ind" style="background: #000000; padding: 28px 24px; min-height: 150px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; text-decoration: none; color: #F5F5F5">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"></path><path d="M9 12h2l1-2 1 4 1-2h1"></path></svg>
+          <span style="display: flex; flex-direction: column; gap: 4px"><span class="semi" style="font-size: 18px; font-weight: 600">Salud</span><span style="font-size: 14px; color: #8A8A8A">Citas, expedientes y recordatorios</span></span>
+        </a>
+        <a href="Configurador.dc.html" class="ind" style="background: #000000; padding: 28px 24px; min-height: 150px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; text-decoration: none; color: #F5F5F5">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8a2 2 0 0 0 2 2v8"></path><path d="M11 3v8a2 2 0 0 1-2 2"></path><path d="M17 21V3c-2 1.5-3 4-3 7h3"></path></svg>
+          <span style="display: flex; flex-direction: column; gap: 4px"><span class="semi" style="font-size: 18px; font-weight: 600">Restaurantes</span><span style="font-size: 14px; color: #8A8A8A">Pedidos, menú digital y reservas</span></span>
+        </a>
+        <a href="Configurador.dc.html" class="ind" style="background: #000000; padding: 28px 24px; min-height: 150px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; text-decoration: none; color: #F5F5F5">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"></path><path d="M6 11v5c3 2 9 2 12 0v-5"></path></svg>
+          <span style="display: flex; flex-direction: column; gap: 4px"><span class="semi" style="font-size: 18px; font-weight: 600">Educación</span><span style="font-size: 14px; color: #8A8A8A">Inscripciones, cursos y pagos</span></span>
+        </a>
+        <a href="Configurador.dc.html" class="ind" style="background: #000000; padding: 28px 24px; min-height: 150px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; text-decoration: none; color: #F5F5F5">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path><path d="M3 13h18"></path></svg>
+          <span style="display: flex; flex-direction: column; gap: 4px"><span class="semi" style="font-size: 18px; font-weight: 600">Servicios profesionales</span><span style="font-size: 14px; color: #8A8A8A">Clientes, cotizaciones y proyectos</span></span>
+        </a>
+        <a href="Configurador.dc.html" class="ind" style="background: #000000; padding: 28px 24px; min-height: 150px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; text-decoration: none; color: #F5F5F5">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h11v10H3z"></path><path d="M14 10h4l3 3v3h-7"></path><circle cx="7" cy="18" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg>
+          <span style="display: flex; flex-direction: column; gap: 4px"><span class="semi" style="font-size: 18px; font-weight: 600">Logística</span><span style="font-size: 14px; color: #8A8A8A">Rutas, entregas y seguimiento</span></span>
+        </a>
+        <a href="Configurador.dc.html" class="ind" style="background: #000000; padding: 28px 24px; min-height: 150px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; text-decoration: none; color: #F5F5F5">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"></path><path d="M5 10v10h14V10"></path><path d="M10 20v-6h4v6"></path></svg>
+          <span style="display: flex; flex-direction: column; gap: 4px"><span class="semi" style="font-size: 18px; font-weight: 600">Inmobiliaria</span><span style="font-size: 14px; color: #8A8A8A">Propiedades, prospectos y visitas</span></span>
+        </a>
+        <a href="Configurador.dc.html" class="ind" style="background: #000000; padding: 28px 24px; min-height: 150px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; text-decoration: none; color: #F5F5F5">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v8M8 12h8"></path></svg>
+          <span style="display: flex; flex-direction: column; gap: 4px"><span class="semi" style="font-size: 18px; font-weight: 600">Otro giro</span><span style="font-size: 14px; color: #8A8A8A">Cuéntame de tu negocio</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMOS -->
+  <section id="demos" style="max-width: 1240px; margin: 0 auto; padding: 120px 24px">
+    <div class="reveal" style="max-width: 640px; display: flex; flex-direction: column; gap: 16px; margin-bottom: 56px">
+      <h2 class="semi" style="margin: 0; font-size: clamp(2rem, 3.6vw, 3rem); line-height: 1.08; font-weight: 600; letter-spacing: -0.02em">Demos para explorar</h2>
+      <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #A3A3A3">Ejemplos funcionales de lo que puede llegar a ser tu proyecto. Ábrelos, navega y toma ideas.</p>
+    </div>
+    <div class="demo-grid reveal" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px">
+
+      <a href="Configurador.dc.html" class="demo" style="display: flex; flex-direction: column; gap: 18px; text-decoration: none; color: #F5F5F5">
+        <div style="aspect-ratio: 4 / 3; border-radius: 14px; border: 1px solid rgba(255,255,255,0.12); background: linear-gradient(180deg, #141414, #070707); padding: 16px; display: flex; gap: 10px; overflow: hidden">
+          <div style="width: 22%; display: flex; flex-direction: column; gap: 8px">
+            <div style="height: 10px; width: 70%; border-radius: 3px; background: rgba(255,255,255,0.5)"></div>
+            <div style="height: 8px; border-radius: 3px; background: rgba(255,255,255,0.18); margin-top: 8px"></div>
+            <div style="height: 8px; border-radius: 3px; background: rgba(255,255,255,0.1)"></div>
+            <div style="height: 8px; border-radius: 3px; background: rgba(255,255,255,0.1)"></div>
+          </div>
+          <div style="flex: 1; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 5px">
+            <div style="border-radius: 4px; background: rgba(255,255,255,0.05)"></div><div style="border-radius: 4px; background: rgba(255,255,255,0.05); padding: 4px"><div style="height: 30%; border-radius: 3px; background: rgba(255,255,255,0.6)"></div></div><div style="border-radius: 4px; background: rgba(255,255,255,0.05)"></div><div style="border-radius: 4px; background: rgba(255,255,255,0.05); padding: 4px"><div style="height: 22%; border-radius: 3px; background: rgba(255,255,255,0.3); margin-top: 40%"></div></div><div style="border-radius: 4px; background: rgba(255,255,255,0.05)"></div>
+            <div style="border-radius: 4px; background: rgba(255,255,255,0.05); padding: 4px"><div style="height: 40%; border-radius: 3px; background: rgba(255,255,255,0.3)"></div></div><div style="border-radius: 4px; background: rgba(255,255,255,0.05)"></div><div style="border-radius: 4px; background: rgba(255,255,255,0.05); padding: 4px"><div style="height: 30%; border-radius: 3px; background: rgba(255,255,255,0.6); margin-top: 20%"></div></div><div style="border-radius: 4px; background: rgba(255,255,255,0.05)"></div><div style="border-radius: 4px; background: rgba(255,255,255,0.05)"></div>
+          </div>
+        </div>
+        <span style="display: flex; flex-direction: column; gap: 6px"><span class="semi" style="font-size: 19px; font-weight: 600">Agenda para consultorios</span><span style="font-size: 15px; color: #A3A3A3">Citas por especialista, expedientes y recordatorios automáticos.</span></span>
+      </a>
+
+      <a href="Configurador.dc.html" class="demo" style="display: flex; flex-direction: column; gap: 18px; text-decoration: none; color: #F5F5F5">
+        <div style="aspect-ratio: 4 / 3; border-radius: 14px; border: 1px solid rgba(255,255,255,0.12); background: linear-gradient(180deg, #141414, #070707); padding: 16px; display: flex; flex-direction: column; gap: 10px; overflow: hidden">
+          <div style="display: flex; justify-content: space-between; align-items: center"><div style="height: 10px; width: 28%; border-radius: 3px; background: rgba(255,255,255,0.5)"></div><div style="height: 16px; width: 16%; border-radius: 4px; background: rgba(255,255,255,0.85)"></div></div>
+          <div style="flex: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+            <div style="display: flex; flex-direction: column; gap: 5px"><div style="flex: 1; border-radius: 6px; background: rgba(255,255,255,0.08)"></div><div style="height: 6px; width: 70%; border-radius: 3px; background: rgba(255,255,255,0.3)"></div><div style="height: 6px; width: 40%; border-radius: 3px; background: rgba(255,255,255,0.6)"></div></div>
+            <div style="display: flex; flex-direction: column; gap: 5px"><div style="flex: 1; border-radius: 6px; background: rgba(255,255,255,0.12)"></div><div style="height: 6px; width: 60%; border-radius: 3px; background: rgba(255,255,255,0.3)"></div><div style="height: 6px; width: 35%; border-radius: 3px; background: rgba(255,255,255,0.6)"></div></div>
+            <div style="display: flex; flex-direction: column; gap: 5px"><div style="flex: 1; border-radius: 6px; background: rgba(255,255,255,0.08)"></div><div style="height: 6px; width: 75%; border-radius: 3px; background: rgba(255,255,255,0.3)"></div><div style="height: 6px; width: 45%; border-radius: 3px; background: rgba(255,255,255,0.6)"></div></div>
+          </div>
+        </div>
+        <span style="display: flex; flex-direction: column; gap: 6px"><span class="semi" style="font-size: 19px; font-weight: 600">Tienda en línea</span><span style="font-size: 15px; color: #A3A3A3">Catálogo, carrito, pagos y seguimiento de pedidos.</span></span>
+      </a>
+
+      <a href="Configurador.dc.html" class="demo" style="display: flex; flex-direction: column; gap: 18px; text-decoration: none; color: #F5F5F5">
+        <div style="aspect-ratio: 4 / 3; border-radius: 14px; border: 1px solid rgba(255,255,255,0.12); background: linear-gradient(180deg, #141414, #070707); padding: 16px; display: flex; flex-direction: column; gap: 10px; overflow: hidden">
+          <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+            <div style="border-radius: 6px; background: rgba(255,255,255,0.06); padding: 8px; display: flex; flex-direction: column; gap: 5px"><div style="height: 5px; width: 50%; border-radius: 3px; background: rgba(255,255,255,0.3)"></div><div style="height: 10px; width: 70%; border-radius: 3px; background: rgba(255,255,255,0.8)"></div></div>
+            <div style="border-radius: 6px; background: rgba(255,255,255,0.06); padding: 8px; display: flex; flex-direction: column; gap: 5px"><div style="height: 5px; width: 40%; border-radius: 3px; background: rgba(255,255,255,0.3)"></div><div style="height: 10px; width: 55%; border-radius: 3px; background: rgba(255,255,255,0.8)"></div></div>
+            <div style="border-radius: 6px; background: rgba(255,255,255,0.06); padding: 8px; display: flex; flex-direction: column; gap: 5px"><div style="height: 5px; width: 60%; border-radius: 3px; background: rgba(255,255,255,0.3)"></div><div style="height: 10px; width: 45%; border-radius: 3px; background: rgba(255,255,255,0.8)"></div></div>
+          </div>
+          <div style="flex: 1; border-radius: 6px; background: rgba(255,255,255,0.04); padding: 10px; display: flex; align-items: flex-end; gap: 6px">
+            <div style="flex: 1; height: 35%; border-radius: 3px; background: rgba(255,255,255,0.2)"></div><div style="flex: 1; height: 50%; border-radius: 3px; background: rgba(255,255,255,0.25)"></div><div style="flex: 1; height: 42%; border-radius: 3px; background: rgba(255,255,255,0.2)"></div><div style="flex: 1; height: 65%; border-radius: 3px; background: rgba(255,255,255,0.35)"></div><div style="flex: 1; height: 58%; border-radius: 3px; background: rgba(255,255,255,0.3)"></div><div style="flex: 1; height: 82%; border-radius: 3px; background: rgba(255,255,255,0.85)"></div>
+          </div>
+        </div>
+        <span style="display: flex; flex-direction: column; gap: 6px"><span class="semi" style="font-size: 19px; font-weight: 600">Tablero de ventas</span><span style="font-size: 15px; color: #A3A3A3">Ingresos, productos y sucursales en tiempo real.</span></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- PROCESO -->
+  <section id="proceso" style="border-top: 1px solid rgba(255,255,255,0.08)">
+    <div class="proc-wrap" style="max-width: 1240px; margin: 0 auto; padding: 120px 24px; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 64px">
+      <div class="reveal" style="display: flex; flex-direction: column; gap: 16px">
+        <h2 class="semi" style="margin: 0; font-size: clamp(2rem, 3.6vw, 3rem); line-height: 1.08; font-weight: 600; letter-spacing: -0.02em">Cómo trabajamos juntos</h2>
+        <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #A3A3A3">Entregas cortas y visibles. En cada etapa sabes qué se está construyendo y puedes probarlo.</p>
+      </div>
+      <div style="position: relative">
+        <div aria-hidden="true" style="position: absolute; left: 19px; top: 20px; bottom: 20px; width: 1px; background: linear-gradient(to bottom, rgba(255,255,255,0.35), rgba(255,255,255,0.08))"></div>
+        <div class="proc-pulse" aria-hidden="true" style="position: absolute; left: 17px; top: 20px; width: 5px; height: 40px; border-radius: 3px; background: linear-gradient(to bottom, rgba(255,255,255,0), #FFFFFF); box-shadow: 0 0 10px #FFFFFF"></div>
+        <ol style="list-style: none; margin: 0; padding: 0; position: relative; display: flex; flex-direction: column">
+        <li class="reveal" style="position: relative; display: flex; gap: 28px; padding-bottom: 40px">
+          <div class="wide" style="flex: none; width: 40px; height: 40px; border-radius: 10px; background: #000000; border: 1px solid rgba(255,255,255,0.35); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 15px">1</div>
+          <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 8px"><h3 class="semi" style="margin: 0; font-size: 20px; font-weight: 600">Reunión inicial</h3><p style="margin: 0; font-size: 16px; line-height: 1.6; color: #A3A3A3">Revisamos tu propuesta, ajustamos el alcance y definimos prioridades.</p><span style="font-size: 14px; color: #8A8A8A">Recibes: propuesta final y cronograma</span></div>
+        </li>
+        <li class="reveal" style="position: relative; display: flex; gap: 28px; padding-bottom: 40px">
+          <div class="wide" style="flex: none; width: 40px; height: 40px; border-radius: 10px; background: #000000; border: 1px solid rgba(255,255,255,0.35); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 15px">2</div>
+          <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 8px"><h3 class="semi" style="margin: 0; font-size: 20px; font-weight: 600">Diseño y prototipo</h3><p style="margin: 0; font-size: 16px; line-height: 1.6; color: #A3A3A3">Ves las pantallas antes de programar y las ajustamos contigo.</p><span style="font-size: 14px; color: #8A8A8A">Recibes: prototipo navegable</span></div>
+        </li>
+        <li class="reveal" style="position: relative; display: flex; gap: 28px; padding-bottom: 40px">
+          <div class="wide" style="flex: none; width: 40px; height: 40px; border-radius: 10px; background: #000000; border: 1px solid rgba(255,255,255,0.35); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 15px">3</div>
+          <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 8px"><h3 class="semi" style="margin: 0; font-size: 20px; font-weight: 600">Desarrollo por entregas</h3><p style="margin: 0; font-size: 16px; line-height: 1.6; color: #A3A3A3">Cada una o dos semanas recibes una versión funcionando para probar.</p><span style="font-size: 14px; color: #8A8A8A">Recibes: avances en un enlace de prueba</span></div>
+        </li>
+        <li class="reveal" style="position: relative; display: flex; gap: 28px; padding-bottom: 40px">
+          <div class="wide" style="flex: none; width: 40px; height: 40px; border-radius: 10px; background: #000000; border: 1px solid rgba(255,255,255,0.35); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 15px">4</div>
+          <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 8px"><h3 class="semi" style="margin: 0; font-size: 20px; font-weight: 600">Pruebas y lanzamiento</h3><p style="margin: 0; font-size: 16px; line-height: 1.6; color: #A3A3A3">Revisamos todo con tu equipo, publicamos y te capacito para usarlo.</p><span style="font-size: 14px; color: #8A8A8A">Recibes: sistema en producción y manual</span></div>
+        </li>
+        <li class="reveal" style="position: relative; display: flex; gap: 28px">
+          <div class="wide" style="flex: none; width: 40px; height: 40px; border-radius: 10px; background: #FFFFFF; color: #000000; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 15px; box-shadow: 0 0 24px rgba(255,255,255,0.25)">5</div>
+          <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 8px"><h3 class="semi" style="margin: 0; font-size: 20px; font-weight: 600">Soporte continuo</h3><p style="margin: 0; font-size: 16px; line-height: 1.6; color: #A3A3A3">Corrección de errores incluida y opción de mejoras mensuales.</p><span style="font-size: 14px; color: #8A8A8A">Recibes: código, accesos y documentación</span></div>
+        </li>
+      </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- POR QUÉ -->
+  <section style="max-width: 1240px; margin: 0 auto; padding: 40px 24px 120px">
+    <div class="why reveal" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px">
+      <div style="display: flex; flex-direction: column; gap: 12px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.3)">
+        <h3 class="semi" style="margin: 0; font-size: 20px; font-weight: 600">Hablas con quien construye</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #A3A3A3">Sin intermediarios. Las decisiones se toman contigo y se ejecutan sin teléfono descompuesto.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.3)">
+        <h3 class="semi" style="margin: 0; font-size: 20px; font-weight: 600">El código es tuyo</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #A3A3A3">Al terminar recibes todo: código, accesos y documentación. Sin ataduras.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.3)">
+        <h3 class="semi" style="margin: 0; font-size: 20px; font-weight: 600">Costos claros desde el inicio</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #A3A3A3">Ves la inversión por módulo antes de la primera reunión y decides qué incluir.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRECIOS -->
+  <section id="precios" style="border-top: 1px solid rgba(255,255,255,0.08)">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 120px 24px">
+      <div class="reveal" style="max-width: 640px; display: flex; flex-direction: column; gap: 16px; margin-bottom: 56px">
+        <h2 class="semi" style="margin: 0; font-size: clamp(2rem, 3.6vw, 3rem); line-height: 1.08; font-weight: 600; letter-spacing: -0.02em">Inversión orientativa</h2>
+        <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #A3A3A3">Rangos de referencia. El configurador te da un estimado para tu caso en minutos.</p>
+      </div>
+      <div class="price-grid reveal" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: stretch">
+        <div style="border-radius: 16px; border: 1px solid rgba(255,255,255,0.12); padding: 32px 28px; display: flex; flex-direction: column; gap: 24px">
+          <div style="display: flex; flex-direction: column; gap: 8px"><h3 class="semi" style="margin: 0; font-size: 20px; font-weight: 600">Herramienta puntual</h3><p style="margin: 0; font-size: 15px; line-height: 1.55; color: #A3A3A3">Una automatización, un formulario inteligente o un sitio con funciones específicas.</p></div>
+          <div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 14px; color: #8A8A8A">Desde</span><span class="wide" style="font-size: 30px; font-weight: 600; letter-spacing: -0.02em">[TU PRECIO]</span><span style="font-size: 14px; color: #8A8A8A">2 a 4 semanas</span></div>
+          <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 15px; color: #D4D4D4; flex: 1">
+            <li style="display: flex; gap: 10px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><path d="M5 12l5 5 9-10"></path></svg>Diseño a la medida</li>
+            <li style="display: flex; gap: 10px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><path d="M5 12l5 5 9-10"></path></svg>Hasta 2 integraciones</li>
+            <li style="display: flex; gap: 10px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><path d="M5 12l5 5 9-10"></path></svg>30 días de soporte</li>
+          </ul>
+          <a href="Configurador.dc.html" class="btn-ghost" style="display: flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.22); color: #F5F5F5; font-weight: 500; font-size: 15px; text-decoration: none">Calcular mi caso</a>
+        </div>
+        <div style="position: relative; border-radius: 16px; border: 1px solid rgba(255,255,255,0.4); background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.015)); padding: 32px 28px; display: flex; flex-direction: column; gap: 24px; box-shadow: 0 0 60px rgba(255,255,255,0.06), inset 0 1px 0 rgba(255,255,255,0.15)">
+          <span style="position: absolute; top: -13px; left: 28px; padding: 4px 12px; border-radius: 999px; background: #FFFFFF; color: #000000; font-size: 12px; font-weight: 600">El más solicitado</span>
+          <div style="display: flex; flex-direction: column; gap: 8px"><h3 class="semi" style="margin: 0; font-size: 20px; font-weight: 600">Sistema a la medida</h3><p style="margin: 0; font-size: 15px; line-height: 1.55; color: #A3A3A3">Una plataforma web para operar tu negocio: citas, pedidos, inventario o clientes.</p></div>
+          <div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 14px; color: #8A8A8A">Desde</span><span class="wide" style="font-size: 30px; font-weight: 600; letter-spacing: -0.02em">[TU PRECIO]</span><span style="font-size: 14px; color: #8A8A8A">6 a 10 semanas</span></div>
+          <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 15px; color: #D4D4D4; flex: 1">
+            <li style="display: flex; gap: 10px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><path d="M5 12l5 5 9-10"></path></svg>Usuarios, roles y panel administrativo</li>
+            <li style="display: flex; gap: 10px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><path d="M5 12l5 5 9-10"></path></svg>Pagos, WhatsApp o facturación</li>
+            <li style="display: flex; gap: 10px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><path d="M5 12l5 5 9-10"></path></svg>90 días de soporte</li>
+          </ul>
+          <a href="Configurador.dc.html" class="btn-primary" style="display: flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 10px; background: #FFFFFF; color: #000000; font-weight: 600; font-size: 15px; text-decoration: none">Calcular mi caso</a>
+        </div>
+        <div style="border-radius: 16px; border: 1px solid rgba(255,255,255,0.12); padding: 32px 28px; display: flex; flex-direction: column; gap: 24px">
+          <div style="display: flex; flex-direction: column; gap: 8px"><h3 class="semi" style="margin: 0; font-size: 20px; font-weight: 600">Plataforma completa</h3><p style="margin: 0; font-size: 15px; line-height: 1.55; color: #A3A3A3">Web y app móvil, varias áreas o sucursales, e integraciones avanzadas o con IA.</p></div>
+          <div style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 14px; color: #8A8A8A">Desde</span><span class="wide" style="font-size: 30px; font-weight: 600; letter-spacing: -0.02em">[TU PRECIO]</span><span style="font-size: 14px; color: #8A8A8A">3 a 6 meses</span></div>
+          <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 15px; color: #D4D4D4; flex: 1">
+            <li style="display: flex; gap: 10px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><path d="M5 12l5 5 9-10"></path></svg>App para iOS y Android</li>
+            <li style="display: flex; gap: 10px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><path d="M5 12l5 5 9-10"></path></svg>Reportes y tableros avanzados</li>
+            <li style="display: flex; gap: 10px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><path d="M5 12l5 5 9-10"></path></svg>6 meses de soporte</li>
+          </ul>
+          <a href="Configurador.dc.html" class="btn-ghost" style="display: flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.22); color: #F5F5F5; font-weight: 500; font-size: 15px; text-decoration: none">Calcular mi caso</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" style="border-top: 1px solid rgba(255,255,255,0.08)">
+    <div class="faq-wrap" style="max-width: 1240px; margin: 0 auto; padding: 120px 24px; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 64px">
+      <div class="reveal" style="display: flex; flex-direction: column; gap: 16px">
+        <h2 class="semi" style="margin: 0; font-size: clamp(2rem, 3.6vw, 3rem); line-height: 1.08; font-weight: 600; letter-spacing: -0.02em">Preguntas frecuentes</h2>
+        <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #A3A3A3">¿Algo más? Escríbeme y te respondo el mismo día.</p>
+      </div>
+      <div class="reveal" style="border-top: 1px solid rgba(255,255,255,0.1)">
+        <sc-for list="{{faqs}}" as="f" hint-placeholder-count="6">
+          <div style="border-bottom: 1px solid rgba(255,255,255,0.1)">
+            <h3 style="margin: 0">
+              <button type="button" onClick="{{f.toggle}}" aria-expanded="{{f.expanded}}" style="width: 100%; min-height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 20px 4px; background: transparent; border: 0; color: #F5F5F5; font: inherit; font-size: 18px; font-weight: 500; text-align: left; cursor: pointer">
+                <span>{{f.q}}</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" style="flex: none; transition: transform .3s ease; transform: rotate({{f.rot}})"><path d="M12 5v14M5 12h14"></path></svg>
+              </button>
+            </h3>
+            <sc-if value="{{f.open}}" hint-placeholder-val="{{ false }}">
+              <p class="faq-a" style="margin: 0; padding: 0 4px 24px; max-width: 620px; font-size: 16px; line-height: 1.65; color: #A3A3A3">{{f.a}}</p>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section id="contacto" style="position: relative; overflow: hidden; border-top: 1px solid rgba(255,255,255,0.08)">
+    <div aria-hidden="true" style="position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 900px; height: 420px; background: radial-gradient(ellipse 50% 60% at 50% 0%, rgba(255,255,255,0.09), rgba(255,255,255,0) 70%)"></div>
+    <div class="reveal" style="position: relative; max-width: 760px; margin: 0 auto; padding: 140px 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 28px">
+      <img src="/_blob/e99d7c55e8dcf339fb93f1717932072b" alt="" style="width: 44px; height: auto; opacity: 0.9">
+      <h2 class="wide" style="margin: 0; font-size: clamp(2rem, 4.2vw, 3.4rem); line-height: 1.05; font-weight: 600; letter-spacing: -0.025em">¿Tienes una idea? Veamos cómo se vería.</h2>
+      <p style="margin: 0; max-width: 520px; font-size: 18px; line-height: 1.6; color: #A3A3A3">Tu propuesta preliminar está a unos minutos. Si prefieres platicarlo primero, escríbeme directo.</p>
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px">
+        <a href="Configurador.dc.html" class="btn-primary" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 10px; background: #FFFFFF; color: #000000; font-weight: 600; font-size: 16px; text-decoration: none">Configurar mi solución</a>
+        <a href="#contacto" class="btn-ghost" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.22); color: #F5F5F5; font-weight: 500; font-size: 16px; text-decoration: none">Escribir por WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <footer style="border-top: 1px solid rgba(255,255,255,0.08)">
+    <div class="foot" style="max-width: 1240px; margin: 0 auto; padding: 40px 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap">
+      <img src="/_blob/855bbb00e1cc9bc724df395f4279d17b" alt="Solvyn Solutions" style="height: 24px; width: auto; opacity: 0.85">
+      <div style="display: flex; flex-wrap: wrap; gap: 28px; font-size: 14px; color: #8A8A8A">
+        <span>[TU CORREO]</span>
+        <span>[TU WHATSAPP]</span>
+        <a href="#inicio" style="color: #8A8A8A">Aviso de privacidad</a>
+        <span>© 2026 Solvyn Solutions</span>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"signal":{"editor":"enum","options":["Verde","Blanco"],"default":"Verde","section":"Color"},"circuitOpacity":{"editor":"range","default":0.13,"min":0.04,"max":0.4,"step":0.01,"section":"Circuito"},"pulses":{"editor":"boolean","default":true,"section":"Circuito"},"$preview":{"width":1440,"height":8200}}'>
+class Component extends DCLogic {
+  constructor(...args) {
+    super(...args);
+    this.state = { opt: { wa: true, pay: false, rep: false, app: false }, mx: -9999, my: -9999, faq: 0 };
+    this._raf = 0;
+  }
+  componentWillUnmount() { if (this._raf) cancelAnimationFrame(this._raf); }
+  renderVals() {
+    const op = this.props.circuitOpacity ?? 0.13;
+    const pulsesOn = this.props.pulses ?? true;
+    const s = this.state;
+    const opt = s.opt;
+    const sigMode = this.props.signal ?? 'Verde';
+    const sig = sigMode === 'Verde' ? '#46D19A' : '#FFFFFF';
+    const sigGlow = sigMode === 'Verde' ? 'rgba(70,209,154,0.55)' : 'rgba(255,255,255,0.6)';
+
+    const rate = 600;
+    const defs = [
+      { id: 'agenda', name: 'Agenda de citas', h: 60, desc: 'Calendario por especialista, disponibilidad en tiempo real y reagendado en un clic.' },
+      { id: 'exp', name: 'Expediente de pacientes', h: 50, desc: 'Historial, notas de consulta y archivos de cada paciente en un solo lugar.' },
+      { id: 'panel', name: 'Panel administrativo', h: 45, desc: 'Control de consultorios, horarios, servicios y precios.' },
+      { id: 'roles', name: 'Usuarios y permisos', h: 20, desc: 'Accesos distintos para recepción, médicos y administración.' },
+      { id: 'wa', name: 'Recordatorios por WhatsApp', h: 25, desc: 'Avisos automáticos antes de cada cita para reducir inasistencias.', optional: true },
+      { id: 'pay', name: 'Pagos en línea', h: 30, desc: 'Anticipos o pago completo al reservar, con tarjeta o transferencia.', optional: true },
+      { id: 'rep', name: 'Reportes y estadísticas', h: 35, desc: 'Ocupación, ingresos y pacientes nuevos por mes.', optional: true },
+      { id: 'app', name: 'App móvil para pacientes', h: 120, desc: 'Reservar, pagar y recibir avisos desde el celular.', optional: true }
+    ];
+    let hours = 0, count = 0;
+    const maxHours = defs.reduce((a, d) => a + d.h, 0);
+    const modules = defs.map((d) => {
+      const on = d.optional ? !!opt[d.id] : true;
+      if (on) { hours += d.h; count += 1; }
+      return {
+        name: d.name, desc: d.desc,
+        hoursLabel: '~' + d.h + ' h',
+        optional: !!d.optional, fixed: !d.optional,
+        pressed: on ? 'true' : 'false',
+        aria: (on ? 'Quitar ' : 'Agregar ') + d.name,
+        border: on ? 'rgba(255,255,255,0.28)' : 'rgba(255,255,255,0.09)',
+        bg: on ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.01)',
+        titleColor: on ? '#FFFFFF' : '#8A8A8A',
+        descColor: on ? '#A3A3A3' : '#737373',
+        trackBg: on ? sig : 'rgba(255,255,255,0.06)',
+        knobBg: on ? '#000000' : '#A3A3A3',
+        knobX: on ? '20px' : '0px',
+        toggle: () => this.setState((st) => ({ opt: Object.assign({}, st.opt, { [d.id]: !st.opt[d.id] }) }))
+      };
+    });
+    const faqData = [
+      ['¿La propuesta del configurador es definitiva?', 'Es una propuesta preliminar muy aproximada. En la reunión inicial revisamos los detalles y te entrego la propuesta final con precio y fechas cerradas.'],
+      ['¿Cuánto tarda un proyecto?', 'Depende del alcance: una herramienta puntual puede estar en 2 a 4 semanas y un sistema a la medida suele tomar de 6 a 10. El configurador te da un estimado para tu caso.'],
+      ['¿El código y los datos son míos?', 'Sí. Al terminar recibes el código fuente, los accesos a los servicios y la documentación. No dependes de mí para seguir operando.'],
+      ['¿Cómo se paga?', 'Normalmente con un anticipo para iniciar y el resto en pagos ligados a cada entrega. Así solo pagas por avances que ya puedes ver.'],
+      ['¿Qué pasa después de la entrega?', 'Cada plan incluye un periodo de soporte para corregir errores. Después puedes contratar mejoras o mantenimiento mensual si lo necesitas.'],
+      ['¿Trabajas a distancia?', 'Sí. Las reuniones son por videollamada y los avances se revisan en un enlace de prueba, así que podemos trabajar desde cualquier ciudad.']
+    ];
+    const faqs = faqData.map((f, i) => {
+      const open = s.faq === i;
+      return { q: f[0], a: f[1], open: open, expanded: open ? 'true' : 'false', rot: open ? '45deg' : '0deg', toggle: () => this.setState((st) => ({ faq: st.faq === i ? -1 : i })) };
+    });
+    const fmt = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
+    const base = hours * rate;
+    const lo = Math.round(base * 0.85 / 1000) * 1000;
+    const hi = Math.round(base * 1.15 / 1000) * 1000;
+    const wLo = Math.max(2, Math.floor(hours * 0.9 / 30));
+    const wHi = Math.max(wLo + 1, Math.ceil(hours * 1.1 / 30));
+    const wMid = hours / 30;
+    const wk = (f) => { const v = Math.max(1, Math.round(wMid * f)); return v + (v === 1 ? ' sem' : ' sem'); };
+    const mx = s.mx, my = s.my;
+    return {
+      traceStroke: 'rgba(255,255,255,' + op + ')',
+      padStroke: 'rgba(255,255,255,' + Math.min(1, op * 2.4) + ')',
+      pulseDisplay: pulsesOn ? 'inline' : 'none',
+      spotMask: 'radial-gradient(circle 230px at ' + mx + 'px ' + my + 'px, #000 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0) 75%)',
+      sig: sig, sigGlow: sigGlow,
+      modules: modules,
+      faqs: faqs,
+      priceRange: fmt.format(lo) + ' – ' + fmt.format(hi),
+      weeks: wLo + '–' + wHi + ' semanas',
+      modCount: count + ' de ' + defs.length,
+      hoursLabel: hours + ' h estimadas',
+      scopePct: Math.round(hours / maxHours * 100) + '%',
+      ph1: wk(0.1), ph2: wk(0.2), ph3: wk(0.55), ph4: wk(0.15),
+      onMove: (e) => {
+        const host = e.currentTarget;
+        const layer = host && host.querySelector('[data-layer]');
+        if (!layer) return;
+        const r = layer.getBoundingClientRect();
+        const x = Math.round(e.clientX - r.left), y = Math.round(e.clientY - r.top);
+        if (this._raf) cancelAnimationFrame(this._raf);
+        this._raf = requestAnimationFrame(() => { this._raf = 0; this.setState({ mx: x, my: y }); });
+      },
+      onLeave: () => { if (this._raf) cancelAnimationFrame(this._raf); this.setState({ mx: -9999, my: -9999 }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
