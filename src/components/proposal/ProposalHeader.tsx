@@ -27,7 +27,8 @@ export function ProposalHeader({ businessName, title, summary }: ProposalHeaderP
       setNotice("No pudimos copiar el enlace. Cópialo desde la barra del navegador.");
     }
   };
-  const showComingSoon = () => setNotice("Esta función estará disponible pronto.");
+  // The printable page opens in a new tab and asks the browser to print (save as PDF).
+  const openPrintableVersion = () => window.open(`${window.location.pathname}/imprimir`, "_blank", "noopener");
 
   return (
     <>
@@ -43,7 +44,7 @@ export function ProposalHeader({ businessName, title, summary }: ProposalHeaderP
           <Button variant="secondary" size="md" onClick={copyShareLink}>
             Compartir enlace
           </Button>
-          <Button variant="secondary" size="md" onClick={showComingSoon}>
+          <Button variant="secondary" size="md" onClick={openPrintableVersion}>
             Descargar PDF
           </Button>
         </div>

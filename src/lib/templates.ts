@@ -99,3 +99,8 @@ export function resolveCopy(templateCopy: ProposalCopy, override?: ProposalCopyO
     technologyNotes: mergeNotes(templateCopy.technologyNotes, override?.technologyNotes),
   };
 }
+
+// Rules-only texts mention the module count, so they follow the facts; AI texts stay as generated.
+export function resolveProposalCopy(proposal: { provider: string; copy: ProposalCopy }, facts: ProposalFacts): ProposalCopy {
+  return proposal.provider === "rules" ? buildTemplateCopy(facts) : proposal.copy;
+}

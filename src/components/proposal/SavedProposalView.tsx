@@ -6,7 +6,7 @@ import { useConfiguratorStore } from "@/src/lib/configurator/store";
 import { toggleModuleFlags } from "@/src/lib/modules";
 import { buildProposalFacts } from "@/src/lib/proposal";
 import type { StoredProposalPayload } from "@/src/lib/proposals/repository";
-import { buildTemplateCopy } from "@/src/lib/templates";
+import { resolveProposalCopy } from "@/src/lib/templates";
 import { ProposalView } from "./ProposalView";
 
 type SavedProposal = Pick<StoredProposalPayload, "answers" | "copy" | "provider">;
@@ -28,8 +28,7 @@ export function SavedProposalView({ proposal }: { proposal: SavedProposal }) {
   );
   if (!facts) return null;
 
-  // Rules-only texts mention the module count, so they follow the switches; AI texts stay as generated.
-  const copy = proposal.provider === "rules" ? buildTemplateCopy(facts) : proposal.copy;
+  const copy = resolveProposalCopy(proposal, facts);
 
   return (
     <ProposalView
