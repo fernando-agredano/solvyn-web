@@ -29,6 +29,9 @@ export interface ConfiguratorAnswers {
   // Proposal switches, keyed by module id (`i_<integration>` / `x_<extra>`): integrations the visitor turned off, extras turned on.
   disabledModules: Record<string, boolean>;
   enabledExtras: Record<string, boolean>;
+  // The meeting the visitor confirmed. Not persisted: it is only needed until the confirmation screen.
+  meetingDate: string | null;
+  meetingTime: string | null;
   contactName: string;
   contactEmail: string;
   contactPhone: string;
@@ -49,6 +52,8 @@ export const INITIAL_ANSWERS: ConfiguratorAnswers = {
   budget: null,
   disabledModules: {},
   enabledExtras: {},
+  meetingDate: null,
+  meetingTime: null,
   contactName: "",
   contactEmail: "",
   contactPhone: "",

@@ -1,9 +1,8 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@/src/components/ui/Button";
+import { SCHEDULE_ROUTE } from "@/src/config/scheduling";
 import { clearGeneratedFlag } from "@/src/hooks/useProposalGeneration";
 import { useConfiguratorStore } from "@/src/lib/configurator/store";
-
-export const SCHEDULE_ROUTE = "/configurar/agenda";
 
 export function ProposalCta() {
   const router = useRouter();

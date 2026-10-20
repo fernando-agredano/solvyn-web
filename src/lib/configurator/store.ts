@@ -61,7 +61,9 @@ export const useConfiguratorStore = create<ConfiguratorState>()(
       // Rehydrated from the client after mount, so the server and first client render match.
       skipHydration: true,
       partialize: pickPersisted,
-      merge: (persisted, current) => ({ ...current, ...sanitizePersistedAnswers(persisted) }),
+      // Only persisted keys are merged: every screen restores on mount, and that must not wipe the in-memory
+      // contact data or meeting.
+      merge: (persisted, current) => ({ ...current, ...pickPersisted(sanitizePersistedAnswers(persisted)) }),
     },
   ),
 );
