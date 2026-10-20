@@ -79,6 +79,13 @@
   animation: travel 3.6s linear infinite;
 }
 
+/* FAQ answer fade-in. */
+@keyframes fadein {
+  to {
+    opacity: 1;
+  }
+}
+
 /* Light running down the process timeline. */
 @keyframes procrun {
   0% {
