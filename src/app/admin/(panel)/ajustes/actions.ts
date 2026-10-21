@@ -1,6 +1,6 @@
 "use server";
 
-import { updateTag } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { z } from "zod";
 import { assertSameOrigin, requireAdmin } from "@/src/lib/admin/auth";
 import { settingsFormSchema, toSettingsRow } from "@/src/lib/settings/schema";
@@ -49,5 +49,6 @@ export async function saveSettings(
 
   // Read-your-writes: the next page view shows the new values, not the cached ones.
   updateTag(SETTINGS_TAG);
+  revalidatePath("/admin/ajustes");
   return { status: "saved", fieldErrors: {} };
 }

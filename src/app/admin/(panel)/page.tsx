@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { BarChart } from "@/src/components/admin/BarChart";
 import { HorizontalBars } from "@/src/components/admin/HorizontalBars";
 import { LabelBadge } from "@/src/components/admin/LabelBadge";
+import { PageHeading } from "@/src/components/admin/PageHeading";
 import { SectionCard } from "@/src/components/admin/SectionCard";
 import { StatCard } from "@/src/components/admin/StatCard";
 import { SERIES_DAYS } from "@/src/lib/admin/leads/series";
@@ -37,10 +38,7 @@ async function Dashboard() {
       id="contenido"
       className="flex flex-col gap-5 px-4 py-6 sm:px-8 lg:px-12"
     >
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h1 className="m-0 text-lg font-semibold text-[#18181B]">Resumen</h1>
-        <p className="m-0 text-xs text-[#71717A]">Últimos {SERIES_DAYS} días</p>
-      </div>
+      <PageHeading title="Resumen" tags={[`Últimos ${SERIES_DAYS} días`]} />
 
       <section
         aria-label="Cifras principales"

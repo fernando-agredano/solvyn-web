@@ -1,6 +1,5 @@
 import { connection } from "next/server";
 import { Suspense } from "react";
-import { SectionCard } from "@/src/components/admin/SectionCard";
 import { requireAdmin } from "@/src/lib/admin/auth";
 import { toPublicSettings, type SettingsRow } from "@/src/lib/settings/model";
 import { SETTINGS_COLUMNS } from "@/src/lib/settings/settings";
@@ -17,23 +16,13 @@ async function SettingsPanel() {
     .single();
   if (error || !data) throw new Error("settings read failed");
 
+  // The card is centered in what is left under the 3.5rem header, so the screen needs no scrolling.
   return (
     <main
       id="contenido"
-      className="flex flex-col gap-4 px-4 py-6 sm:px-8 lg:px-12"
+      className="flex min-h-[calc(100dvh-3.5rem)] items-center justify-center px-4 py-6 sm:px-8 lg:px-12"
     >
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h1 className="m-0 text-lg font-semibold text-[#18181B]">Ajustes</h1>
-        <p className="m-0 text-xs text-[#71717A]">
-          Se muestran en la landing y en el configurador
-        </p>
-      </div>
-      <SectionCard
-        title="Disponibilidad y contacto"
-        headingId="settings-heading"
-      >
-        <SettingsForm settings={toPublicSettings(data as SettingsRow)} />
-      </SectionCard>
+      <SettingsForm settings={toPublicSettings(data as SettingsRow)} />
     </main>
   );
 }

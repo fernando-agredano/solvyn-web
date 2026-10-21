@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import type { ReactNode } from "react";
+import { ToastProvider } from "@/src/components/admin/toast/ToastProvider";
 
 // Admin only: the panel uses a neutral UI face, the public site keeps its own typography.
 const geist = Geist({ subsets: ["latin"], display: "swap" });
@@ -17,7 +18,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     <div
       className={`admin-theme ${geist.className} min-h-screen bg-[#F4F4F5] text-[#18181B] antialiased`}
     >
-      {children}
+      <ToastProvider>{children}</ToastProvider>
     </div>
   );
 }

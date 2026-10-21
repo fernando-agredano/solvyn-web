@@ -2,8 +2,8 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import { Suspense } from "react";
 import { connection } from "next/server";
-import { AdminButton } from "@/src/components/admin/AdminButton";
 import { AdminNav } from "@/src/components/admin/AdminNav";
+import { SignOutButton } from "@/src/components/admin/SignOutButton";
 import { SITE } from "@/src/config/site";
 import { requireAdmin } from "@/src/lib/admin/auth";
 import { signOut } from "../actions";
@@ -24,8 +24,8 @@ async function PanelFrame({ children }: { children: ReactNode }) {
               width={1100}
               height={262}
               priority
-              sizes="110px"
-              className="block h-5 w-auto"
+              sizes="140px"
+              className="block h-8 w-auto"
             />
             <AdminNav />
           </div>
@@ -33,11 +33,7 @@ async function PanelFrame({ children }: { children: ReactNode }) {
             <span className="hidden text-xs text-[#71717A] sm:inline">
               {user.email}
             </span>
-            <form action={signOut}>
-              <AdminButton type="submit" variant="secondary">
-                Cerrar sesión
-              </AdminButton>
-            </form>
+            <SignOutButton action={signOut} />
           </div>
         </div>
       </header>

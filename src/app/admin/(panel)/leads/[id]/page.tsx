@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { AdminButton } from "@/src/components/admin/AdminButton";
 import { LabelBadge } from "@/src/components/admin/LabelBadge";
+import { PageHeading } from "@/src/components/admin/PageHeading";
 import { SectionCard } from "@/src/components/admin/SectionCard";
 import { describeAnswers } from "@/src/lib/admin/leads/answers";
 import { getMailtoHref, getWhatsAppHref } from "@/src/lib/admin/leads/contact";
@@ -35,20 +36,20 @@ async function LeadDetail({ params }: { params: LeadParams }) {
     >
       <Link
         href="/admin/leads"
-        className="w-fit text-xs font-medium text-[#52525B] hover:text-[#18181B]"
+        className="inline-flex w-fit items-center rounded-full border border-[#E4E4E7] bg-white px-3 py-1 text-xs font-medium text-[#52525B] hover:text-[#18181B]"
       >
         ← Volver a leads
       </Link>
 
-      <header className="flex flex-wrap items-center gap-3">
-        <h1 className="m-0 text-lg font-semibold text-[#18181B]">
-          {lead.name}
-        </h1>
+      <header className="flex flex-wrap items-center gap-2">
+        <PageHeading
+          title={lead.name}
+          tags={[
+            `Puntaje ${lead.score}`,
+            `Registrado el ${formatLeadDateTime(lead.createdAt)}`,
+          ]}
+        />
         <LabelBadge label={lead.label} />
-        <span className="text-xs text-[#71717A]">
-          Puntaje {lead.score} · Registrado el{" "}
-          {formatLeadDateTime(lead.createdAt)}
-        </span>
       </header>
 
       <SectionCard title="Contacto" headingId="contact-heading">

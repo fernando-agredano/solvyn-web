@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { LeadCardList } from "@/src/components/admin/LeadCardList";
 import { LeadsFilterBar } from "@/src/components/admin/LeadsFilterBar";
 import { LeadsTable } from "@/src/components/admin/LeadsTable";
+import { PageHeading } from "@/src/components/admin/PageHeading";
 import { Pagination } from "@/src/components/admin/Pagination";
 import { ADMIN_PANEL_CLASSES } from "@/src/components/admin/styles";
 import { parseLeadsFilters } from "@/src/lib/admin/leads/filters";
@@ -22,12 +23,10 @@ async function LeadsList({
       id="contenido"
       className="flex flex-col gap-4 px-4 py-6 sm:px-8 lg:px-12"
     >
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h1 className="m-0 text-lg font-semibold text-[#18181B]">Leads</h1>
-        <p className="m-0 text-xs text-[#71717A]">
-          {page.total} {page.total === 1 ? "resultado" : "resultados"}
-        </p>
-      </div>
+      <PageHeading
+        title="Leads"
+        tags={[`${page.total} ${page.total === 1 ? "resultado" : "resultados"}`]}
+      />
 
       <section aria-label="Filtros" className={`${ADMIN_PANEL_CLASSES} p-4`}>
         <LeadsFilterBar filters={filters} />

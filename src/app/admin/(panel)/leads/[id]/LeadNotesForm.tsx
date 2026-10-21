@@ -6,11 +6,13 @@ import {
   ADMIN_CONTROL_CLASSES,
   ADMIN_LABEL_CLASSES,
 } from "@/src/components/admin/styles";
+import { useActionToast } from "@/src/components/admin/toast/useActionToast";
 import { saveLeadNotes, type LeadActionState } from "../actions";
 
 const INITIAL_STATE: LeadActionState = { status: "idle" };
 const MAX_NOTES_LENGTH = 2000;
 
+// Notes are internal and easy to edit again, so saving them only needs a toast, no confirmation.
 export function LeadNotesForm({
   leadId,
   initialNotes,
@@ -22,6 +24,14 @@ export function LeadNotesForm({
     saveLeadNotes,
     INITIAL_STATE,
   );
+
+  useActionToast(state, {
+    saved: { title: "Notas guardadas" },
+    error: {
+      title: "No se pudieron guardar las notas",
+      description: "Intenta de nuevo en unos segundos.",
+    },
+  });
 
   return (
     <form action={formAction} className="flex flex-col gap-3">
@@ -36,28 +46,11 @@ export function LeadNotesForm({
           className={`${ADMIN_CONTROL_CLASSES} min-h-28 resize-y py-2.5 leading-[1.55]`}
         />
       </label>
-      <div className="flex flex-wrap items-center gap-3">
+      <div>
         <AdminButton type="submit" disabled={isPending}>
           {isPending ? "Guardando…" : "Guardar notas"}
         </AdminButton>
-        <NotesMessage status={state.status} />
       </div>
     </form>
   );
-}
-
-function NotesMessage({ status }: { status: LeadActionState["status"] }) {
-  if (status === "saved")
-    return (
-      <p role="status" className="m-0 text-xs text-[#52525B]">
-        Notas guardadas.
-      </p>
-    );
-  if (status === "error")
-    return (
-      <p role="alert" className="m-0 text-xs text-[#B91C1C]">
-        No se pudieron guardar las notas.
-      </p>
-    );
-  return null;
 }

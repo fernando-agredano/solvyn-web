@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 type Variant = "primary" | "secondary";
 
 const BASE_CLASSES =
-  "inline-flex min-h-10 items-center justify-center rounded-lg px-4 text-sm font-medium transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex min-h-10 cursor-pointer items-center justify-center rounded-lg px-4 text-sm font-medium transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-50";
 
 const VARIANT_CLASSES: Record<Variant, string> = {
   primary: "bg-[#18181B] text-white hover:bg-[#27272A]",
@@ -17,6 +17,7 @@ interface AdminButtonProps {
   href?: string;
   variant?: Variant;
   type?: "button" | "submit";
+  onClick?: () => void;
   disabled?: boolean;
   className?: string;
 }
@@ -26,6 +27,7 @@ export function AdminButton({
   href,
   variant = "primary",
   type = "button",
+  onClick,
   disabled,
   className = "",
 }: AdminButtonProps) {
@@ -38,7 +40,12 @@ export function AdminButton({
     );
   }
   return (
-    <button type={type} disabled={disabled} className={classes}>
+    <button
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      className={classes}
+    >
       {children}
     </button>
   );
