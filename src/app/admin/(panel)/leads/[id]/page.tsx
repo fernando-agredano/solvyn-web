@@ -31,7 +31,7 @@ async function LeadDetail({ params }: { params: LeadParams }) {
   return (
     <main
       id="contenido"
-      className="mx-auto flex max-w-[960px] flex-col gap-4 px-5 py-6"
+      className="flex flex-col gap-4 px-4 py-6 sm:px-6"
     >
       <Link
         href="/admin/leads"

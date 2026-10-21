@@ -20,7 +20,7 @@ async function LeadsList({
   return (
     <main
       id="contenido"
-      className="mx-auto flex max-w-[1200px] flex-col gap-4 px-5 py-6"
+      className="flex flex-col gap-4 px-4 py-6 sm:px-6"
     >
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h1 className="m-0 text-lg font-semibold text-[#18181B]">Leads</h1>
