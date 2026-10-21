@@ -16,21 +16,22 @@ async function PanelFrame({ children }: { children: ReactNode }) {
     <>
       {/* Sticky: the header stays on top while the page scrolls. */}
       <header className="sticky top-0 z-40 border-b border-[#E4E4E7] bg-white/90 backdrop-blur">
-        <div className="flex h-14 items-center justify-between gap-4 px-4 sm:px-8 lg:px-12">
-          <div className="flex items-center gap-6">
-            <Image
-              src="/brand/solvyn-logo-dark.png"
-              alt={SITE.name}
-              width={1100}
-              height={262}
-              priority
-              sizes="140px"
-              className="block h-8 w-auto"
-            />
+        {/* Three columns from md: logo, navigation, session. The 1fr sides keep the navigation at the true center. */}
+        <div className="grid grid-cols-[auto_auto] items-center justify-between gap-y-2 px-4 py-2 sm:px-8 md:h-14 md:grid-cols-[1fr_auto_1fr] md:py-0 lg:px-12">
+          <Image
+            src="/brand/solvyn-logo-dark.png"
+            alt={SITE.name}
+            width={1100}
+            height={262}
+            priority
+            sizes="140px"
+            className="col-start-1 row-start-1 block h-8 w-auto justify-self-start"
+          />
+          <div className="col-span-2 row-start-2 justify-self-center md:col-span-1 md:col-start-2 md:row-start-1">
             <AdminNav />
           </div>
-          <div className="flex items-center gap-3">
-            <span className="hidden text-xs text-[#71717A] sm:inline">
+          <div className="col-start-2 row-start-1 flex items-center justify-self-end gap-3 md:col-start-3">
+            <span className="hidden max-w-64 truncate text-xs text-[#71717A] xl:inline">
               {user.email}
             </span>
             <SignOutButton action={signOut} />

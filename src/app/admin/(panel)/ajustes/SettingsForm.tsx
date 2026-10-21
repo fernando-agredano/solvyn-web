@@ -70,7 +70,7 @@ export function SettingsForm({ settings }: { settings: PublicSettings }) {
       setDraft((current) => ({ ...current, [key]: event.target.value }));
 
   return (
-    <div className="w-full max-w-[1200px] rounded-2xl border border-[#E4E4E7] bg-white shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
+    <div className="w-full max-w-[1080px] rounded-2xl border border-[#E4E4E7] bg-white shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-t-2xl border-b border-[#E4E4E7] bg-[#FAFAFA] px-6 py-4">
         <PageHeading title="Ajustes" tags={["Sitio público"]} />
         <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E4E4E7] bg-white px-2.5 py-1 text-xs text-[#52525B]">
@@ -83,7 +83,7 @@ export function SettingsForm({ settings }: { settings: PublicSettings }) {
       </div>
 
       <form ref={formRef} action={formAction}>
-        <div className="grid gap-6 p-6 lg:grid-cols-[1fr_420px]">
+        <div className="grid gap-6 p-6 lg:grid-cols-[1fr_360px]">
           <div className="flex flex-col gap-6">
             <div
               role="group"

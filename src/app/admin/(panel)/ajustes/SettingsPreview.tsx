@@ -36,7 +36,7 @@ export function SettingsPreview({ draft }: { draft: SettingsDraft }) {
       </PreviewBlock>
 
       <PreviewBlock label="Disponibilidad">
-        <p className="m-0 rounded-lg border border-[#E4E4E7] bg-white px-3 py-2 text-sm text-[#18181B]">
+        <p className="m-0 rounded-lg border border-[#E4E4E7] bg-white px-3 py-2 text-center text-sm text-[#18181B]">
           {draft.nextStartDate
             ? `Próximo inicio disponible: ${formatStartDate(draft.nextStartDate)}`
             : "Sin fecha de inicio"}
@@ -88,8 +88,8 @@ function ContactRow({
   icon: ReactNode;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-lg border border-[#E4E4E7] bg-white p-2.5 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
-      <span className="flex size-9 flex-none items-center justify-center rounded-lg bg-[#18181B] text-white">
+    <div className="flex items-center gap-2.5 rounded-lg border border-[#E4E4E7] bg-white p-2.5 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+      <span className="flex size-8 flex-none items-center justify-center rounded-lg bg-[#18181B] text-white">
         {icon}
       </span>
       <div className="min-w-0">
@@ -98,7 +98,7 @@ function ContactRow({
         </p>
         <p
           title={value}
-          className="m-0 truncate text-sm font-semibold tabular-nums text-[#18181B]"
+          className="m-0 truncate text-xs font-semibold tabular-nums text-[#18181B]"
         >
           {value}
         </p>
