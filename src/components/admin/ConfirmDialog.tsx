@@ -48,7 +48,7 @@ export function ConfirmDialog({
       className="m-auto w-[min(28rem,calc(100vw-2rem))] rounded-2xl border border-[#E4E4E7] bg-white p-0 text-[#18181B] shadow-[0_24px_60px_rgba(0,0,0,0.25)] backdrop:bg-black/40"
     >
       <div className="flex flex-col gap-4 p-6">
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-1.5 text-center">
           <h2
             id="confirm-dialog-title"
             className="m-0 text-base font-semibold text-[#18181B]"
