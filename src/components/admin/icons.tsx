@@ -73,3 +73,10 @@ export const ClockIcon = () => (
     <path d="M12 7v5l3 2" />
   </Icon>
 );
+
+export const SearchIcon = () => (
+  <Icon>
+    <circle cx="11" cy="11" r="7" />
+    <path d="M20 20l-3.5-3.5" />
+  </Icon>
+);

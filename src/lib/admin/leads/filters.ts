@@ -51,6 +51,10 @@ export function sanitizeSearch(query: string): string {
     .trim();
 }
 
+// True when the list is narrowed down or re-sorted, so the page can offer a way back to the full list.
+export const hasActiveFilters = (filters: LeadsFilters) =>
+  Boolean(filters.q || filters.estado || filters.etiqueta || filters.orden !== "fecha");
+
 export function buildLeadsHref(filters: Partial<LeadsFilters>): string {
   const params = new URLSearchParams();
   if (filters.estado) params.set("estado", filters.estado);

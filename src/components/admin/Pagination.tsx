@@ -5,9 +5,9 @@ import {
 } from "@/src/lib/admin/leads/filters";
 
 const LINK_CLASSES =
-  "inline-flex min-h-10 items-center rounded-lg border border-[#D4D4D8] bg-white px-4 text-sm font-medium text-[#18181B] no-underline transition-colors duration-150 hover:bg-[#F4F4F5]";
+  "inline-flex h-9 items-center rounded-lg border border-[#D4D4D8] bg-white px-3.5 text-sm font-medium text-[#18181B] no-underline transition-colors duration-150 hover:bg-[#F4F4F5]";
 const DISABLED_CLASSES =
-  "inline-flex min-h-10 items-center rounded-lg border border-[#E4E4E7] px-4 text-sm text-[#A1A1AA]";
+  "inline-flex h-9 items-center rounded-lg border border-[#E4E4E7] px-3.5 text-sm text-[#A1A1AA]";
 
 interface PaginationProps {
   filters: LeadsFilters;
@@ -20,10 +20,7 @@ export function Pagination({ filters, pageCount }: PaginationProps) {
   const hasNext = current < pageCount;
 
   return (
-    <nav
-      aria-label="Paginación de leads"
-      className="flex items-center justify-between gap-4"
-    >
+    <nav aria-label="Paginación de leads" className="flex items-center gap-3">
       {hasPrevious ? (
         <Link
           href={buildLeadsHref({ ...filters, pagina: current - 1 })}
@@ -37,7 +34,7 @@ export function Pagination({ filters, pageCount }: PaginationProps) {
           Anterior
         </span>
       )}
-      <p className="m-0 text-xs text-[#71717A]">
+      <p className="m-0 text-xs whitespace-nowrap text-[#71717A]">
         Página {current} de {pageCount}
       </p>
       {hasNext ? (

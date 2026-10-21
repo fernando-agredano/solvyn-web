@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import { Suspense } from "react";
 import { AdminButton } from "@/src/components/admin/AdminButton";
 import { LabelBadge } from "@/src/components/admin/LabelBadge";
@@ -22,6 +23,8 @@ const DATA_LABEL = "text-xs font-medium text-[#71717A]";
 const DATA_VALUE = "m-0 mt-1 text-sm text-[#18181B]";
 
 async function LeadDetail({ params }: { params: LeadParams }) {
+  // The lead is read per request, never prerendered.
+  await connection();
   const { id } = await params;
   const lead = await getLeadById(id);
   if (!lead) notFound();

@@ -3,16 +3,19 @@
 import { useActionState, useRef, useState } from "react";
 import { AdminButton } from "@/src/components/admin/AdminButton";
 import { ConfirmDialog } from "@/src/components/admin/ConfirmDialog";
-import {
-  ADMIN_CONTROL_CLASSES,
-  ADMIN_LABEL_CLASSES,
-} from "@/src/components/admin/styles";
+import { Select } from "@/src/components/admin/Select";
+import { ADMIN_LABEL_CLASSES } from "@/src/components/admin/styles";
 import { useActionToast } from "@/src/components/admin/toast/useActionToast";
 import { LEAD_STATUSES, type LeadStatus } from "@/src/lib/admin/leads/filters";
 import { STATUS_LABELS } from "@/src/lib/admin/leads/labels";
 import { updateLeadStatus, type LeadActionState } from "../actions";
 
 const INITIAL_STATE: LeadActionState = { status: "idle" };
+
+const STATUS_OPTIONS = LEAD_STATUSES.map((status) => ({
+  value: status,
+  label: STATUS_LABELS[status],
+}));
 
 export function LeadStatusForm({
   leadId,
@@ -48,23 +51,18 @@ export function LeadStatusForm({
         className="flex flex-col gap-3 sm:flex-row sm:items-end"
       >
         <input type="hidden" name="id" value={leadId} />
-        <label
-          className={`flex flex-1 flex-col gap-1.5 ${ADMIN_LABEL_CLASSES}`}
-        >
-          Cambiar estado
-          <select
+        <div className="flex flex-1 flex-col gap-1.5">
+          <label htmlFor="lead-status" className={ADMIN_LABEL_CLASSES}>
+            Cambiar estado
+          </label>
+          <Select
+            id="lead-status"
             name="estado"
             value={status}
-            onChange={(event) => setStatus(event.target.value as LeadStatus)}
-            className={ADMIN_CONTROL_CLASSES}
-          >
-            {LEAD_STATUSES.map((option) => (
-              <option key={option} value={option}>
-                {STATUS_LABELS[option]}
-              </option>
-            ))}
-          </select>
-        </label>
+            onChange={(value) => setStatus(value as LeadStatus)}
+            options={STATUS_OPTIONS}
+          />
+        </div>
         <AdminButton
           disabled={isPending || status === initialStatus}
           onClick={() => setIsConfirming(true)}
