@@ -18,7 +18,7 @@ async function PanelFrame({ children }: { children: ReactNode }) {
       {/* Sticky: the header stays on top while the page scrolls. */}
       <header className="sticky top-0 z-40 border-b border-[#E4E4E7] bg-white/90 backdrop-blur">
         {/* Three columns from md: logo, navigation, session. The 1fr sides keep the navigation at the true center. */}
-        <div className="grid grid-cols-[auto_auto] items-center justify-between gap-y-2 px-4 py-2 sm:px-8 md:h-14 md:grid-cols-[1fr_auto_1fr] md:py-0 lg:px-12">
+        <div className="grid grid-cols-[auto_auto] items-center justify-between gap-y-2 px-4 py-2 sm:px-8 md:h-[calc(3.5rem-1px)] md:grid-cols-[1fr_auto_1fr] md:py-0 lg:px-12">
           <Image
             src="/brand/solvyn-logo-dark.png"
             alt={SITE.name}
