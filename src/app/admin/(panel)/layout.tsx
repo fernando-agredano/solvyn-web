@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { Suspense } from "react";
 import { connection } from "next/server";
 import { AdminNav } from "@/src/components/admin/AdminNav";
+import { AdminUserChip } from "@/src/components/admin/AdminUserChip";
 import { SignOutButton } from "@/src/components/admin/SignOutButton";
 import { SITE } from "@/src/config/site";
 import { requireAdmin } from "@/src/lib/admin/auth";
@@ -31,9 +32,7 @@ async function PanelFrame({ children }: { children: ReactNode }) {
             <AdminNav />
           </div>
           <div className="col-start-2 row-start-1 flex items-center justify-self-end gap-3 md:col-start-3">
-            <span className="hidden max-w-64 truncate text-xs text-[#71717A] xl:inline">
-              {user.email}
-            </span>
+            <AdminUserChip email={user.email ?? ""} />
             <SignOutButton action={signOut} />
           </div>
         </div>
