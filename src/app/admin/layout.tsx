@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
     <div
-      className={`${geist.className} min-h-screen bg-[#F4F4F5] text-[#18181B] antialiased`}
+      className={`admin-theme ${geist.className} min-h-screen bg-[#F4F4F5] text-[#18181B] antialiased`}
     >
       {children}
     </div>

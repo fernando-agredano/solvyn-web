@@ -220,7 +220,12 @@
     position: absolute;
     inset: 0;
     transform: translateX(-100%);
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0)
+    );
     animation: shimmer 1.4s infinite;
   }
 }
@@ -235,4 +240,15 @@
 @utility flow {
   stroke-dasharray: 4 6;
   animation: flow 1.2s linear infinite;
+}
+
+/* The admin panel is light, but the page canvas comes from <html> and <body>, which are black for the site.
+   Scroll bounce reveals that canvas, so the admin pages paint it light and turn bounce off: the sticky header stays put. */
+html:has(.admin-theme) {
+  background-color: #f4f4f5;
+  overscroll-behavior-y: none;
+}
+
+html:has(.admin-theme) body {
+  background-color: #f4f4f5;
 }
