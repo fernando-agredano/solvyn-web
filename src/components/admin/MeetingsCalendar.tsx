@@ -70,10 +70,13 @@ export function MeetingsCalendar({
     pickInitialDay(month, today, meetingsByDay),
   );
   const selectedMeetings = meetingsByDay[selectedDay] ?? [];
+  const weeks = buildMonthGrid(month);
+  // Six-week months leave less height per day, so they show one chip and a counter instead of two.
+  const maxChips = weeks.length > 5 ? 1 : MAX_CHIPS_PER_DAY;
 
   return (
-    <div className="grid lg:grid-cols-[minmax(0,1fr)_320px]">
-      <div className="flex flex-col gap-4 p-5">
+    <div className="grid lg:min-h-0 lg:flex-1 lg:grid-cols-[minmax(0,1fr)_320px] lg:grid-rows-[minmax(0,1fr)]">
+      <div className="flex flex-col gap-4 p-5 lg:min-h-0 lg:gap-3 lg:p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p
             aria-live="polite"
@@ -108,7 +111,8 @@ export function MeetingsCalendar({
           </div>
         </div>
 
-        <div className="grid grid-cols-7 gap-1.5">
+        <div className="grid grid-cols-7 gap-1.5 lg:min-h-0 lg:flex-1"
+          style={{ gridTemplateRows: `auto repeat(${weeks.length}, minmax(0, 1fr))` }}>
           {WEEKDAYS.map((weekday) => (
             <span
               key={weekday}
@@ -118,14 +122,13 @@ export function MeetingsCalendar({
               {weekday}
             </span>
           ))}
-          {buildMonthGrid(month)
-            .flat()
+          {weeks.flat()
             .map((date, index) =>
               date === null ? (
                 <span
                   key={`empty-${index}`}
                   aria-hidden="true"
-                  className="min-h-14 rounded-lg bg-[#FAFAFA] md:min-h-24"
+                  className="min-h-14 rounded-lg bg-[#FAFAFA] md:min-h-24 lg:min-h-0"
                 />
               ) : (
                 <DayCell
@@ -134,6 +137,7 @@ export function MeetingsCalendar({
                   meetings={meetingsByDay[date] ?? []}
                   isToday={date === today}
                   isSelected={date === selectedDay}
+                  maxChips={maxChips}
                   onSelect={setSelectedDay}
                 />
               ),
@@ -143,7 +147,7 @@ export function MeetingsCalendar({
 
       <aside
         aria-label="Reuniones del día"
-        className="flex flex-col gap-4 rounded-b-xl border-t border-[#E4E4E7] bg-[#FAFAFA] p-5 lg:rounded-bl-none lg:border-t-0 lg:border-l"
+        className="flex flex-col gap-4 rounded-b-xl border-t border-[#E4E4E7] bg-[#FAFAFA] p-5 lg:min-h-0 lg:overflow-y-auto lg:rounded-bl-none lg:border-t-0 lg:border-l"
       >
         <div className="flex items-center justify-between gap-2">
           <span className="inline-flex rounded-full border border-[#E4E4E7] bg-white px-2.5 py-1 text-xs font-semibold text-[#3F3F46]">
@@ -202,12 +206,14 @@ function DayCell({
   meetings,
   isToday,
   isSelected,
+  maxChips,
   onSelect,
 }: {
   date: string;
   meetings: MeetingItem[];
   isToday: boolean;
   isSelected: boolean;
+  maxChips: number;
   onSelect: (date: string) => void;
 }) {
   const summary = meetings.length
@@ -220,7 +226,7 @@ function DayCell({
       onClick={() => onSelect(date)}
       aria-pressed={isSelected}
       aria-label={`${formatStartDate(date)}${summary}`}
-      className={`flex min-h-14 cursor-pointer flex-col items-stretch gap-1 rounded-lg border bg-white p-1.5 text-left transition-colors duration-150 md:min-h-24 ${
+      className={`flex min-h-14 cursor-pointer flex-col items-stretch gap-1 rounded-lg border bg-white p-1.5 text-left transition-colors duration-150 md:min-h-24 lg:min-h-0 lg:overflow-hidden ${
         isSelected
           ? "border-[#18181B] shadow-[0_0_0_1px_#18181B]"
           : "border-[#E4E4E7] hover:border-[#A1A1AA]"
@@ -234,8 +240,8 @@ function DayCell({
         {parseIsoDate(date).day}
       </span>
 
-      <span className="hidden flex-col gap-1 md:flex">
-        {meetings.slice(0, MAX_CHIPS_PER_DAY).map((meeting) => (
+      <span className="hidden flex-col gap-1 md:flex [@media(max-height:760px)]:hidden">
+        {meetings.slice(0, maxChips).map((meeting) => (
           <span
             key={meeting.id}
             className={`flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] leading-tight ${CHIP_CLASSES[meeting.label]}`}
@@ -246,15 +252,15 @@ function DayCell({
             <span className="truncate">{meeting.name}</span>
           </span>
         ))}
-        {meetings.length > MAX_CHIPS_PER_DAY && (
+        {meetings.length > maxChips && (
           <span className="px-1 text-[11px] font-medium text-[#71717A]">
-            +{meetings.length - MAX_CHIPS_PER_DAY} más
+            +{meetings.length - maxChips} más
           </span>
         )}
       </span>
 
       {meetings.length > 0 && (
-        <span className="flex gap-1 md:hidden">
+        <span className="flex gap-1 md:hidden [@media(max-height:760px)]:flex">
           {meetings.slice(0, MAX_DOTS_PER_DAY).map((meeting) => (
             <span
               key={meeting.id}

@@ -46,7 +46,7 @@ const pluralize = (count: number, one: string, many: string) =>
 // The header the two views share: the title, a tag with the count, and the switch between them.
 function LeadsHeader({ tags, view }: { tags: string[]; view: 0 | 1 }) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 rounded-t-xl border-b border-[#E4E4E7] bg-[#FAFAFA] px-5 py-3.5">
+    <div className="flex shrink-0 flex-wrap items-center justify-between gap-3 rounded-t-xl border-b border-[#E4E4E7] bg-[#FAFAFA] px-5 py-3.5">
       <PageHeading title="Leads" tags={tags} />
       <SegmentedNav
         items={VIEWS}
@@ -150,12 +150,22 @@ async function LeadsPanel({
   await connection();
   const params = await searchParams;
   const monthValue = typeof params.mes === "string" ? params.mes : undefined;
+  const isCalendar = params.vista === "calendario";
 
   // One card, like Settings. It has no overflow clipping so the dropdowns can open over the table.
   return (
-    <main id="contenido" className="px-4 py-6 sm:px-8 lg:px-12">
-      <div className={ADMIN_PANEL_CLASSES}>
-        {params.vista === "calendario" ? (
+    <main
+      id="contenido"
+      className={`px-4 py-6 sm:px-8 lg:px-12 ${
+        isCalendar ? "lg:flex lg:h-[calc(100dvh-3.5rem)] lg:flex-col lg:py-4" : ""
+      }`}
+    >
+      <div
+        className={`${ADMIN_PANEL_CLASSES} ${
+          isCalendar ? "lg:flex lg:min-h-0 lg:flex-1 lg:flex-col" : ""
+        }`}
+      >
+        {isCalendar ? (
           <CalendarView monthValue={monthValue} />
         ) : (
           <ListView params={params} />
