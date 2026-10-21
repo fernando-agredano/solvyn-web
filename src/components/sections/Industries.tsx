@@ -6,7 +6,7 @@ import { SectionHeading } from "@/src/components/ui/SectionHeading";
 export function Industries() {
   return (
     <section id="industrias" className="border-t border-border-subtle">
-      <div className="mx-auto max-w-[1240px] px-6 py-[120px]">
+      <div className="mx-auto max-w-[1680px] px-4 sm:px-8 lg:px-12 py-20 lg:py-24">
         <Reveal>
           <SectionHeading
             className="mb-14 max-w-[620px]"

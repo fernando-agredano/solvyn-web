@@ -1,19 +1,11 @@
 import type { Metadata } from "next";
-import { Archivo } from "next/font/google";
+import { Geist } from "next/font/google";
 import { SettingsProvider } from "@/src/components/settings/SettingsProvider";
 import { SITE, SITE_URL } from "@/src/config/site";
 import { getSettings } from "@/src/lib/settings/settings";
 import "./globals.css";
 
-const archivo = Archivo({
-  subsets: ["latin"],
-  // Variable font: one file covers the 400, 500, 600 and 700 used in the design.
-  weight: "variable",
-  // Width axis, from 62 (condensed) to 125 (extended). Used through the .wide and .semi classes.
-  axes: ["wdth"],
-  variable: "--font-archivo",
-  display: "swap",
-});
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -53,7 +45,7 @@ const organizationJsonLd = {
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const settings = await getSettings();
   return (
-    <html lang="es-MX" className={`${archivo.variable} h-full antialiased`}>
+    <html lang="es-MX" className={`${geist.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         <a
           href="#contenido"

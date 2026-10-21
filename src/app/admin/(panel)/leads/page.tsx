@@ -8,7 +8,7 @@ import { LeadsTable } from "@/src/components/admin/LeadsTable";
 import { MeetingsCalendar } from "@/src/components/admin/MeetingsCalendar";
 import { PageHeading } from "@/src/components/admin/PageHeading";
 import { Pagination } from "@/src/components/admin/Pagination";
-import { SegmentedNav } from "@/src/components/admin/SegmentedNav";
+import { SegmentedNav } from "@/src/components/ui/SegmentedNav";
 import { ADMIN_PANEL_CLASSES } from "@/src/components/admin/styles";
 import {
   buildCalendarHref,

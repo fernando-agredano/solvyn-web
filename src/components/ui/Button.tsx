@@ -5,13 +5,14 @@ type ButtonVariant = "primary" | "secondary";
 type ButtonSize = "sm" | "md" | "lg";
 
 const BASE_CLASSES =
-  "inline-flex items-center justify-center rounded-[10px] no-underline transition duration-200 ease-[ease]";
+  "group inline-flex items-center justify-center gap-2 rounded-[10px] no-underline transition-colors duration-200 ease-out";
 
+// Hover only shifts tone: no lift and no halo. The primary softens to a light gray and the secondary gains a faint fill.
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
-    "bg-heading font-semibold text-black hover:-translate-y-px hover:shadow-[0_0_0_1px_#fff,0_8px_32px_rgba(255,255,255,0.22)]",
+    "bg-heading font-semibold text-black hover:bg-[#E4E4E4] active:bg-[#D2D2D2]",
   secondary:
-    "border border-white/[0.22] font-medium text-foreground hover:border-white/50 hover:bg-white/[0.04]",
+    "border border-white/[0.22] font-medium text-foreground hover:border-white/40 hover:bg-white/[0.07] active:bg-white/[0.1]",
 };
 
 // Every size keeps the 44px minimum touch target.
@@ -25,6 +26,7 @@ type ButtonProps = {
   children: ReactNode;
   variant?: ButtonVariant;
   size?: ButtonSize;
+  withArrow?: boolean;
   className?: string;
 } & (
   | { href: string; onClick?: () => void; type?: never; disabled?: never }
@@ -33,7 +35,26 @@ type ButtonProps = {
 );
 
 const DISABLED_CLASSES =
-  "disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:translate-y-0 disabled:hover:shadow-none";
+  "disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:bg-heading";
+
+function ArrowIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className="flex-none transition-transform duration-200 group-hover:translate-x-0.5"
+    >
+      <path d="M5 12h14M13 6l6 6-6 6" />
+    </svg>
+  );
+}
 
 export function Button({
   href,
@@ -43,14 +64,21 @@ export function Button({
   children,
   variant = "primary",
   size = "lg",
+  withArrow = false,
   className = "",
 }: ButtonProps) {
   const classes = `${BASE_CLASSES} ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]} ${className}`;
+  const content = (
+    <>
+      {children}
+      {withArrow && <ArrowIcon />}
+    </>
+  );
 
   if (href !== undefined) {
     return (
       <Link href={href} onClick={onClick} className={classes}>
-        {children}
+        {content}
       </Link>
     );
   }
@@ -61,7 +89,7 @@ export function Button({
       disabled={disabled}
       className={`${classes} ${DISABLED_CLASSES} cursor-pointer`}
     >
-      {children}
+      {content}
     </button>
   );
 }

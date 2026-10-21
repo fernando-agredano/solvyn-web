@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { SegmentedNav } from "./SegmentedNav";
+import { SegmentedNav } from "@/src/components/ui/SegmentedNav";
 
 const LINKS = [
   { href: "/admin", label: "Resumen" },

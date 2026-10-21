@@ -3,9 +3,9 @@ import { CircuitSpotlight } from "./CircuitSpotlight";
 import { CIRCUIT_PADS, CIRCUIT_PULSES, CIRCUIT_TRACES } from "./circuit-paths";
 import "./circuit.css";
 
-const TRACE_STROKE = "rgba(255,255,255,0.13)";
+const TRACE_STROKE = "rgba(255,255,255,0.11)";
 // Pads are brighter than traces: circuitOpacity * 2.4, as in the design.
-const PAD_STROKE = "rgba(255,255,255,0.312)";
+const PAD_STROKE = "rgba(255,255,255,0.26)";
 
 export function CircuitBackground() {
   return (
@@ -43,6 +43,8 @@ export function CircuitBackground() {
         </g>
       </svg>
       <CircuitSpotlight />
+      {/* Fades the traces and pulses under the fixed header, where they would cross it. */}
+      <div className="absolute inset-x-0 top-0 h-[170px] bg-[linear-gradient(to_bottom,rgba(0,0,0,0.95),rgba(0,0,0,0.6)_45%,rgba(0,0,0,0))]" />
       <ChipCore />
       <div className="absolute inset-x-0 bottom-0 h-[30%] bg-[linear-gradient(to_bottom,rgba(0,0,0,0),#000000)]" />
     </div>

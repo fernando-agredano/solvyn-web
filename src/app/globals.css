@@ -54,7 +54,7 @@
   --color-preview-orange: var(--preview-orange);
   --color-preview-violet: var(--preview-violet);
 
-  --font-sans: var(--font-archivo);
+  --font-sans: var(--font-geist);
 }
 
 /* Light traveling along a line. Shared by the hero circuit pulses and the "how it works" line. */
@@ -272,5 +272,29 @@ html:has(.admin-theme) body {
 @media (prefers-reduced-motion: reduce) {
   .admin-toast {
     animation: none;
+  }
+}
+
+/* Scroll reveal. Blocks are visible by default; Reveal marks the ones below the fold as pending and a scroll
+   listener flips them to shown. Reduced motion never hides anything. */
+.reveal {
+  transition:
+    opacity 0.8s ease-out,
+    transform 0.8s ease-out;
+}
+
+.reveal[data-reveal="pending"] {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition: none;
+  }
+
+  .reveal[data-reveal="pending"] {
+    opacity: 1;
+    transform: none;
   }
 }

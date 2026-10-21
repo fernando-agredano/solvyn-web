@@ -17,7 +17,7 @@ const REASONS = [
 
 export function WhyUs() {
   return (
-    <section className="mx-auto max-w-[1240px] px-6 pt-10 pb-[120px]">
+    <section className="mx-auto max-w-[1680px] px-4 sm:px-8 lg:px-12 pt-6 pb-20 lg:pb-24">
       <Reveal>
         <div className="grid grid-cols-3 gap-10 max-[860px]:grid-cols-1">
           {REASONS.map((reason) => (

@@ -1,4 +1,5 @@
 import { Hero } from "@/src/components/hero/Hero";
+import { Navbar } from "@/src/components/layout/Navbar";
 import { SiteFooter } from "@/src/components/layout/SiteFooter";
 import { Demos } from "@/src/components/sections/Demos";
 import { Faq } from "@/src/components/sections/Faq";
@@ -14,6 +15,7 @@ import { WhyUs } from "@/src/components/sections/WhyUs";
 export default function HomePage() {
   return (
     <>
+      <Navbar />
       {/* tabIndex lets the "Saltar al contenido" link move focus here. */}
       <main id="contenido" tabIndex={-1} className="flex flex-1 flex-col outline-none">
         <Hero />

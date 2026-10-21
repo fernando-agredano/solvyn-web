@@ -25,10 +25,10 @@ const DEMOS = [
 
 export function Demos() {
   return (
-    <section id="demos" className="mx-auto max-w-[1240px] px-6 py-[120px]">
+    <section id="demos" className="mx-auto max-w-[1680px] px-4 sm:px-8 lg:px-12 py-20 lg:py-24">
       <Reveal>
         <SectionHeading
-          className="mb-14 max-w-[640px]"
+          className="mb-12"
           title="Demos para explorar"
           description="Ejemplos funcionales de lo que puede llegar a ser tu proyecto. Ábrelos, navega y toma ideas."
         />

@@ -8,7 +8,7 @@ export function LiveProposalSection() {
       id="propuesta"
       className="border-y border-border-subtle bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(255,255,255,0.05),rgba(255,255,255,0)_70%)]"
     >
-      <div className="mx-auto max-w-[1240px] px-6 py-[120px]">
+      <div className="mx-auto max-w-[1680px] px-4 sm:px-8 lg:px-12 py-20 lg:py-24">
         <Reveal>
           <SectionHeading
             className="mb-14 max-w-[680px]"

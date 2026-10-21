@@ -37,7 +37,7 @@ const STAGES = [
 export function Process() {
   return (
     <section id="proceso" className="border-t border-border-subtle">
-      <div className="mx-auto grid max-w-[1240px] gap-16 px-6 py-[120px] max-[1000px]:gap-10 min-[1001px]:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] max-[1000px]:grid-cols-1">
+      <div className="mx-auto grid max-w-[1240px] gap-16 px-6 py-20 lg:py-24 max-[1000px]:gap-10 min-[1001px]:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] max-[1000px]:grid-cols-1">
         <Reveal>
           <SectionHeading
             title="Cómo trabajamos juntos"

@@ -24,10 +24,10 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section id="como" className="mx-auto max-w-[1240px] px-6 py-[120px]">
+    <section id="como" className="mx-auto max-w-[1680px] px-4 sm:px-8 lg:px-12 py-20 lg:py-24">
       <Reveal>
         <SectionHeading
-          className="mb-[72px] max-w-[640px]"
+          className="mb-12"
           title="De la idea a una propuesta clara en tres pasos"
           description="No necesitas saber de tecnología. Cuéntame qué quieres lograr y el configurador traduce tu idea en un plan concreto."
         />
