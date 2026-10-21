@@ -14,7 +14,8 @@ El diseño ya está **aprobado**. No lo rediseñes ni lo "mejores": reprodúcelo
 - `design/Main.dc.html`: landing completa.
 - `design/Configurador.dc.html`: flujo completo del configurador (pasos 1 a 4, generación, propuesta final, agenda, confirmación) y su lógica de cálculo.
 - `design/logo/`: logos oficiales.
-- `design/screenshots/`: capturas de referencia (`hero.png`, `como-funciona.png`, `precios.png`, `cfg-paso1-objetivo.png`, `cfg-propuesta-arquitectura.png`, etc.). **Si existe la captura de la sección que vas a portar, mírala antes de empezar y compárala con tu resultado al terminar**, reportando diferencias. Si no existe, guíate por el código del prototipo. Las pantallas de `/admin` no tienen diseño previo: usa el mismo sistema visual.
+- **Cambios posteriores del dueño** (landing renovada: header fijo, Geist, secciones en tarjetas, footer completo) prevalecen sobre `design/` en lo que difieran. `design/` sigue siendo la referencia para lo que no se tocó.
+- `design/screenshots/`: capturas de referencia (`hero.png`, `como-funciona.png`, `precios.png`, `cfg-paso1-objetivo.png`, `cfg-propuesta-arquitectura.png`, etc.). **Si existe la captura de la sección que vas a portar, mírala antes de empezar y compárala con tu resultado al terminar**, reportando diferencias. Si no existe, guíate por el código del prototipo. Las pantallas de `/admin` no tienen diseño previo: usan un tema claro propio (escala zinc, Geist, tarjetas, badges, modales y toasts), separado del sitio oscuro.
 - `design/README.md`: cómo leer estos archivos. Léelo antes de portar nada.
 
 Reglas para usarlos:
@@ -32,14 +33,14 @@ Interfaz oscura, premium, en blanco y negro. Jerarquía por brillo, no por color
 - Fondo `#000000`. Superficies elevadas `#0A0A0A` a `#141414`.
 - Texto principal `#F5F5F5`, títulos `#FFFFFF`, secundario `#A3A3A3`, etiquetas `#8A8A8A`, apagado `#737373`.
 - Bordes: `rgba(255,255,255,0.08)` entre secciones, `0.12` a `0.14` en tarjetas, `0.28` a `0.40` en elementos destacados.
-- **Señal verde `#46D19A`** (brillo `rgba(70,209,154,0.55)`): solo como indicador de "activo/ok". Se usa en: punto "En vivo", interruptores encendidos, 1 de cada 3 pulsos del circuito, palomitas de pasos completados y la confirmación de reunión. **Nunca** en botones, títulos ni decoración.
+- **Señal verde `#46D19A`** (brillo `rgba(70,209,154,0.55)`): solo como indicador de "activo/ok". Se usa en: punto "En vivo", interruptores encendidos, 1 de cada 3 pulsos del circuito, palomitas de pasos completados, la confirmación de reunión y, en Precios, las palomitas de las tarjetas, el punto de «El más solicitado», la disponibilidad y un borde superior fino en la tarjeta destacada. **Nunca** en botones, títulos ni decoración.
 - Error: `#FCA5A5`, solo en validaciones.
 - **La vista previa de la solución del cliente es el único lugar con color de marca**: acentos `#2563EB`, `#059669`, `#EA580C`, `#7C3AED`.
 
-**Tipografía**: Archivo (variable, eje de ancho `wdth` 62 a 125). Títulos grandes con `font-stretch: 125%` (clase `.wide`), subtítulos con `112%` (`.semi`), texto normal. Tamaños con `clamp()` como en el diseño.
+**Tipografía**: Geist (variable) en todo el sitio público (landing, configurador, legales) y en `/admin`. Las clases `.wide` y `.semi` (ancho de Archivo) ya no tienen efecto y quedan solo por compatibilidad. Títulos de sección `clamp(1.625rem, 2.6vw, 2.25rem)`, centrados y con `text-balance`; texto de 15 a 16 px.
 
 **Componentes base**
-- Botón primario: fondo blanco, texto negro, radio 10px, alto mínimo 44 a 54px. Hover: elevación 1px y halo blanco.
+- Botón primario: fondo blanco, texto negro, radio 10px, alto mínimo 44 a 54px. Hover: el fondo se aclara a gris suave en 200 ms, sin elevación ni halo; con `withArrow`, la flecha se desliza 2px.
 - Botón secundario: borde `rgba(255,255,255,0.22)`, fondo transparente.
 - Tarjetas: borde de 1px, degradado sutil de blanco a transparente, radio 14 a 18px.
 - Objetivos táctiles de al menos 44px. Foco visible: contorno blanco de 2px.
