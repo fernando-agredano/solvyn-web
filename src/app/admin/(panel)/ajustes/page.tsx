@@ -1,5 +1,6 @@
+import { connection } from "next/server";
 import { Suspense } from "react";
-import { ADMIN_PANEL_CLASSES } from "@/src/components/admin/styles";
+import { SectionCard } from "@/src/components/admin/SectionCard";
 import { requireAdmin } from "@/src/lib/admin/auth";
 import { toPublicSettings, type SettingsRow } from "@/src/lib/settings/model";
 import { SETTINGS_COLUMNS } from "@/src/lib/settings/settings";
@@ -7,6 +8,7 @@ import { SettingsForm } from "./SettingsForm";
 
 // Read from the table, not the public view: the admin session may see what the stored row holds.
 async function SettingsPanel() {
+  await connection();
   const { supabase } = await requireAdmin();
   const { data, error } = await supabase
     .from("settings")
@@ -18,14 +20,20 @@ async function SettingsPanel() {
   return (
     <main
       id="contenido"
-      className="mx-auto flex max-w-[720px] flex-col gap-8 px-6 py-12"
+      className="mx-auto flex max-w-[960px] flex-col gap-4 px-5 py-6"
     >
-      <h1 className="wide m-0 text-[clamp(28px,4vw,40px)] font-bold text-heading">
-        Ajustes
-      </h1>
-      <section className={`${ADMIN_PANEL_CLASSES} p-6`}>
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <h1 className="m-0 text-lg font-semibold text-[#18181B]">Ajustes</h1>
+        <p className="m-0 text-xs text-[#71717A]">
+          Se muestran en la landing y en el configurador
+        </p>
+      </div>
+      <SectionCard
+        title="Disponibilidad y contacto"
+        headingId="settings-heading"
+      >
         <SettingsForm settings={toPublicSettings(data as SettingsRow)} />
-      </section>
+      </SectionCard>
     </main>
   );
 }

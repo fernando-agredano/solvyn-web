@@ -1,18 +1,22 @@
 import { z } from "zod";
 import { requireAdmin } from "@/src/lib/admin/auth";
 import {
+  LEAD_STATUSES,
   LEADS_PAGE_SIZE,
   sanitizeSearch,
   type LeadLabelValue,
+  type LeadStatus,
   type LeadsFilters,
 } from "./filters";
 import { parseLeadRow, toLeadSummary, type LeadSummary } from "./records";
+import { buildDailySeries, SERIES_DAYS } from "./series";
 
 // One column list for the list and the detail, so one parser covers both. Notes are read here but only the detail shows them.
 const LEAD_COLUMNS =
   "id, nombre, correo, whatsapp, puntaje, etiqueta, estado, notas, created_at, meeting_at, proposals(slug, payload)";
 
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+const DAY_MS = 24 * 60 * 60 * 1000;
 const UPCOMING_MEETINGS_LIMIT = 5;
 
 export interface LeadsPage {
@@ -32,6 +36,8 @@ export interface LeadsDashboard {
   upcomingMeetingCount: number;
   upcomingMeetings: LeadSummary[];
   byLabel: Record<LeadLabelValue, number>;
+  byStatus: Record<LeadStatus, number>;
+  leadsByDay: { date: string; count: number }[];
 }
 
 // Every read goes through the signed-in admin's session, so RLS decides what comes back.
@@ -98,6 +104,7 @@ export async function getLeadsDashboard(): Promise<LeadsDashboard> {
   const nowIso = now.toISOString();
   const countLeads = () =>
     supabase.from("leads").select("id", { count: "exact", head: true });
+  const since = new Date(now.getTime() - SERIES_DAYS * DAY_MS).toISOString();
 
   const [
     total,
@@ -107,6 +114,8 @@ export async function getLeadsDashboard(): Promise<LeadsDashboard> {
     caliente,
     tibio,
     frio,
+    statusCounts,
+    createdRows,
   ] = await Promise.all([
     countOf(countLeads()),
     countOf(countLeads().gte("created_at", weekAgo)),
@@ -120,6 +129,10 @@ export async function getLeadsDashboard(): Promise<LeadsDashboard> {
     countOf(countLeads().eq("etiqueta", "caliente")),
     countOf(countLeads().eq("etiqueta", "tibio")),
     countOf(countLeads().eq("etiqueta", "frio")),
+    Promise.all(
+      LEAD_STATUSES.map((status) => countOf(countLeads().eq("estado", status))),
+    ),
+    supabase.from("leads").select("created_at").gte("created_at", since),
   ]);
 
   if (upcoming.error)
@@ -135,5 +148,12 @@ export async function getLeadsDashboard(): Promise<LeadsDashboard> {
       toLeadSummary(parseLeadRow(row)),
     ),
     byLabel: { caliente, tibio, frio },
+    byStatus: Object.fromEntries(
+      LEAD_STATUSES.map((status, index) => [status, statusCounts[index]]),
+    ) as Record<LeadStatus, number>,
+    leadsByDay: buildDailySeries(
+      (createdRows.data ?? []).map((row) => new Date(row.created_at as string)),
+      now,
+    ),
   };
 }

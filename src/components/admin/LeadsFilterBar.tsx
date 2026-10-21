@@ -5,7 +5,7 @@ import {
   type LeadsFilters,
 } from "@/src/lib/admin/leads/filters";
 import { LABEL_TEXT, STATUS_LABELS } from "@/src/lib/admin/leads/labels";
-import { ADMIN_CONTROL_CLASSES } from "./styles";
+import { ADMIN_CONTROL_CLASSES, ADMIN_LABEL_CLASSES } from "./styles";
 
 const SORT_TEXT = { fecha: "Más recientes", puntaje: "Mayor puntaje" } as const;
 
@@ -15,9 +15,9 @@ export function LeadsFilterBar({ filters }: { filters: LeadsFilters }) {
     <form
       action="/admin/leads"
       method="get"
-      className="grid gap-4 min-[860px]:grid-cols-[2fr_1fr_1fr_1fr_auto] min-[860px]:items-end"
+      className="grid gap-3 min-[860px]:grid-cols-[2fr_1fr_1fr_1fr_auto] min-[860px]:items-end"
     >
-      <label className="flex flex-col gap-2 text-sm text-[#D4D4D4]">
+      <label className={`flex flex-col gap-1.5 ${ADMIN_LABEL_CLASSES}`}>
         Buscar por nombre o correo
         <input
           name="q"
@@ -27,7 +27,7 @@ export function LeadsFilterBar({ filters }: { filters: LeadsFilters }) {
           className={ADMIN_CONTROL_CLASSES}
         />
       </label>
-      <label className="flex flex-col gap-2 text-sm text-[#D4D4D4]">
+      <label className={`flex flex-col gap-1.5 ${ADMIN_LABEL_CLASSES}`}>
         Estado
         <select
           name="estado"
@@ -42,7 +42,7 @@ export function LeadsFilterBar({ filters }: { filters: LeadsFilters }) {
           ))}
         </select>
       </label>
-      <label className="flex flex-col gap-2 text-sm text-[#D4D4D4]">
+      <label className={`flex flex-col gap-1.5 ${ADMIN_LABEL_CLASSES}`}>
         Etiqueta
         <select
           name="etiqueta"
@@ -57,7 +57,7 @@ export function LeadsFilterBar({ filters }: { filters: LeadsFilters }) {
           ))}
         </select>
       </label>
-      <label className="flex flex-col gap-2 text-sm text-[#D4D4D4]">
+      <label className={`flex flex-col gap-1.5 ${ADMIN_LABEL_CLASSES}`}>
         Ordenar por
         <select
           name="orden"
@@ -73,7 +73,7 @@ export function LeadsFilterBar({ filters }: { filters: LeadsFilters }) {
       </label>
       <button
         type="submit"
-        className="min-h-11 cursor-pointer rounded-[10px] border border-white/22 px-5 text-[15px] font-medium text-foreground transition duration-200 hover:border-white/50 hover:bg-white/[0.04]"
+        className="inline-flex min-h-10 cursor-pointer items-center justify-center rounded-lg bg-[#18181B] px-5 text-sm font-medium text-white transition-colors duration-150 hover:bg-[#27272A]"
       >
         Filtrar
       </button>

@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
+import { Geist } from "next/font/google";
 import type { ReactNode } from "react";
+
+// Admin only: the panel uses a neutral UI face, the public site keeps its own typography.
+const geist = Geist({ subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
   title: "Admin",
@@ -10,7 +14,9 @@ export const metadata: Metadata = {
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-[radial-gradient(ellipse_70%_40%_at_50%_0%,rgba(255,255,255,0.06),rgba(255,255,255,0)_70%),#000000]">
+    <div
+      className={`${geist.className} min-h-screen bg-[#F4F4F5] text-[#18181B] antialiased`}
+    >
       {children}
     </div>
   );

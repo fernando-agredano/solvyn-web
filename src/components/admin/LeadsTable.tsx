@@ -10,7 +10,7 @@ import { ADMIN_PANEL_CLASSES } from "./styles";
 
 const HEADERS = [
   "Nombre",
-  "Negocio",
+  "Industria",
   "Etiqueta",
   "Puntaje",
   "Estado",
@@ -24,11 +24,11 @@ export function LeadsTable({ leads }: { leads: LeadSummary[] }) {
     <div
       className={`${ADMIN_PANEL_CLASSES} hidden overflow-x-auto min-[860px]:block`}
     >
-      <table className="w-full border-collapse text-left text-[15px]">
+      <table className="w-full border-collapse text-left text-sm">
         <thead>
-          <tr className="border-b border-border-subtle text-sm text-label">
+          <tr className="border-b border-[#E4E4E7] bg-[#FAFAFA] text-xs font-medium text-[#71717A]">
             {HEADERS.map((header) => (
-              <th key={header} scope="col" className="px-4 py-3 font-medium">
+              <th key={header} scope="col" className="px-4 py-2.5 font-medium">
                 {header}
               </th>
             ))}
@@ -38,35 +38,35 @@ export function LeadsTable({ leads }: { leads: LeadSummary[] }) {
           {leads.map((lead) => (
             <tr
               key={lead.id}
-              className="border-b border-border-subtle last:border-0 hover:bg-white/[0.03]"
+              className="border-b border-[#F4F4F5] last:border-0 hover:bg-[#FAFAFA]"
             >
-              <td className="px-4 py-3">
+              <td className="px-4 py-2.5">
                 <Link
                   href={`/admin/leads/${lead.id}`}
-                  className="font-semibold text-heading no-underline hover:underline"
+                  className="font-medium text-[#18181B] no-underline hover:underline"
                 >
                   {lead.name}
                 </Link>
-                <span className="block text-[13px] text-muted">
+                <span className="block text-xs text-[#71717A]">
                   {lead.email}
                 </span>
               </td>
-              <td className="px-4 py-3 text-[#D4D4D4]">
+              <td className="px-4 py-2.5 text-[#52525B]">
                 {lead.proposal?.facts.industryLabel ?? "—"}
               </td>
-              <td className="px-4 py-3">
+              <td className="px-4 py-2.5">
                 <LabelBadge label={lead.label} />
               </td>
-              <td className="px-4 py-3 tabular-nums text-[#D4D4D4]">
+              <td className="px-4 py-2.5 tabular-nums text-[#52525B]">
                 {lead.score}
               </td>
-              <td className="px-4 py-3 text-[#D4D4D4]">
+              <td className="px-4 py-2.5 text-[#52525B]">
                 {STATUS_LABELS[lead.status]}
               </td>
-              <td className="px-4 py-3 whitespace-nowrap tabular-nums text-[#D4D4D4]">
+              <td className="whitespace-nowrap px-4 py-2.5 tabular-nums text-[#52525B]">
                 {formatInvestmentRange(lead.proposal?.facts.investment ?? null)}
               </td>
-              <td className="px-4 py-3 whitespace-nowrap text-[#D4D4D4]">
+              <td className="whitespace-nowrap px-4 py-2.5 text-[#52525B]">
                 {formatLeadDateTime(lead.createdAt)}
               </td>
             </tr>

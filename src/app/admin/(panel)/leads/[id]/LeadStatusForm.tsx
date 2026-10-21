@@ -1,8 +1,11 @@
 "use client";
 
 import { useActionState } from "react";
-import { ADMIN_CONTROL_CLASSES } from "@/src/components/admin/styles";
-import { Button } from "@/src/components/ui/Button";
+import { AdminButton } from "@/src/components/admin/AdminButton";
+import {
+  ADMIN_CONTROL_CLASSES,
+  ADMIN_LABEL_CLASSES,
+} from "@/src/components/admin/styles";
 import { LEAD_STATUSES, type LeadStatus } from "@/src/lib/admin/leads/filters";
 import { STATUS_LABELS } from "@/src/lib/admin/leads/labels";
 import { updateLeadStatus, type LeadActionState } from "../actions";
@@ -24,10 +27,10 @@ export function LeadStatusForm({
   return (
     <form
       action={formAction}
-      className="flex flex-col gap-4 sm:flex-row sm:items-end"
+      className="flex flex-col gap-3 sm:flex-row sm:items-end"
     >
       <input type="hidden" name="id" value={leadId} />
-      <label className="flex flex-1 flex-col gap-2 text-sm text-[#D4D4D4]">
+      <label className={`flex flex-1 flex-col gap-1.5 ${ADMIN_LABEL_CLASSES}`}>
         Cambiar estado
         <select
           name="estado"
@@ -41,9 +44,9 @@ export function LeadStatusForm({
           ))}
         </select>
       </label>
-      <Button type="submit" size="md" disabled={isPending}>
+      <AdminButton type="submit" disabled={isPending}>
         {isPending ? "Guardando…" : "Guardar estado"}
-      </Button>
+      </AdminButton>
       <StatusMessage status={state.status} />
     </form>
   );
@@ -52,13 +55,13 @@ export function LeadStatusForm({
 function StatusMessage({ status }: { status: LeadActionState["status"] }) {
   if (status === "saved")
     return (
-      <p role="status" className="m-0 text-sm text-text-secondary">
+      <p role="status" className="m-0 text-xs text-[#52525B]">
         Estado guardado.
       </p>
     );
   if (status === "error")
     return (
-      <p role="alert" className="m-0 text-sm text-error">
+      <p role="alert" className="m-0 text-xs text-[#B91C1C]">
         No se pudo guardar el estado.
       </p>
     );

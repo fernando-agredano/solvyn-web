@@ -1,17 +1,17 @@
 import { LABEL_TEXT } from "@/src/lib/admin/leads/labels";
 import type { LeadLabelValue } from "@/src/lib/admin/leads/filters";
 
-// Brightness carries the temperature, not color: the hotter the lead, the brighter the badge.
+// Darkness carries the temperature, not color: the hotter the lead, the darker the badge.
 const LABEL_CLASSES: Record<LeadLabelValue, string> = {
-  caliente: "border-white bg-white font-semibold text-black",
-  tibio: "border-white/40 bg-white/10 text-[#D4D4D4]",
-  frio: "border-white/14 text-muted",
+  caliente: "bg-[#18181B] text-white",
+  tibio: "bg-[#E4E4E7] text-[#27272A]",
+  frio: "border border-[#E4E4E7] bg-[#F4F4F5] text-[#52525B]",
 };
 
 export function LabelBadge({ label }: { label: LeadLabelValue }) {
   return (
     <span
-      className={`inline-flex items-center rounded-full border px-3 py-1 text-[13px] ${LABEL_CLASSES[label]}`}
+      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${LABEL_CLASSES[label]}`}
     >
       {LABEL_TEXT[label]}
     </span>

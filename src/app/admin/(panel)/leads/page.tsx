@@ -20,25 +20,21 @@ async function LeadsList({
   return (
     <main
       id="contenido"
-      className="mx-auto flex max-w-[1280px] flex-col gap-8 px-6 py-12"
+      className="mx-auto flex max-w-[1200px] flex-col gap-4 px-5 py-6"
     >
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <h1 className="wide m-0 text-[clamp(28px,4vw,40px)] font-bold text-heading">
-          Leads
-        </h1>
-        <p className="m-0 text-sm text-label">
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <h1 className="m-0 text-lg font-semibold text-[#18181B]">Leads</h1>
+        <p className="m-0 text-xs text-[#71717A]">
           {page.total} {page.total === 1 ? "resultado" : "resultados"}
         </p>
       </div>
 
-      <section aria-label="Filtros" className={`${ADMIN_PANEL_CLASSES} p-5`}>
+      <section aria-label="Filtros" className={`${ADMIN_PANEL_CLASSES} p-4`}>
         <LeadsFilterBar filters={filters} />
       </section>
 
       {page.leads.length === 0 ? (
-        <p
-          className={`${ADMIN_PANEL_CLASSES} m-0 p-6 text-[15px] text-text-secondary`}
-        >
+        <p className={`${ADMIN_PANEL_CLASSES} m-0 p-6 text-sm text-[#71717A]`}>
           No hay leads con estos filtros. Prueba quitando alguno.
         </p>
       ) : (

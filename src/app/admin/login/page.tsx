@@ -10,7 +10,7 @@ async function LinkError({
   const { error } = await searchParams;
   if (error !== "link") return null;
   return (
-    <p role="alert" className="text-[13px] text-error">
+    <p role="alert" className="m-0 text-xs text-[#B91C1C]">
       El enlace no es válido o ya expiró. Solicita uno nuevo.
     </p>
   );

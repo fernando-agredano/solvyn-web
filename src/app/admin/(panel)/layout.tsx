@@ -1,55 +1,42 @@
 import Image from "next/image";
-import Link from "next/link";
-import { Suspense, type ReactNode } from "react";
+import type { ReactNode } from "react";
+import { Suspense } from "react";
+import { connection } from "next/server";
+import { AdminButton } from "@/src/components/admin/AdminButton";
+import { AdminNav } from "@/src/components/admin/AdminNav";
 import { SITE } from "@/src/config/site";
 import { requireAdmin } from "@/src/lib/admin/auth";
-import { Button } from "@/src/components/ui/Button";
 import { signOut } from "../actions";
 
 async function PanelFrame({ children }: { children: ReactNode }) {
+  // The session is read per request: the panel must never be prerendered with a stale login state.
+  await connection();
   const { user } = await requireAdmin();
   return (
     <>
-      <header className="border-b border-border-subtle">
-        <div className="mx-auto flex max-w-[1280px] flex-wrap items-center justify-between gap-4 px-6 py-[18px]">
-          <Image
-            src="/brand/solvyn-logo.png"
-            alt={SITE.name}
-            width={1100}
-            height={262}
-            priority
-            sizes="110px"
-            className="block h-[26px] w-auto"
-          />
-          <nav
-            aria-label="Secciones del panel"
-            className="flex items-center gap-5 text-[15px]"
-          >
-            <Link
-              href="/admin"
-              className="text-text-secondary no-underline hover:text-heading"
-            >
-              Resumen
-            </Link>
-            <Link
-              href="/admin/leads"
-              className="text-text-secondary no-underline hover:text-heading"
-            >
-              Leads
-            </Link>
-            <Link
-              href="/admin/ajustes"
-              className="text-text-secondary no-underline hover:text-heading"
-            >
-              Ajustes
-            </Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-label">{user.email}</span>
+      {/* Sticky: the header stays on top while the page scrolls. */}
+      <header className="sticky top-0 z-40 border-b border-[#E4E4E7] bg-white/90 backdrop-blur">
+        <div className="mx-auto flex h-14 max-w-[1200px] items-center justify-between gap-4 px-5">
+          <div className="flex items-center gap-6">
+            <Image
+              src="/brand/solvyn-logo-dark.png"
+              alt={SITE.name}
+              width={1100}
+              height={262}
+              priority
+              sizes="110px"
+              className="block h-5 w-auto"
+            />
+            <AdminNav />
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="hidden text-xs text-[#71717A] sm:inline">
+              {user.email}
+            </span>
             <form action={signOut}>
-              <Button type="submit" variant="secondary" size="md">
+              <AdminButton type="submit" variant="secondary">
                 Cerrar sesión
-              </Button>
+              </AdminButton>
             </form>
           </div>
         </div>

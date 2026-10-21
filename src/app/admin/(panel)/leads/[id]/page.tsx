@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { AdminButton } from "@/src/components/admin/AdminButton";
 import { LabelBadge } from "@/src/components/admin/LabelBadge";
-import { ADMIN_PANEL_CLASSES } from "@/src/components/admin/styles";
-import { Button } from "@/src/components/ui/Button";
+import { SectionCard } from "@/src/components/admin/SectionCard";
 import { describeAnswers } from "@/src/lib/admin/leads/answers";
 import { getMailtoHref, getWhatsAppHref } from "@/src/lib/admin/leads/contact";
 import {
@@ -17,8 +17,8 @@ import { LeadStatusForm } from "./LeadStatusForm";
 
 type LeadParams = Promise<{ id: string }>;
 
-const SECTION_CLASSES = `${ADMIN_PANEL_CLASSES} flex flex-col gap-5 p-6`;
-const SECTION_TITLE_CLASSES = "semi m-0 text-lg font-semibold text-heading";
+const DATA_LABEL = "text-xs font-medium text-[#71717A]";
+const DATA_VALUE = "m-0 mt-1 text-sm text-[#18181B]";
 
 async function LeadDetail({ params }: { params: LeadParams }) {
   const { id } = await params;
@@ -31,137 +31,121 @@ async function LeadDetail({ params }: { params: LeadParams }) {
   return (
     <main
       id="contenido"
-      className="mx-auto flex max-w-[960px] flex-col gap-8 px-6 py-12"
+      className="mx-auto flex max-w-[960px] flex-col gap-4 px-5 py-6"
     >
       <Link
         href="/admin/leads"
-        className="w-fit text-sm text-text-secondary underline-offset-4 hover:underline"
+        className="w-fit text-xs font-medium text-[#52525B] hover:text-[#18181B]"
       >
         ← Volver a leads
       </Link>
 
-      <header className="flex flex-col gap-3">
-        <div className="flex flex-wrap items-center gap-3">
-          <h1 className="wide m-0 text-[clamp(26px,4vw,36px)] font-bold text-heading">
-            {lead.name}
-          </h1>
-          <LabelBadge label={lead.label} />
-        </div>
-        <p className="m-0 text-[15px] text-text-secondary">
+      <header className="flex flex-wrap items-center gap-3">
+        <h1 className="m-0 text-lg font-semibold text-[#18181B]">
+          {lead.name}
+        </h1>
+        <LabelBadge label={lead.label} />
+        <span className="text-xs text-[#71717A]">
           Puntaje {lead.score} · Registrado el{" "}
           {formatLeadDateTime(lead.createdAt)}
-        </p>
+        </span>
       </header>
 
-      <section aria-labelledby="contact-heading" className={SECTION_CLASSES}>
-        <h2 id="contact-heading" className={SECTION_TITLE_CLASSES}>
-          Contacto
-        </h2>
-        <p className="m-0 text-[15px] text-[#D4D4D4]">{lead.email}</p>
-        {lead.phone && (
-          <p className="m-0 text-[15px] text-[#D4D4D4]">{lead.phone}</p>
-        )}
-        <div className="flex flex-wrap gap-3">
-          <Button
-            href={getMailtoHref(lead.email)}
-            variant="secondary"
-            size="md"
-          >
+      <SectionCard title="Contacto" headingId="contact-heading">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <p className={DATA_LABEL}>Correo</p>
+            <p className={DATA_VALUE}>{lead.email}</p>
+          </div>
+          <div>
+            <p className={DATA_LABEL}>WhatsApp</p>
+            <p className={DATA_VALUE}>{lead.phone ?? "Sin número"}</p>
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <AdminButton href={getMailtoHref(lead.email)} variant="secondary">
             Escribir correo
-          </Button>
+          </AdminButton>
           {whatsappHref ? (
-            <Button href={whatsappHref} size="md">
-              Abrir WhatsApp
-            </Button>
+            <AdminButton href={whatsappHref}>Abrir WhatsApp</AdminButton>
           ) : (
-            <p className="m-0 self-center text-sm text-muted">
+            <p className="m-0 self-center text-xs text-[#71717A]">
               Sin número de WhatsApp válido.
             </p>
           )}
         </div>
-      </section>
+      </SectionCard>
 
-      <section aria-labelledby="proposal-heading" className={SECTION_CLASSES}>
-        <h2 id="proposal-heading" className={SECTION_TITLE_CLASSES}>
-          Propuesta
-        </h2>
-        <dl className="m-0 grid gap-4 text-[15px] sm:grid-cols-2">
+      <SectionCard title="Propuesta" headingId="proposal-heading">
+        <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <dt className="text-label">Inversión estimada</dt>
-            <dd className="m-0 mt-1 tabular-nums text-[#D4D4D4]">
+            <p className={DATA_LABEL}>Inversión estimada</p>
+            <p className={`${DATA_VALUE} tabular-nums`}>
               {formatInvestmentRange(lead.proposal?.facts.investment ?? null)}
-            </dd>
+            </p>
           </div>
           <div>
-            <dt className="text-label">Industria</dt>
-            <dd className="m-0 mt-1 text-[#D4D4D4]">
+            <p className={DATA_LABEL}>Industria</p>
+            <p className={DATA_VALUE}>
               {lead.proposal?.facts.industryLabel ?? "—"}
-            </dd>
+            </p>
           </div>
-        </dl>
+        </div>
         <div>
-          <Button
+          <AdminButton
             href={`/propuesta/${lead.proposalSlug}`}
             variant="secondary"
-            size="md"
           >
             Ver propuesta
-          </Button>
+          </AdminButton>
         </div>
-      </section>
+      </SectionCard>
 
-      <section aria-labelledby="answers-heading" className={SECTION_CLASSES}>
-        <h2 id="answers-heading" className={SECTION_TITLE_CLASSES}>
-          Respuestas del configurador
-        </h2>
+      <SectionCard
+        title="Respuestas del configurador"
+        headingId="answers-heading"
+      >
         {answers === null ? (
-          <p className="m-0 text-[15px] text-text-secondary">
+          <p className="m-0 text-sm text-[#71717A]">
             No se pudieron leer las respuestas guardadas.
           </p>
         ) : (
-          <dl className="m-0 grid gap-4 text-[15px]">
+          <dl className="m-0 grid gap-3 text-sm">
             {answers.map((answer) => (
               <div
                 key={answer.label}
-                className="grid gap-1 sm:grid-cols-[200px_1fr] sm:gap-4"
+                className="grid gap-1 border-b border-[#F4F4F5] pb-3 last:border-0 last:pb-0 sm:grid-cols-[180px_1fr] sm:gap-4"
               >
-                <dt className="text-label">{answer.label}</dt>
-                <dd className="m-0 whitespace-pre-line text-[#D4D4D4]">
+                <dt className="text-[#71717A]">{answer.label}</dt>
+                <dd className="m-0 whitespace-pre-line text-[#18181B]">
                   {answer.value}
                 </dd>
               </div>
             ))}
           </dl>
         )}
-      </section>
+      </SectionCard>
 
-      <section aria-labelledby="meeting-heading" className={SECTION_CLASSES}>
-        <h2 id="meeting-heading" className={SECTION_TITLE_CLASSES}>
-          Reunión
-        </h2>
-        <p className="m-0 text-[15px] text-[#D4D4D4]">
-          {lead.meetingAt
-            ? formatLeadDateTime(lead.meetingAt)
-            : "Sin reunión agendada."}
-        </p>
-      </section>
+      <div className="grid gap-4 lg:grid-cols-2">
+        <SectionCard title="Reunión" headingId="meeting-heading">
+          <p className="m-0 text-sm text-[#18181B]">
+            {lead.meetingAt
+              ? formatLeadDateTime(lead.meetingAt)
+              : "Sin reunión agendada."}
+          </p>
+        </SectionCard>
 
-      <section aria-labelledby="status-heading" className={SECTION_CLASSES}>
-        <h2 id="status-heading" className={SECTION_TITLE_CLASSES}>
-          Estado
-        </h2>
-        <p className="m-0 text-[15px] text-text-secondary">
-          Actual: {STATUS_LABELS[lead.status]}
-        </p>
-        <LeadStatusForm leadId={lead.id} initialStatus={lead.status} />
-      </section>
+        <SectionCard title="Estado" headingId="status-heading">
+          <p className="m-0 text-xs text-[#71717A]">
+            Actual: {STATUS_LABELS[lead.status]}
+          </p>
+          <LeadStatusForm leadId={lead.id} initialStatus={lead.status} />
+        </SectionCard>
+      </div>
 
-      <section aria-labelledby="notes-heading" className={SECTION_CLASSES}>
-        <h2 id="notes-heading" className={SECTION_TITLE_CLASSES}>
-          Notas
-        </h2>
+      <SectionCard title="Notas internas" headingId="notes-heading">
         <LeadNotesForm leadId={lead.id} initialNotes={lead.notes ?? ""} />
-      </section>
+      </SectionCard>
     </main>
   );
 }

@@ -1,6 +1,9 @@
-// Shared by the filter bar and the detail forms, so every control in the panel looks the same.
+// Light admin theme (zinc scale), separate from the dark public site. Shared by every panel control and card,
+// so the whole panel looks the same.
 export const ADMIN_CONTROL_CLASSES =
-  "w-full min-h-11 rounded-xl border border-white/18 bg-white/3 px-4 text-[15px] text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
+  "w-full min-h-10 rounded-lg border border-[#D4D4D8] bg-white px-3 text-sm text-[#18181B] placeholder:text-[#A1A1AA] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#18181B]";
 
 export const ADMIN_PANEL_CLASSES =
-  "rounded-2xl border border-border bg-gradient-to-b from-white/[0.04] to-transparent";
+  "rounded-xl border border-[#E4E4E7] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)]";
+
+export const ADMIN_LABEL_CLASSES = "text-xs font-medium text-[#52525B]";

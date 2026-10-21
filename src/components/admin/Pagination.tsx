@@ -5,9 +5,9 @@ import {
 } from "@/src/lib/admin/leads/filters";
 
 const LINK_CLASSES =
-  "inline-flex min-h-11 items-center rounded-[10px] border border-white/22 px-4 text-[15px] text-foreground no-underline transition duration-200 hover:border-white/50 hover:bg-white/[0.04]";
+  "inline-flex min-h-10 items-center rounded-lg border border-[#D4D4D8] bg-white px-4 text-sm font-medium text-[#18181B] no-underline transition-colors duration-150 hover:bg-[#F4F4F5]";
 const DISABLED_CLASSES =
-  "inline-flex min-h-11 items-center rounded-[10px] border border-white/8 px-4 text-[15px] text-muted";
+  "inline-flex min-h-10 items-center rounded-lg border border-[#E4E4E7] px-4 text-sm text-[#A1A1AA]";
 
 interface PaginationProps {
   filters: LeadsFilters;
@@ -37,7 +37,7 @@ export function Pagination({ filters, pageCount }: PaginationProps) {
           Anterior
         </span>
       )}
-      <p className="m-0 text-sm text-label">
+      <p className="m-0 text-xs text-[#71717A]">
         Página {current} de {pageCount}
       </p>
       {hasNext ? (
