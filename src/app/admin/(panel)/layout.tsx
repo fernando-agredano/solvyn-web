@@ -16,7 +16,7 @@ async function PanelFrame({ children }: { children: ReactNode }) {
     <>
       {/* Sticky: the header stays on top while the page scrolls. */}
       <header className="sticky top-0 z-40 border-b border-[#E4E4E7] bg-white/90 backdrop-blur">
-        <div className="flex h-14 items-center justify-between gap-4 px-4 sm:px-6">
+        <div className="flex h-14 items-center justify-between gap-4 px-4 sm:px-8 lg:px-12">
           <div className="flex items-center gap-6">
             <Image
               src="/brand/solvyn-logo-dark.png"

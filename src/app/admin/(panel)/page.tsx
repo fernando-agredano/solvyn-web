@@ -35,7 +35,7 @@ async function Dashboard() {
   return (
     <main
       id="contenido"
-      className="flex flex-col gap-5 px-4 py-6 sm:px-6"
+      className="flex flex-col gap-5 px-4 py-6 sm:px-8 lg:px-12"
     >
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h1 className="m-0 text-lg font-semibold text-[#18181B]">Resumen</h1>
