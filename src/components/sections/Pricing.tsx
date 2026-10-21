@@ -3,14 +3,29 @@ import { SITE } from "@/src/config/site";
 import { formatStartDate } from "@/src/lib/settings/model";
 import { getSettings } from "@/src/lib/settings/settings";
 import { Button } from "@/src/components/ui/Button";
+import { CheckIcon, ClockIcon } from "@/src/components/ui/icons";
 import { Reveal } from "@/src/components/ui/Reveal";
 import { SectionHeading } from "@/src/components/ui/SectionHeading";
 
+// Green marks what is "ok" or "active": the checks, the dot of the featured plan and the availability. Nothing else.
+function SignalDot() {
+  return (
+    <span
+      aria-hidden="true"
+      className="size-1.5 rounded-full bg-signal shadow-[0_0_8px_var(--signal-glow)]"
+    />
+  );
+}
+
 export async function Pricing() {
   const settings = await getSettings();
+  const hasAvailability = Boolean(
+    settings.nextStartDate || settings.availabilityMessage,
+  );
+
   return (
     <section id="precios" className="border-t border-border-subtle">
-      <div className="mx-auto max-w-[1680px] px-4 sm:px-8 lg:px-12 py-20 lg:py-24">
+      <div className="mx-auto max-w-[1680px] px-4 py-20 sm:px-8 lg:px-12 lg:py-24">
         <Reveal>
           <SectionHeading
             className="mb-12"
@@ -19,51 +34,57 @@ export async function Pricing() {
           />
         </Reveal>
 
-        <Reveal>
-          <div className="grid grid-cols-3 items-stretch gap-5 max-[1000px]:grid-cols-1">
-            {PLANS.map((plan) => (
+        <div className="mx-auto grid max-w-[1120px] items-stretch gap-5 min-[1000px]:grid-cols-3">
+          {PLANS.map((plan) => (
+            <Reveal key={plan.name} className="h-full">
               <article
-                key={plan.name}
-                className={`relative flex flex-col gap-6 rounded-2xl px-7 py-8 ${
+                className={`relative flex h-full flex-col gap-6 rounded-2xl p-7 ${
                   plan.highlighted
                     ? "border border-white/40 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.015))] shadow-[0_0_60px_rgba(255,255,255,0.06),inset_0_1px_0_rgba(255,255,255,0.15)]"
-                    : "border border-white/[0.12]"
+                    : "border border-white/[0.12] bg-[linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0))]"
                 }`}
               >
                 {plan.highlighted && (
-                  <span className="absolute top-[-13px] left-7 rounded-full bg-white px-3 py-1 text-xs font-semibold text-black">
-                    El más solicitado
-                  </span>
+                  <>
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-x-8 top-0 h-px bg-[linear-gradient(90deg,transparent,var(--signal),transparent)]"
+                    />
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-x-0 top-0 h-28 rounded-t-2xl bg-[radial-gradient(60%_100%_at_50%_0%,rgba(70,209,154,0.12),transparent)]"
+                    />
+                    <span className="absolute -top-3.5 left-7 inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1 text-xs font-semibold text-black">
+                      <SignalDot />
+                      El más solicitado
+                    </span>
+                  </>
                 )}
 
+                <div className="flex flex-col gap-2 min-[1000px]:min-h-[7.5rem]">
+                  <h3 className="m-0 text-lg font-semibold">{plan.name}</h3>
+                  <p className="m-0 text-[15px] leading-[1.55] text-text-secondary">
+                    {plan.description}
+                  </p>
+                </div>
+
                 <div className="flex flex-col gap-2">
-                  <h3 className="semi m-0 text-xl font-semibold">{plan.name}</h3>
-                  <p className="m-0 text-[15px] leading-[1.55] text-text-secondary">{plan.description}</p>
-                </div>
-
-                <div className="flex flex-col gap-1">
                   <span className="text-sm text-label">Desde</span>
-                  <span className="wide text-[30px] font-semibold tracking-[-0.02em]">{SITE.price}</span>
-                  <span className="text-sm text-label">{plan.duration}</span>
+                  <span className="text-[28px] leading-none font-semibold tracking-[-0.02em]">
+                    {SITE.price}
+                  </span>
+                  <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.04] px-2.5 py-1 text-xs text-text-secondary">
+                    <ClockIcon size={14} />
+                    {plan.duration}
+                  </span>
                 </div>
 
-                <ul className="m-0 flex flex-1 list-none flex-col gap-2.5 p-0 text-[15px] text-[#D4D4D4]">
+                <ul className="m-0 flex flex-1 list-none flex-col gap-3 border-t border-white/10 p-0 pt-5 text-[15px] text-[#D4D4D4]">
                   {plan.features.map((feature) => (
-                    <li key={feature} className="flex gap-2.5">
-                      <svg
-                        width={18}
-                        height={18}
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#FFFFFF"
-                        strokeWidth={1.8}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        aria-hidden="true"
-                        className="mt-0.5 flex-none"
-                      >
-                        <path d="M5 12l5 5 9-10" />
-                      </svg>
+                    <li key={feature} className="flex items-start gap-3">
+                      <span className="mt-px flex size-5 flex-none items-center justify-center rounded-full bg-signal/15 text-signal">
+                        <CheckIcon size={13} />
+                      </span>
                       {feature}
                     </li>
                   ))}
@@ -73,20 +94,28 @@ export async function Pricing() {
                   href="/configurar"
                   variant={plan.highlighted ? "primary" : "secondary"}
                   size="sm"
+                  withArrow
                   className="w-full"
                 >
                   Calcular mi caso
                 </Button>
               </article>
-            ))}
-          </div>
-        </Reveal>
-        {(settings.nextStartDate || settings.availabilityMessage) && (
+            </Reveal>
+          ))}
+        </div>
+
+        {hasAvailability && (
           <Reveal>
-            <p className="m-0 mt-10 text-center text-sm text-label">
-              {settings.nextStartDate && `Próximo inicio disponible: ${formatStartDate(settings.nextStartDate)}`}
-              {settings.nextStartDate && settings.availabilityMessage && " · "}
-              {settings.availabilityMessage}
+            <p className="mx-auto mt-10 mb-0 flex w-fit max-w-full items-center gap-2.5 rounded-full border border-white/12 bg-white/[0.04] px-4 py-2 text-sm text-text-secondary">
+              <SignalDot />
+              <span>
+                {settings.nextStartDate &&
+                  `Próximo inicio disponible: ${formatStartDate(settings.nextStartDate)}`}
+                {settings.nextStartDate &&
+                  settings.availabilityMessage &&
+                  " · "}
+                {settings.availabilityMessage}
+              </span>
             </p>
           </Reveal>
         )}

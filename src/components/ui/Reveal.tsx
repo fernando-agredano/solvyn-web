@@ -41,7 +41,7 @@ function stopListening() {
 // and one scroll listener reveals them. Everything already in view is left alone, and a block that is passed
 // while the page restores its scroll is revealed by the same check, so nothing stays hidden. Animation
 // enhances, it never gates content (the hidden state lives in globals.css and respects reduced motion).
-export function Reveal({ children }: { children: ReactNode }) {
+export function Reveal({ children, className = "" }: { children: ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export function Reveal({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <div ref={ref} className="reveal">
+    <div ref={ref} className={`reveal ${className}`}>
       {children}
     </div>
   );

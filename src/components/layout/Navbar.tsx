@@ -48,10 +48,7 @@ export function Navbar() {
       },
       { rootMargin: "-45% 0px -50% 0px" },
     );
-    NAV_LINKS.forEach((link) => {
-      const section = document.getElementById(link.href.slice(1));
-      if (section) observer.observe(section);
-    });
+    document.querySelectorAll("main section[id]").forEach((section) => observer.observe(section));
     return () => observer.disconnect();
   }, []);
 
