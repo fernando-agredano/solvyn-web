@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { describeChanges, toDraft } from "./changes";
+import { describeChanges, formatPhone, toDraft } from "./changes";
 import type { PublicSettings } from "./model";
 
 const SAVED: PublicSettings = {
@@ -39,5 +39,17 @@ describe("describeChanges", () => {
         email: " hola@solvyn.mx ",
       }),
     ).toEqual([]);
+  });
+});
+
+describe("formatPhone", () => {
+  it("groups a ten-digit number", () => {
+    expect(formatPhone("5512345678")).toBe("55 1234 5678");
+    expect(formatPhone("55 1234 5678")).toBe("55 1234 5678");
+  });
+
+  it("leaves anything else as typed", () => {
+    expect(formatPhone("[TU WHATSAPP]")).toBe("[TU WHATSAPP]");
+    expect(formatPhone("12345")).toBe("12345");
   });
 });

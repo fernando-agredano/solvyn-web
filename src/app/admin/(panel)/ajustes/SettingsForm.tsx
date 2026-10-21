@@ -9,6 +9,7 @@ import {
 } from "react";
 import { AdminButton } from "@/src/components/admin/AdminButton";
 import { ConfirmDialog } from "@/src/components/admin/ConfirmDialog";
+import { DatePicker } from "@/src/components/admin/DatePicker";
 import { PageHeading } from "@/src/components/admin/PageHeading";
 import {
   ADMIN_CONTROL_CLASSES,
@@ -69,8 +70,8 @@ export function SettingsForm({ settings }: { settings: PublicSettings }) {
       setDraft((current) => ({ ...current, [key]: event.target.value }));
 
   return (
-    <div className="w-full max-w-[1040px] overflow-hidden rounded-2xl border border-[#E4E4E7] bg-white shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E4E4E7] bg-[#FAFAFA] px-6 py-4">
+    <div className="w-full max-w-[1200px] rounded-2xl border border-[#E4E4E7] bg-white shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-t-2xl border-b border-[#E4E4E7] bg-[#FAFAFA] px-6 py-4">
         <PageHeading title="Ajustes" tags={["Sitio público"]} />
         <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E4E4E7] bg-white px-2.5 py-1 text-xs text-[#52525B]">
           <span
@@ -82,7 +83,7 @@ export function SettingsForm({ settings }: { settings: PublicSettings }) {
       </div>
 
       <form ref={formRef} action={formAction}>
-        <div className="grid gap-6 p-6 lg:grid-cols-[1fr_300px]">
+        <div className="grid gap-6 p-6 lg:grid-cols-[1fr_420px]">
           <div className="flex flex-col gap-6">
             <div
               role="group"
@@ -126,13 +127,13 @@ export function SettingsForm({ settings }: { settings: PublicSettings }) {
                   hint="Vacío: no se muestra la fecha."
                   error={state.fieldErrors.nextStartDate}
                 >
-                  <input
+                  <DatePicker
                     id="nextStartDate"
                     name="nextStartDate"
-                    type="date"
                     value={draft.nextStartDate}
-                    onChange={updateField("nextStartDate")}
-                    className={ADMIN_CONTROL_CLASSES}
+                    onChange={(value) =>
+                      setDraft((current) => ({ ...current, nextStartDate: value }))
+                    }
                   />
                 </Field>
               </div>
@@ -203,7 +204,7 @@ export function SettingsForm({ settings }: { settings: PublicSettings }) {
           <SettingsPreview draft={draft} />
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#E4E4E7] bg-[#FAFAFA] px-6 py-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-b-2xl border-t border-[#E4E4E7] bg-[#FAFAFA] px-6 py-4">
           <span className="inline-flex items-center gap-2 rounded-full border border-[#E4E4E7] bg-white px-2.5 py-1 text-xs text-[#52525B]">
             <span
               aria-hidden="true"

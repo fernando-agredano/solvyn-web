@@ -66,3 +66,11 @@ export function describeChanges(
     to: field.format(after[field.key]),
   }));
 }
+
+// "5512345678" becomes "55 1234 5678". Anything that isn't ten digits is shown as typed.
+export function formatPhone(value: string): string {
+  const compact = value.replace(/\s/g, "");
+  return /^\d{10}$/.test(compact)
+    ? `${compact.slice(0, 2)} ${compact.slice(2, 6)} ${compact.slice(6)}`
+    : value.trim();
+}
