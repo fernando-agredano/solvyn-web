@@ -122,10 +122,10 @@ async function Dashboard() {
           headingId="meetings-heading"
           action={
             <Link
-              href="/admin/leads"
+              href="/admin/leads?vista=calendario"
               className="text-xs font-medium text-[#52525B] hover:text-[#18181B]"
             >
-              Ver leads
+              Ver calendario
             </Link>
           }
         >

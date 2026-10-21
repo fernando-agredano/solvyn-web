@@ -9,7 +9,7 @@ import {
   shiftMonth,
   WEEKDAYS,
   type MonthView,
-} from "@/src/lib/settings/calendar";
+} from "@/src/lib/calendar";
 import { formatStartDate } from "@/src/lib/settings/model";
 import { todayInMexico } from "@/src/lib/settings/schema";
 import { ADMIN_CONTROL_CLASSES } from "./styles";

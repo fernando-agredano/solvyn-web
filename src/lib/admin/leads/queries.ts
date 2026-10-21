@@ -9,6 +9,7 @@ import {
   type LeadsFilters,
 } from "./filters";
 import { parseLeadRow, toLeadSummary, type LeadSummary } from "./records";
+import type { MonthView } from "@/src/lib/calendar";
 import { buildDailySeries, SERIES_DAYS } from "./series";
 
 // One column list for the list and the detail, so one parser covers both. Notes are read here but only the detail shows them.
@@ -156,4 +157,20 @@ export async function getLeadsDashboard(): Promise<LeadsDashboard> {
       now,
     ),
   };
+}
+
+// The meetings whose date falls in the month. The month is cut in Mexico City time and the database stores UTC,
+// so the range has a day of margin on each side; the caller groups them by their Mexico City day.
+export async function listMeetingsInMonth(view: MonthView): Promise<LeadSummary[]> {
+  const { supabase } = await requireAdmin();
+  const from = new Date(Date.UTC(view.year, view.month, 1) - DAY_MS).toISOString();
+  const to = new Date(Date.UTC(view.year, view.month + 1, 1) + DAY_MS).toISOString();
+  const { data, error } = await supabase
+    .from("leads")
+    .select(LEAD_COLUMNS)
+    .gte("meeting_at", from)
+    .lt("meeting_at", to)
+    .order("meeting_at", { ascending: true });
+  if (error) throw new Error(`meetings read failed: ${error.code ?? "unknown"}`);
+  return (data ?? []).map((row) => toLeadSummary(parseLeadRow(row)));
 }
