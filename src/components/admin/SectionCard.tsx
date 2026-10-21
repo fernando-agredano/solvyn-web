@@ -5,12 +5,14 @@ import { ADMIN_PANEL_CLASSES } from "./styles";
 export function SectionCard({
   title,
   headingId,
+  icon,
   action,
   className = "",
   children,
 }: {
   title: string;
   headingId?: string;
+  icon?: ReactNode;
   action?: ReactNode;
   className?: string;
   children: ReactNode;
@@ -21,9 +23,19 @@ export function SectionCard({
       className={`${ADMIN_PANEL_CLASSES} flex flex-col gap-4 p-5 ${className}`}
     >
       <div className="flex items-center justify-between gap-3">
-        <h2 id={headingId} className="m-0 text-sm font-semibold text-[#18181B]">
-          {title}
-        </h2>
+        <div className="flex items-center gap-2.5">
+          {icon && (
+            <span className="flex size-8 flex-none items-center justify-center rounded-lg bg-[#F4F4F5] text-[#18181B]">
+              {icon}
+            </span>
+          )}
+          <h2
+            id={headingId}
+            className="m-0 text-sm font-semibold text-[#18181B]"
+          >
+            {title}
+          </h2>
+        </div>
         {action}
       </div>
       {children}

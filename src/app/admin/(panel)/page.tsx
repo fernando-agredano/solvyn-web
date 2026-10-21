@@ -2,6 +2,16 @@ import Link from "next/link";
 import { connection } from "next/server";
 import { Suspense } from "react";
 import { BarChart } from "@/src/components/admin/BarChart";
+import {
+  BarChartIcon,
+  CalendarIcon,
+  ClockIcon,
+  FlameIcon,
+  FunnelIcon,
+  TagIcon,
+  UserPlusIcon,
+  UsersIcon,
+} from "@/src/components/admin/icons";
 import { HorizontalBars } from "@/src/components/admin/HorizontalBars";
 import { LabelBadge } from "@/src/components/admin/LabelBadge";
 import { PageHeading } from "@/src/components/admin/PageHeading";
@@ -44,18 +54,23 @@ async function Dashboard() {
         aria-label="Cifras principales"
         className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4"
       >
-        <StatCard label="Total de leads" value={dashboard.total} />
-        <StatCard label="Nuevos esta semana" value={dashboard.newThisWeek} />
+        <StatCard label="Total de leads"
+          icon={<UsersIcon />} value={dashboard.total} />
+        <StatCard label="Nuevos esta semana"
+          icon={<UserPlusIcon />} value={dashboard.newThisWeek} />
         <StatCard
           label="Reuniones próximas"
+          icon={<CalendarIcon />}
           value={dashboard.upcomingMeetingCount}
         />
-        <StatCard label="Leads calientes" value={dashboard.byLabel.caliente} />
+        <StatCard label="Leads calientes"
+          icon={<FlameIcon />} value={dashboard.byLabel.caliente} />
       </section>
 
       <div className="grid gap-3 xl:grid-cols-3">
         <SectionCard
           title="Leads por día"
+          icon={<BarChartIcon />}
           headingId="daily-heading"
           action={
             <span className="text-xs text-[#71717A]">
@@ -73,7 +88,8 @@ async function Dashboard() {
           />
         </SectionCard>
 
-        <SectionCard title="Por etiqueta" headingId="labels-heading">
+        <SectionCard title="Por etiqueta"
+          icon={<TagIcon />} headingId="labels-heading">
           <div className="flex flex-col gap-4">
             <HorizontalBars
               rows={LEAD_LABELS.map((label) => ({
@@ -88,6 +104,7 @@ async function Dashboard() {
       <div className="grid gap-3 xl:grid-cols-3">
         <SectionCard
           title="Embudo por estado"
+          icon={<FunnelIcon />}
           headingId="funnel-heading"
           className="xl:col-span-2"
         >
@@ -101,6 +118,7 @@ async function Dashboard() {
 
         <SectionCard
           title="Próximas reuniones"
+          icon={<ClockIcon />}
           headingId="meetings-heading"
           action={
             <Link
