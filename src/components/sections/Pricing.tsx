@@ -46,15 +46,7 @@ export async function Pricing() {
               >
                 {plan.highlighted && (
                   <>
-                    <span
-                      aria-hidden="true"
-                      className="pointer-events-none absolute inset-x-8 top-0 h-px bg-[linear-gradient(90deg,transparent,var(--signal),transparent)]"
-                    />
-                    <span
-                      aria-hidden="true"
-                      className="pointer-events-none absolute inset-x-0 top-0 h-28 rounded-t-2xl bg-[radial-gradient(60%_100%_at_50%_0%,rgba(70,209,154,0.12),transparent)]"
-                    />
-                    <span className="absolute -top-3.5 left-7 inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1 text-xs font-semibold text-black">
+                    <span className="absolute -top-3.5 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-white/30 bg-black px-3 py-1 text-xs font-semibold whitespace-nowrap text-white">
                       <SignalDot />
                       El más solicitado
                     </span>

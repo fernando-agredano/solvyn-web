@@ -7,10 +7,10 @@ type ButtonSize = "sm" | "md" | "lg";
 const BASE_CLASSES =
   "group inline-flex items-center justify-center gap-2 rounded-[10px] no-underline transition-colors duration-200 ease-out";
 
-// Hover only shifts tone: no lift and no halo. The primary softens to a light gray and the secondary gains a faint fill.
+// Hover never lifts or glows. The white primary inverts to an outlined button; the secondary gains a faint fill.
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
-    "bg-heading font-semibold text-black hover:bg-[#E4E4E4] active:bg-[#D2D2D2]",
+    "border border-transparent bg-heading font-semibold text-black hover:border-white/60 hover:bg-transparent hover:text-white active:bg-white/10",
   secondary:
     "border border-white/[0.22] font-medium text-foreground hover:border-white/40 hover:bg-white/[0.07] active:bg-white/[0.1]",
 };
@@ -35,7 +35,7 @@ type ButtonProps = {
 );
 
 const DISABLED_CLASSES =
-  "disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:bg-heading";
+  "disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-transparent disabled:hover:bg-heading disabled:hover:text-black";
 
 function ArrowIcon() {
   return (

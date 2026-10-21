@@ -44,7 +44,7 @@ export function LiveProposalDemo() {
   const weeks = estimateWeekRange(selectedHours);
 
   return (
-    <div className="grid items-start gap-6 max-[860px]:grid-cols-1 min-[861px]:grid-cols-[minmax(0,380px)_minmax(0,1fr)]">
+    <div className="grid items-stretch gap-6 max-[860px]:grid-cols-1 min-[861px]:grid-cols-[minmax(0,380px)_minmax(0,1fr)]">
       <ProposalSummaryCard
         projectName={DEMO_PROJECT_NAME}
         investment={`${formatMXN(investment.min)} – ${formatMXN(investment.max)}`}

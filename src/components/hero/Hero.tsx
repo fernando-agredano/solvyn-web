@@ -11,11 +11,12 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-1 h-44 bg-[linear-gradient(to_bottom,rgba(0,0,0,0),#000000)]" />
       <div
         id="inicio"
-        className="relative z-2 px-4 pt-[calc(max(100vw,_1100px)_*_0.2583_+_2.25rem)] sm:px-8 lg:px-12"
+        className="relative z-2 px-4 pt-[calc(max(100vw,_1100px)_*_0.2583_+_4rem)] sm:px-8 lg:px-12"
       >
         <div className="mx-auto flex max-w-[760px] flex-col items-center gap-5 text-center">
-          <h1 className="m-0 text-balance text-[clamp(2rem,3.7vw,3.25rem)] leading-[1.06] font-semibold tracking-[-0.03em] text-heading">
-            Describe tu idea. Mira cómo se construye.
+          <h1 className="m-0 text-[clamp(2rem,3.7vw,3.25rem)] leading-[1.06] font-semibold tracking-[-0.03em] text-heading">
+            <span className="block">Describe tu idea.</span>
+            <span className="block">Mira cómo se construye.</span>
           </h1>
           <p className="m-0 max-w-[600px] text-[clamp(0.95rem,1.1vw,1.1rem)] leading-[1.6] text-text-secondary">
             Configura tu solución en unos minutos y recibe al momento una

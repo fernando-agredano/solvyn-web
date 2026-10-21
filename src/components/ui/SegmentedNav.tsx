@@ -33,6 +33,7 @@ export function SegmentedNav({
   itemWidthClass,
   tone = "light",
   textSizeClass = "text-sm",
+  itemMinHeightClass = "min-h-8",
 }: {
   items: readonly { href: string; label: string }[];
   activeIndex: number;
@@ -40,6 +41,7 @@ export function SegmentedNav({
   itemWidthClass: string;
   tone?: Tone;
   textSizeClass?: string;
+  itemMinHeightClass?: string;
 }) {
   const colors = TONE_CLASSES[tone];
 
@@ -64,7 +66,7 @@ export function SegmentedNav({
           key={item.href}
           href={item.href}
           aria-current={index === activeIndex ? "page" : undefined}
-          className={`relative z-10 inline-flex min-h-8 items-center justify-center rounded-full px-3 font-medium whitespace-nowrap transition-colors duration-200 ${textSizeClass} ${itemWidthClass} ${
+          className={`relative z-10 inline-flex items-center justify-center rounded-full px-3 font-medium whitespace-nowrap transition-colors duration-200 ${textSizeClass} ${itemMinHeightClass} ${itemWidthClass} ${
             index === activeIndex ? colors.active : colors.inactive
           }`}
         >

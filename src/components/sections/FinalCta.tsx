@@ -10,10 +10,6 @@ export async function FinalCta() {
   const settings = await getSettings();
   return (
     <section id="contacto" className="relative overflow-hidden border-t border-border-subtle">
-      <div
-        aria-hidden="true"
-        className="absolute top-0 left-1/2 h-[420px] w-[900px] -translate-x-1/2 bg-[radial-gradient(ellipse_50%_60%_at_50%_0%,rgba(255,255,255,0.09),rgba(255,255,255,0)_70%)]"
-      />
       <Reveal>
         <div className="relative mx-auto flex max-w-[760px] flex-col items-center gap-7 px-6 py-[140px] text-center">
           <Image

@@ -82,6 +82,7 @@ export function Navbar() {
             activeIndex={activeIndex}
             ariaLabel="Principal"
             itemWidthClass="w-[6.75rem]"
+            itemMinHeightClass="min-h-[34px]"
             textSizeClass="text-[13px]"
             tone="dark"
           />
