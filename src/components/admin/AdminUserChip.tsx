@@ -4,11 +4,11 @@ export function AdminUserChip({ email }: { email: string }) {
   return (
     <div
       title={email}
-      className="flex items-center gap-2.5 rounded-full xl:border xl:border-[#E4E4E7] xl:bg-white xl:py-1 xl:pr-4 xl:pl-1 xl:shadow-[0_1px_2px_rgba(0,0,0,0.04)]"
+      className="flex h-10 items-center gap-2.5 rounded-full xl:border xl:border-[#E4E4E7] xl:bg-white xl:pr-4 xl:pl-1 xl:shadow-[0_1px_2px_rgba(0,0,0,0.04)]"
     >
       <span
         aria-hidden="true"
-        className="relative flex size-8 flex-none items-center justify-center rounded-full bg-[#18181B] text-xs font-semibold text-white"
+        className="relative flex size-10 flex-none items-center justify-center rounded-full bg-[#18181B] text-sm font-semibold text-white xl:size-8 xl:text-xs"
       >
         {email.charAt(0).toUpperCase()}
         <span className="absolute -right-0.5 -bottom-0.5 size-2.5 rounded-full bg-[#059669] ring-2 ring-white" />

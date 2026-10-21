@@ -15,7 +15,7 @@ export function SignOutButton({ action }: { action: () => Promise<void> }) {
       <button
         type="button"
         onClick={() => setIsConfirming(true)}
-        className="group inline-flex min-h-9 cursor-pointer items-center gap-2 rounded-full border border-[#E4E4E7] bg-white px-4 text-sm font-medium text-[#3F3F46] shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-colors duration-200 hover:border-[#18181B] hover:bg-[#18181B] hover:text-white"
+        className="group inline-flex h-10 cursor-pointer items-center gap-2 rounded-full border border-[#E4E4E7] bg-white px-4 text-sm font-medium text-[#3F3F46] shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-colors duration-200 hover:border-[#18181B] hover:bg-[#18181B] hover:text-white"
       >
         <LogoutIcon />
         Cerrar sesión
