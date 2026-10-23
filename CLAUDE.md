@@ -4,7 +4,7 @@
 Sitio web de **Solvyn Solutions**, un estudio de software independiente (una sola persona) en México. Tiene dos partes:
 
 1. **Landing informativa** en `/`.
-2. **Configurador de soluciones** en `/configurar`: el visitante elige qué quiere lograr, responde preguntas, ve su propuesta armarse en vivo y recibe una propuesta con módulos, arquitectura, vista previa, fases e inversión. Puede aceptarla y agendar reunión. Sus datos llegan al dueño como lead.
+2. **Configurador de soluciones** en `/configurar`: el visitante elige qué quiere lograr, responde preguntas, ve su propuesta armarse en vivo y recibe una propuesta con módulos, arquitectura, diagrama del sistema, fases e inversión (la vista previa visual está en pausa; sus componentes siguen en `src/components/proposal/preview/`). Puede aceptarla y agendar reunión. Sus datos llegan al dueño como lead.
 
 Idioma de la interfaz: español de México. Moneda: MXN. Código, nombres de variables y mensajes de commit: inglés.
 
@@ -57,7 +57,7 @@ Interfaz oscura, premium, en blanco y negro. Jerarquía por brillo, no por color
 - `e99d7c55e8dcf339fb93f1717932072b` = `design/logo/solvyn-iso.png` (isotipo hexagonal).
 - `design/logo/solvyn-logo-original.png` es la versión en alta resolución.
 
-**Datos pendientes (placeholders)**: `[TU CORREO]`, `[TU WHATSAPP]`, `[TU PRECIO]`. Centralízalos en `src/config/site.ts`; no los repitas por el código.
+**Datos pendientes (placeholders)**: `[TU CORREO]`, `[TU WHATSAPP]`. Centralízalos en `src/config/site.ts`; no los repitas por el código. Los precios de los planes de la landing van en `src/config/plans.ts` (campo `price`).
 
 ## Lógica del configurador
 El catálogo de metas, módulos, integraciones y extras está en la función `catalog()` de `design/Configurador.dc.html`. Pásalo a `src/config/catalog.ts` sin cambiar horas ni textos. Las reglas de cálculo, en `src/lib/pricing.ts`:
@@ -101,6 +101,6 @@ El catálogo de metas, módulos, integraciones y extras está en la función `ca
 - `npm run lint`: revisión de código
 
 ## Estado del proyecto
-Fase actual: 7.1 (textos legales)
+Fase actual: Pruebas locales completas, pendiente despliegue
 
 Esta línea indica el **siguiente paso pendiente** del proyecto. Se actualiza al final de cada prompt de implementación, dentro de su mismo commit. No la cambies por tu cuenta en otras circunstancias.
