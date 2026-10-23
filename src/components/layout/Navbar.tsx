@@ -88,7 +88,7 @@ export function Navbar() {
           />
         </div>
         <div className="justify-self-end">
-          <Button href="/configurar" size="md" withArrow>
+          <Button href="/configurar" variant="header" size="md" withArrow>
             Configurar
           </Button>
         </div>

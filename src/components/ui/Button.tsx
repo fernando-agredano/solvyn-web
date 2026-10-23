@@ -1,18 +1,21 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-type ButtonVariant = "primary" | "secondary";
+type ButtonVariant = "primary" | "secondary" | "header";
 type ButtonSize = "sm" | "md" | "lg";
 
 const BASE_CLASSES =
   "group inline-flex items-center justify-center gap-2 rounded-[10px] no-underline transition-colors duration-200 ease-out";
 
 // Hover never lifts or glows. The white primary inverts to an outlined button; the secondary gains a faint fill.
+// "header" is for the fixed headers: a translucent filled pill that brightens on hover, so it never competes with the page content.
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
     "border border-transparent bg-heading font-semibold text-black hover:border-white/60 hover:bg-transparent hover:text-white active:bg-white/10",
   secondary:
     "border border-white/[0.22] font-medium text-foreground hover:border-white/40 hover:bg-white/[0.07] active:bg-white/[0.1]",
+  header:
+    "border border-white/20 bg-white/[0.08] font-medium text-white hover:border-white/40 hover:bg-white/[0.16] active:bg-white/[0.2]",
 };
 
 // Every size keeps the 44px minimum touch target.

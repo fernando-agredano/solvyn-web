@@ -35,7 +35,7 @@ export function ConfiguratorHeader({ progress }: ConfiguratorHeaderProps) {
           {progress && <ConfiguratorStepper step={progress.step} />}
         </div>
         <div className="justify-self-end">
-          <Button href="/" variant="secondary" size="md">
+          <Button href="/" variant="header" size="md">
             <LogOutIcon size={16} />
             Salir
           </Button>
