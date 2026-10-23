@@ -6,7 +6,7 @@ import { MailIcon, MapPinIcon, MessageIcon } from "@/src/components/ui/icons";
 import { SITE } from "@/src/config/site";
 import { formatStartDate } from "@/src/lib/settings/model";
 import { getSettings } from "@/src/lib/settings/settings";
-import { getWhatsAppUrl } from "@/src/lib/whatsapp";
+import { formatDisplayPhone, getWhatsAppUrl } from "@/src/lib/whatsapp";
 
 // Anchors start with "/" so they also work from the legal pages, which share this footer.
 const EXPLORE_LINKS = [
@@ -35,7 +35,7 @@ function FooterColumn({
   children: ReactNode;
 }) {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col max-[639px]:items-center max-[639px]:text-center">
       <h2 className="m-0 mb-2 text-xs font-medium tracking-[0.12em] text-label uppercase">
         {title}
       </h2>
@@ -58,7 +58,7 @@ function ContactItem({
   const content = (
     <>
       <span className={`${ICON_BOX_CLASSES} size-9`}>{icon}</span>
-      <span className="flex min-w-0 flex-col">
+      <span className="flex min-w-0 flex-col max-[639px]:text-left">
         <span className="text-xs text-label">{label}</span>
         <span className="truncate text-sm text-foreground">{value}</span>
       </span>
@@ -67,12 +67,12 @@ function ContactItem({
   return href ? (
     <a
       href={href}
-      className="group flex min-h-11 items-center gap-3 no-underline transition-opacity duration-200 hover:opacity-80"
+      className="group flex min-h-11 items-center gap-3 no-underline transition-opacity duration-200 hover:opacity-80 max-[639px]:justify-center"
     >
       {content}
     </a>
   ) : (
-    <div className="flex min-h-11 items-center gap-3">{content}</div>
+    <div className="flex min-h-11 items-center gap-3 max-[639px]:justify-center">{content}</div>
   );
 }
 
@@ -83,7 +83,7 @@ export async function SiteFooter() {
     <footer className="border-t border-border-subtle">
       <div className="mx-auto max-w-[1680px] px-4 pt-14 pb-8 sm:px-8 lg:px-12">
         <div className="grid gap-10 min-[640px]:grid-cols-2 min-[1000px]:grid-cols-[1.6fr_1fr_1fr_1.3fr]">
-          <div className="flex flex-col items-start gap-5">
+          <div className="flex flex-col items-start gap-5 max-[639px]:items-center max-[639px]:text-center">
             {/* Same height as the logo in the header. */}
             <Link
               href="/"
@@ -141,7 +141,7 @@ export async function SiteFooter() {
             <ContactItem
               icon={<MessageIcon size={18} />}
               label="WhatsApp"
-              value={settings.whatsapp}
+              value={formatDisplayPhone(settings.whatsapp)}
               href={getWhatsAppUrl(settings.whatsapp, SITE.whatsappMessage)}
             />
             <ContactItem
@@ -152,7 +152,7 @@ export async function SiteFooter() {
           </FooterColumn>
         </div>
 
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-border-subtle pt-6 text-xs text-muted">
+        <div className="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-border-subtle pt-6 text-xs text-muted max-[639px]:justify-center max-[639px]:text-center">
           <span>© 2026 {SITE.name}. Todos los derechos reservados.</span>
           <span>Hecho en México</span>
         </div>

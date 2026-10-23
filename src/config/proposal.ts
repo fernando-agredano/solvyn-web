@@ -5,7 +5,7 @@ export const GENERATION_STEPS = [
   "Analizando tus respuestas",
   "Definiendo módulos y alcance",
   "Diseñando la arquitectura",
-  "Preparando la vista previa",
+  "Armando el diagrama de tu sistema",
 ] as const;
 
 // Same order as PROJECT_PHASES, which holds the share of the project each phase takes.

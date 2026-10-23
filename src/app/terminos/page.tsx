@@ -1,5 +1,6 @@
 // TODO: Revisar con abogado antes de publicar
 import type { Metadata } from "next";
+import { formatDisplayPhone } from "@/src/lib/whatsapp";
 import { LegalPage, LegalSection } from "@/src/components/legal/LegalPage";
 import { SITE } from "@/src/config/site";
 import { getSettings } from "@/src/lib/settings/settings";
@@ -91,7 +92,7 @@ export default async function TerminosPage() {
         <p>
           Podemos actualizar estos términos. La versión vigente es la publicada
           en esta página. Para dudas sobre estos términos, escríbenos a{" "}
-          {settings.email} o por WhatsApp al {settings.whatsapp}.
+          {settings.email} o por WhatsApp al {formatDisplayPhone(settings.whatsapp)}.
         </p>
       </LegalSection>
     </LegalPage>

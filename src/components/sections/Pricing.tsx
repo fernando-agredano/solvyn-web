@@ -1,5 +1,4 @@
 import { PLANS } from "@/src/config/plans";
-import { SITE } from "@/src/config/site";
 import { formatStartDate } from "@/src/lib/settings/model";
 import { getSettings } from "@/src/lib/settings/settings";
 import { Button } from "@/src/components/ui/Button";
@@ -63,7 +62,7 @@ export async function Pricing() {
                 <div className="flex flex-col gap-2">
                   <span className="text-sm text-label">Desde</span>
                   <span className="text-[28px] leading-none font-semibold tracking-[-0.02em]">
-                    {SITE.price}
+                    {plan.price}
                   </span>
                   <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.04] px-2.5 py-1 text-xs text-text-secondary">
                     <ClockIcon size={14} />

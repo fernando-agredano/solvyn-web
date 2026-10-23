@@ -20,8 +20,8 @@ export function Hero() {
           </h1>
           <p className="m-0 max-w-[600px] text-[clamp(0.95rem,1.1vw,1.1rem)] leading-[1.6] text-text-secondary">
             Configura tu solución en unos minutos y recibe al momento una
-            propuesta con arquitectura, módulos, tiempos y una vista previa de
-            cómo se verá. Sin compromiso.
+            propuesta con arquitectura, módulos, tiempos y un diagrama de cómo
+            funcionará tu sistema. Sin compromiso.
           </p>
           <div className="flex flex-wrap justify-center gap-3 pt-1">
             <Button href="/configurar" withArrow>

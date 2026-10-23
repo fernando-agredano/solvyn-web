@@ -29,7 +29,7 @@ const STEPS = [
   {
     title: "Recibe tu propuesta",
     description:
-      "Arquitectura, módulos, fases, inversión estimada y una vista previa visual. Si te convence, agenda una reunión desde ahí mismo.",
+      "Arquitectura, módulos, fases, inversión estimada y un diagrama de tu sistema. Si te convence, agenda una reunión desde ahí mismo.",
     icon: <FileCheckIcon size={24} />,
     highlighted: true,
   },

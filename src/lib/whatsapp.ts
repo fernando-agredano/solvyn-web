@@ -11,3 +11,9 @@ export function buildProposalWhatsAppMessage({ name, business, proposalUrl }: { 
   const who = business.trim() ? `${name}, de ${business.trim()}` : name;
   return `Hola, soy ${who}. Revisé mi propuesta de Solvyn Solutions y prefiero platicarla por WhatsApp.${proposalUrl ? ` Aquí está: ${proposalUrl}` : ""}`;
 }
+
+// For display: a ten-digit Mexican number is shown with its country code, as "+52 3310061026".
+export function formatDisplayPhone(phone: string) {
+  const compact = phone.replace(/\s/g, "");
+  return /^\d{10}$/.test(compact) ? `+52 ${compact}` : phone.trim();
+}
