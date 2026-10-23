@@ -1,8 +1,11 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@/src/components/ui/Button";
+import { CalendarIcon, CheckIcon } from "@/src/components/ui/icons";
 import { SCHEDULE_ROUTE } from "@/src/config/scheduling";
 import { useConfiguratorStore } from "@/src/lib/configurator/store";
 import { notifyProposalAccepted } from "@/src/lib/meetings/client";
+
+const CTA_PERKS = ["30 minutos", "Sin costo", "Sin compromiso"];
 
 export function ProposalCta() {
   const router = useRouter();
@@ -20,13 +23,28 @@ export function ProposalCta() {
   };
 
   return (
-    <section className="relative flex flex-col items-center gap-5 overflow-hidden rounded-[20px] border border-white/30 bg-[radial-gradient(ellipse_60%_100%_at_50%_0%,rgba(255,255,255,0.1),rgba(255,255,255,0)_70%),#000000] px-8 py-12 text-center">
-      <h2 className="wide m-0 text-[clamp(1.6rem,3vw,2.4rem)] leading-[1.1] font-semibold tracking-[-0.02em]">¿Te late la propuesta?</h2>
-      <p className="m-0 max-w-[520px] text-base leading-[1.6] text-text-secondary">
-        Agenda una videollamada de 30 minutos para revisarla juntos y afinar los detalles. Sin costo ni compromiso.
+    <section className="flex flex-col items-center gap-4 rounded-2xl border border-white/25 bg-linear-to-b from-white/[0.06] to-transparent px-6 py-10 text-center sm:px-8">
+      <span aria-hidden="true" className="flex size-10 items-center justify-center rounded-xl border border-white/12 bg-white/[0.05] text-white">
+        <CalendarIcon size={20} />
+      </span>
+      <h2 className="m-0 text-[clamp(1.4rem,2.4vw,1.9rem)] leading-[1.15] font-semibold tracking-[-0.02em] text-balance">¿Te late la propuesta?</h2>
+      <p className="m-0 max-w-[520px] text-[15px] leading-[1.6] text-text-secondary text-pretty">
+        Agenda una videollamada de 30 minutos para revisarla juntos y afinar los detalles.
       </p>
+      <ul className="m-0 flex list-none flex-wrap justify-center gap-x-5 gap-y-1.5 p-0 text-[13px] text-text-secondary">
+        {CTA_PERKS.map((perk) => (
+          <li key={perk} className="inline-flex items-center gap-1.5">
+            <span className="text-signal">
+              <CheckIcon size={14} />
+            </span>
+            {perk}
+          </li>
+        ))}
+      </ul>
       <div className="flex flex-wrap justify-center gap-3">
-        <Button onClick={acceptAndSchedule}>Aceptar y agendar reunión</Button>
+        <Button onClick={acceptAndSchedule} withArrow>
+          Aceptar y agendar reunión
+        </Button>
         <Button variant="secondary" onClick={editAnswers}>
           Editar respuestas
         </Button>

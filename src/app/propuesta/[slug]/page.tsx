@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { connection } from "next/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ConfiguratorShell } from "@/src/components/configurator/ConfiguratorShell";
@@ -12,6 +13,8 @@ export const metadata: Metadata = {
 };
 
 async function SharedProposal({ params }: { params: Promise<{ slug: string }> }) {
+  // The proposal header shows today's date, so this renders per request instead of at build time.
+  await connection();
   const { slug } = await params;
   const proposal = await getProposalBySlug(slug);
   if (!proposal) notFound();

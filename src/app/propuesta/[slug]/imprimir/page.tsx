@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { connection } from "next/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { PrintableProposal } from "@/src/components/proposal/print/PrintableProposal";
@@ -12,6 +13,8 @@ export const metadata: Metadata = {
 };
 
 async function PrintableSavedProposal({ params }: { params: Promise<{ slug: string }> }) {
+  // The printed proposal carries today's date, so it renders per request.
+  await connection();
   const { slug } = await params;
   const proposal = await getProposalBySlug(slug);
   if (!proposal) notFound();

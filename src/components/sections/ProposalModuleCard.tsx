@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 type ProposalModuleCardProps = {
   name: string;
   description: string;
@@ -7,6 +9,8 @@ type ProposalModuleCardProps = {
   onToggle: () => void;
   // Tighter card used in the final proposal; the landing demo uses the roomier default.
   compact?: boolean;
+  // Icon box before the name; the landing demo doesn't use it.
+  icon?: ReactNode;
 };
 
 export function ProposalModuleCard({
@@ -17,6 +21,7 @@ export function ProposalModuleCard({
   enabled,
   onToggle,
   compact = false,
+  icon,
 }: ProposalModuleCardProps) {
   return (
     <div
@@ -27,7 +32,17 @@ export function ProposalModuleCard({
       }`}
     >
       <div className="flex items-start justify-between gap-3">
-        <div className={`flex flex-col ${compact ? "gap-1" : "gap-1.5"}`}>
+        {icon && (
+          <span
+            aria-hidden="true"
+            className={`flex size-10 flex-none items-center justify-center rounded-xl border ${
+              enabled ? "border-white/15 bg-white/[0.07] text-white" : "border-white/8 text-muted"
+            }`}
+          >
+            {icon}
+          </span>
+        )}
+        <div className={`flex min-w-0 flex-1 flex-col ${compact ? "gap-1" : "gap-1.5"}`}>
           <span className={`semi font-semibold ${compact ? "text-base" : "text-[17px]"} ${enabled ? "text-heading" : "text-label"}`}>{name}</span>
           <span className="text-[13px] text-label tabular-nums">{hoursLabel}</span>
         </div>
@@ -55,7 +70,8 @@ export function ProposalModuleCard({
             </span>
           </button>
         ) : (
-          <span className="flex-none rounded-full border border-white/[0.16] px-2.5 py-[5px] text-xs text-[#D4D4D4]">
+          <span className="inline-flex flex-none items-center gap-1.5 rounded-full border border-white/[0.16] px-2.5 py-[5px] text-xs text-[#D4D4D4]">
+            <span aria-hidden="true" className="size-1.5 rounded-full bg-signal" />
             Incluido
           </span>
         )}

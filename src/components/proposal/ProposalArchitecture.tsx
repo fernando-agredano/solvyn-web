@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { CodeIcon } from "@/src/components/ui/icons";
 import { ARCH_NODES, type ArchNodeId } from "@/src/config/proposal";
 import type { ProposalFacts } from "@/src/lib/proposal";
 import type { ProposalCopy } from "@/src/lib/templates";
@@ -50,7 +51,7 @@ export function ProposalArchitecture({ architecture, notes }: ProposalArchitectu
   const selected = ARCH_NODES[selectedId];
 
   return (
-    <SectionCard id="architecture-heading" title="Arquitectura" description="Toca cada pieza para ver qué hace, en palabras simples.">
+    <SectionCard id="architecture-heading" title="Arquitectura" description="Toca cada pieza para ver qué hace, en palabras simples." icon={<CodeIcon size={20} />}>
       <div className="flex items-center gap-3 max-[980px]:flex-col max-[980px]:items-stretch">
         {columns.map((column, index) => (
           <div key={column.id} className="flex min-w-0 flex-1 items-center gap-3 max-[980px]:flex-col max-[980px]:items-stretch">
@@ -74,10 +75,13 @@ export function ProposalArchitecture({ architecture, notes }: ProposalArchitectu
         </div>
       )}
 
-      <div aria-live="polite" className="flex flex-col gap-1.5 rounded-xl border border-white/10 bg-white/4 px-5 py-[18px]">
-        <span className="semi text-base font-semibold">{selected.label}</span>
-        <span className="text-[15px] leading-[1.6] text-text-secondary">{notes[selectedId]}</span>
-        <span className="text-[13px] text-label">Tecnología: {selected.technology}</span>
+      <div aria-live="polite" className="flex flex-col items-center gap-2 rounded-xl border border-white/10 bg-white/4 px-5 py-[18px] text-center">
+        <span className="inline-flex items-center gap-2 text-base font-semibold">
+          <span aria-hidden="true" className="size-1.5 rounded-full bg-signal" />
+          {selected.label}
+        </span>
+        <span className="max-w-[640px] text-sm leading-[1.6] text-text-secondary text-pretty">{notes[selectedId]}</span>
+        <span className="rounded-full border border-white/12 px-2.5 py-1 text-xs text-label">Tecnología: {selected.technology}</span>
       </div>
     </SectionCard>
   );
