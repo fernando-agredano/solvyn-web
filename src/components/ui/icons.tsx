@@ -143,3 +143,88 @@ export const MapPinIcon = (props: IconProps) => (
     <circle cx="12" cy="10" r="2.5" />
   </Icon>
 );
+
+export const CalendarIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <rect x="3.5" y="5" width="17" height="15" rx="2.5" />
+    <path d="M8 3v4M16 3v4M3.5 10h17" />
+  </Icon>
+);
+
+export const UsersIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <circle cx="9" cy="8" r="3.5" />
+    <path d="M3 20v-1.5A3.5 3.5 0 0 1 6.5 15h5a3.5 3.5 0 0 1 3.5 3.5V20M16 4.65a3.5 3.5 0 0 1 0 6.7M21 20v-1.5a3.5 3.5 0 0 0-2.5-3.35" />
+  </Icon>
+);
+
+export const BriefcaseIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <rect x="3" y="7" width="18" height="13" rx="2.5" />
+    <path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18" />
+  </Icon>
+);
+
+export const MonitorIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <rect x="3" y="4" width="18" height="12" rx="2.5" />
+    <path d="M8 20h8M12 16v4" />
+  </Icon>
+);
+
+export const WalletIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="M4 7a2 2 0 0 1 2-2h11v4" />
+    <path d="M4 7v11a2 2 0 0 0 2 2h13a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H6a2 2 0 0 1-2-2z" />
+    <circle cx="16" cy="14.5" r="1.1" />
+  </Icon>
+);
+
+export const UserIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <circle cx="12" cy="8" r="3.8" />
+    <path d="M5 20v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1" />
+  </Icon>
+);
+
+export const LockIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <rect x="5" y="11" width="14" height="10" rx="2.5" />
+    <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+  </Icon>
+);
+
+export const PencilIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="M4 20l1-4L16.5 4.5a2 2 0 0 1 3 3L8 19l-4 1z" />
+    <path d="M14.5 6.5l3 3" />
+  </Icon>
+);
+
+export const LogOutIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3" />
+    <path d="M16 8l4 4-4 4M20 12H9" />
+  </Icon>
+);
+
+export const ChevronLeftIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="M15 6l-6 6 6 6" />
+  </Icon>
+);
+
+export const ShareIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <circle cx="6" cy="12" r="2.5" />
+    <circle cx="18" cy="6" r="2.5" />
+    <circle cx="18" cy="18" r="2.5" />
+    <path d="M8.2 10.8l7.6-3.6M8.2 13.2l7.6 3.6" />
+  </Icon>
+);
+
+export const DownloadIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19h14" />
+  </Icon>
+);

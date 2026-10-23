@@ -3,6 +3,7 @@ import { OTHER_GOAL_ID } from "@/src/config/configurator-options";
 import { useConfiguratorStore } from "@/src/lib/configurator/store";
 import { OptionCard } from "../fields/OptionCard";
 import { TextAreaField } from "../fields/TextField";
+import { GOAL_ICONS } from "../option-icons";
 import { StepSection } from "./StepSection";
 
 export function GoalStep() {
@@ -22,6 +23,7 @@ export function GoalStep() {
           <OptionCard
             key={goal.id}
             indicator="checkbox"
+            icon={GOAL_ICONS[goal.id]}
             label={goal.label}
             description={goal.description}
             selected={goals.includes(goal.id)}
@@ -34,7 +36,7 @@ export function GoalStep() {
           <TextAreaField
             id="other-goal"
             label="Cuéntame tu idea con tus palabras"
-            rows={4}
+            rows={3}
             required
             value={otherGoal}
             onChange={(event) => setAnswer("otherGoal", event.target.value)}

@@ -25,7 +25,7 @@ export function SegmentedControl<T extends string>({ options, value, onChange, l
             aria-pressed={selected}
             onClick={() => onChange(option.id)}
             className={`min-h-11 cursor-pointer font-semibold transition-colors duration-200 ${
-              compact ? "rounded-[7px] px-3.5 text-sm" : "rounded-[9px] px-2 text-[15px]"
+              compact ? "rounded-[7px] px-2 text-[13px] whitespace-nowrap" : "rounded-[9px] px-2 text-[15px]"
             } ${selected ? "bg-white text-black" : "bg-transparent text-text-secondary"}`}
           >
             {option.label}

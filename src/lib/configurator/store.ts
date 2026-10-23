@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { CONFIGURATOR_STEPS, MAX_GOALS } from "@/src/config/configurator-options";
+import { CONFIGURATOR_STEPS, MAX_GOALS, type ConfiguratorStep } from "@/src/config/configurator-options";
 import {
   INITIAL_ANSWERS,
   pickPersisted,
@@ -23,6 +23,11 @@ interface ConfiguratorState extends ConfiguratorAnswers {
   toggleModule: (module: { id: string; kind: ModuleKind }) => void;
   goNext: () => void;
   goBack: () => void;
+  // Only to a step already reached: the stepper can go back, never ahead of what the answers allow.
+  goToStep: (step: ConfiguratorStep) => void;
+  // Where to go after the contact step when a later screen sent the visitor back for missing data. Memory only.
+  returnRoute: string | null;
+  setReturnRoute: (route: string | null) => void;
   reset: () => void;
 }
 
@@ -48,7 +53,11 @@ export const useConfiguratorStore = create<ConfiguratorState>()(
         }),
       goBack: () =>
         set((state) => ({ step: CONFIGURATOR_STEPS[Math.max(0, CONFIGURATOR_STEPS.indexOf(state.step) - 1)] })),
-      reset: () => set(INITIAL_ANSWERS),
+      goToStep: (step) =>
+        set((state) => (CONFIGURATOR_STEPS.indexOf(step) <= CONFIGURATOR_STEPS.indexOf(state.step) ? { step } : state)),
+      returnRoute: null,
+      setReturnRoute: (route) => set({ returnRoute: route }),
+      reset: () => set({ ...INITIAL_ANSWERS, returnRoute: null }),
     }),
     {
       name: "solvyn:configurator",

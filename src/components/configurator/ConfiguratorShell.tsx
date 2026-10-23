@@ -8,10 +8,15 @@ interface ConfiguratorShellProps {
   children: ReactNode;
 }
 
-export function ConfiguratorShell({ progress, children }: ConfiguratorShellProps) {
+export function ConfiguratorShell({
+  progress,
+  children,
+}: ConfiguratorShellProps) {
   return (
-    <div className="min-h-screen bg-[radial-gradient(ellipse_70%_40%_at_50%_0%,rgba(255,255,255,0.06),rgba(255,255,255,0)_70%),#000000]">
+    <div className="min-h-dvh bg-black">
       <ConfiguratorHeader progress={progress} />
+      {/* The header is fixed, so its 4rem is reserved here instead of sitting in the flow. */}
+      <div aria-hidden="true" className="h-16" />
       {children}
     </div>
   );

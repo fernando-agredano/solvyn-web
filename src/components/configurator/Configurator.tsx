@@ -31,6 +31,8 @@ export function Configurator() {
   const isCurrentStepValid = useConfiguratorStore((state) => isStepValid(state.step, state));
   const goNext = useConfiguratorStore((state) => state.goNext);
   const goBack = useConfiguratorStore((state) => state.goBack);
+  const returnRoute = useConfiguratorStore((state) => state.returnRoute);
+  const setReturnRoute = useConfiguratorStore((state) => state.setReturnRoute);
 
   // Focus management waits for the restore so a restored step doesn't steal focus.
   const isRestored = useConfiguratorRestore();
@@ -58,18 +60,22 @@ export function Configurator() {
     <ConfiguratorShell progress={{ step, percent: getProgressPercent(step, isCurrentStepValid) }}>
       <main
         id="contenido"
-        className="mx-auto grid max-w-[1280px] grid-cols-[minmax(0,1fr)_minmax(0,400px)] items-start gap-12 px-6 pt-14 pb-24 max-[980px]:grid-cols-1"
+        className="grid w-full gap-6 px-4 pt-6 pb-10 sm:px-8 lg:h-[calc(100dvh-4rem)] lg:grid-cols-[minmax(0,1fr)_clamp(340px,28vw,460px)] lg:grid-rows-[minmax(0,1fr)] lg:gap-8 lg:px-12 lg:py-4 lg:[@media(max-height:780px)]:py-2"
       >
-        <div className="flex min-w-0 flex-col gap-10">
+        <div className="flex min-h-0 min-w-0 flex-col gap-3">
           <CurrentStep key={step} />
           <StepNavigation
             canGoBack={step !== CONFIGURATOR_STEPS[0]}
             canContinue={isCurrentStepValid}
             isLastStep={isLastStep}
+            lastStepLabel={returnRoute ? "Continuar a la agenda" : undefined}
             onBack={goBack}
             onContinue={() => {
               track("step_completed", { step: CONFIGURATOR_STEPS.indexOf(step) + 1 });
-              if (isLastStep) router.push(PROPOSAL_ROUTE);
+              if (isLastStep) {
+                setReturnRoute(null);
+                router.push(returnRoute ?? PROPOSAL_ROUTE);
+              }
               else goNext();
             }}
           />
