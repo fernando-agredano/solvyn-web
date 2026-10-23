@@ -68,7 +68,7 @@ export function CalendarEmbed({ name, email, isLoaded, onBooked, onUnavailable, 
   }, [isLoaded, onUnavailable]);
 
   return (
-    <div className="min-h-[560px] overflow-hidden rounded-[18px] border border-white/14 bg-black">
+    <div className="min-h-[560px] overflow-hidden rounded-2xl border border-white/14 bg-black lg:h-full lg:min-h-0 lg:overflow-y-auto">
       <Cal calLink={CAL_LINK} style={{ width: "100%", height: "100%" }} config={{ name, email, theme: "dark", layout: "month_view" }} />
     </div>
   );
