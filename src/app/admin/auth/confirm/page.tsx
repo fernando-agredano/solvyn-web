@@ -1,5 +1,6 @@
 import { Suspense } from "react";
-import { Button } from "@/src/components/ui/Button";
+import { AdminButton } from "@/src/components/admin/AdminButton";
+import { LockIcon } from "@/src/components/ui/icons";
 import { ADMIN_LOGIN_PATH } from "@/src/lib/admin/auth";
 import { AdminCard } from "../../AdminCard";
 import { confirmLogin } from "./actions";
@@ -16,26 +17,31 @@ async function ConfirmContent({
   if (!tokenHash || type !== "email") {
     return (
       <AdminCard
-        title="Enlace no válido"
+        badge="Enlace no válido"
+        icon={<LockIcon size={24} />}
+        title="No pudimos validar el enlace"
         description="Solicita un enlace nuevo desde la página de acceso."
       >
-        <Button href={ADMIN_LOGIN_PATH} variant="secondary">
+        <AdminButton href={ADMIN_LOGIN_PATH} variant="secondary" className="w-full">
           Volver al acceso
-        </Button>
+        </AdminButton>
       </AdminCard>
     );
   }
 
   return (
     <AdminCard
+      badge="Último paso"
+      icon={<LockIcon size={24} />}
       title="Confirmar acceso"
       description="Pulsa el botón para entrar al panel."
+      perks={["Enlace de un solo uso", "Solo para administrador"]}
     >
-      <form action={confirmLogin}>
+      <form action={confirmLogin} className="w-full">
         <input type="hidden" name="token_hash" value={tokenHash} />
-        <Button type="submit" className="w-full">
-          Entrar
-        </Button>
+        <AdminButton type="submit" className="min-h-11 w-full">
+          Entrar al panel
+        </AdminButton>
       </form>
     </AdminCard>
   );

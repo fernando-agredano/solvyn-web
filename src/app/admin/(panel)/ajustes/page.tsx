@@ -16,11 +16,11 @@ async function SettingsPanel() {
     .single();
   if (error || !data) throw new Error("settings read failed");
 
-  // The card is centered in what is left under the 3.5rem header, so the screen needs no scrolling.
+  // The card sits at the top, right under the header.
   return (
     <main
       id="contenido"
-      className="flex min-h-[calc(100dvh-3.5rem)] items-center justify-center px-4 py-6 sm:px-8 lg:px-12"
+      className="flex px-4 py-6 sm:px-8 lg:px-12"
     >
       <SettingsForm settings={toPublicSettings(data as SettingsRow)} />
     </main>

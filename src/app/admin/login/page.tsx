@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { AdminCard } from "../AdminCard";
 import { LoginForm } from "./LoginForm";
 
 async function LinkError({
@@ -22,14 +21,12 @@ export default function AdminLoginPage({
   searchParams: Promise<{ error?: string }>;
 }) {
   return (
-    <AdminCard
-      title="Acceso al panel"
-      description="Escribe tu correo y te enviaremos un enlace para entrar."
-    >
-      <Suspense>
-        <LinkError searchParams={searchParams} />
-      </Suspense>
-      <LoginForm />
-    </AdminCard>
+    <LoginForm
+      notice={
+        <Suspense>
+          <LinkError searchParams={searchParams} />
+        </Suspense>
+      }
+    />
   );
 }

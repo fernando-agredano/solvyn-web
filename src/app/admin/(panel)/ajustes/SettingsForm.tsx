@@ -9,6 +9,7 @@ import {
 } from "react";
 import { AdminButton } from "@/src/components/admin/AdminButton";
 import { ConfirmDialog } from "@/src/components/admin/ConfirmDialog";
+import { CalendarIcon, MailIcon, MessageIcon, WalletIcon } from "@/src/components/ui/icons";
 import { DatePicker } from "@/src/components/admin/DatePicker";
 import { PageHeading } from "@/src/components/admin/PageHeading";
 import {
@@ -18,10 +19,11 @@ import {
 import { useActionToast } from "@/src/components/admin/toast/useActionToast";
 import {
   describeChanges,
+  formatRate,
   toDraft,
   type SettingsDraft,
 } from "@/src/lib/settings/changes";
-import type { PublicSettings } from "@/src/lib/settings/model";
+import { formatStartDate, type PublicSettings } from "@/src/lib/settings/model";
 import {
   MAX_AVAILABILITY_MESSAGE_LENGTH,
   MAX_HOURLY_RATE_MXN,
@@ -34,6 +36,72 @@ const INITIAL_STATE: SettingsActionState = { status: "idle", fieldErrors: {} };
 
 const GROUP_TAG_CLASSES =
   "m-0 inline-flex w-fit rounded-full bg-[#F4F4F5] px-2.5 py-1 text-xs font-semibold text-[#3F3F46]";
+
+// Shared by the recap strip and the cards below it, so each recap card sits right above its column.
+const COLUMNS_CLASSES =
+  "grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(280px,340px)]";
+
+const GROUP_CARD_CLASSES =
+  "flex flex-col gap-4 rounded-xl border border-[#E4E4E7] bg-white p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)]";
+
+function GroupHeader({
+  id,
+  icon,
+  title,
+  description,
+}: {
+  id: string;
+  icon: ReactNode;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="flex items-center gap-3 border-b border-[#F4F4F5] pb-3">
+      <span
+        aria-hidden="true"
+        className="flex size-9 flex-none items-center justify-center rounded-lg bg-[#18181B] text-white"
+      >
+        {icon}
+      </span>
+      <div className="flex min-w-0 flex-col gap-1">
+        <p id={id} className={GROUP_TAG_CLASSES}>
+          {title}
+        </p>
+        <p className="m-0 text-xs text-[#71717A]">{description}</p>
+      </div>
+    </div>
+  );
+}
+
+// Read-only recap of the draft: the same data as the form, glanceable before scrolling into the fields.
+function SummaryStrip({ draft }: { draft: SettingsDraft }) {
+  const contactChannels = [draft.whatsapp, draft.email].filter((value) => value.trim()).length;
+  const items = [
+    { icon: <WalletIcon size={16} />, label: "Tarifa por hora", value: formatRate(draft.hourlyRateMxn) },
+    {
+      icon: <CalendarIcon size={16} />,
+      label: "Próximo inicio",
+      value: draft.nextStartDate ? formatStartDate(draft.nextStartDate) : "Sin fecha",
+    },
+    { icon: <MailIcon size={16} />, label: "Canales de contacto", value: `${contactChannels} de 2 activos` },
+  ];
+  return (
+    <ul className={`m-0 list-none p-0 ${COLUMNS_CLASSES}`}>
+      {items.map((item) => (
+        <li key={item.label} className="flex items-center gap-3 rounded-xl border border-[#E4E4E7] bg-[#FAFAFA] px-4 py-3">
+          <span aria-hidden="true" className="flex size-9 flex-none items-center justify-center rounded-lg border border-[#E4E4E7] bg-white text-[#18181B]">
+            {item.icon}
+          </span>
+          <span className="flex min-w-0 flex-col">
+            <span className="text-xs text-[#71717A]">{item.label}</span>
+            <span className="truncate text-sm font-semibold text-[#18181B]">{item.value}</span>
+          </span>
+          <span aria-hidden="true" className="ml-auto size-1.5 flex-none rounded-full bg-[#059669]" />
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 export function SettingsForm({ settings }: { settings: PublicSettings }) {
   const [state, formAction, isPending] = useActionState(
@@ -70,7 +138,7 @@ export function SettingsForm({ settings }: { settings: PublicSettings }) {
       setDraft((current) => ({ ...current, [key]: event.target.value }));
 
   return (
-    <div className="w-full max-w-[1080px] rounded-2xl border border-[#E4E4E7] bg-white shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
+    <div className="w-full rounded-2xl border border-[#E4E4E7] bg-white shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-t-2xl border-b border-[#E4E4E7] bg-[#FAFAFA] px-6 py-4">
         <PageHeading title="Ajustes" tags={["Sitio público"]} />
         <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E4E4E7] bg-white px-2.5 py-1 text-xs text-[#52525B]">
@@ -83,16 +151,20 @@ export function SettingsForm({ settings }: { settings: PublicSettings }) {
       </div>
 
       <form ref={formRef} action={formAction}>
-        <div className="grid gap-6 p-6 lg:grid-cols-[1fr_360px]">
-          <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-5 p-6">
+          <SummaryStrip draft={draft} />
+          <div className={`${COLUMNS_CLASSES} items-stretch`}>
             <div
               role="group"
               aria-labelledby="pricing-group"
-              className="flex flex-col gap-3"
+              className={GROUP_CARD_CLASSES}
             >
-              <p id="pricing-group" className={GROUP_TAG_CLASSES}>
-                Tarifa y disponibilidad
-              </p>
+              <GroupHeader
+                id="pricing-group"
+                icon={<WalletIcon size={16} />}
+                title="Tarifa y disponibilidad"
+                description="Lo que ven los visitantes antes de configurar."
+              />
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field
                   label="Tarifa por hora"
@@ -158,12 +230,15 @@ export function SettingsForm({ settings }: { settings: PublicSettings }) {
             <div
               role="group"
               aria-labelledby="contact-group"
-              className="flex flex-col gap-3"
+              className={GROUP_CARD_CLASSES}
             >
-              <p id="contact-group" className={GROUP_TAG_CLASSES}>
-                Contacto público
-              </p>
-              <div className="grid gap-4 sm:grid-cols-2">
+              <GroupHeader
+                id="contact-group"
+                icon={<MessageIcon size={16} />}
+                title="Contacto público"
+                description="Dónde te escriben desde la landing y el pie de página."
+              />
+              <div className="grid gap-4">
                 <Field
                   label="WhatsApp"
                   name="whatsapp"
@@ -199,9 +274,9 @@ export function SettingsForm({ settings }: { settings: PublicSettings }) {
                 </Field>
               </div>
             </div>
-          </div>
 
           <SettingsPreview draft={draft} />
+          </div>
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-b-2xl border-t border-[#E4E4E7] bg-[#FAFAFA] px-6 py-4">
