@@ -40,3 +40,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# internal guides (kept local)
+/AGENTS.md
+/GUIA-DESARROLLO.md
+/PROMPTS-POR-FASE.md
